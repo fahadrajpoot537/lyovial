@@ -1,0 +1,44 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # ------------------------------------------------------------------
+    # Project-root docroot helper (production host only). Single-hop 301s.
+    # ------------------------------------------------------------------
+
+    # /public and /public/ → canonical homepage
+    RewriteCond %{HTTP_HOST} ^(www\.)?lyovial\.com$ [NC]
+    RewriteRule ^public/?$ https://lyovial.com? [R=301,L]
+
+    # /index.php at project root → canonical homepage
+    RewriteCond %{HTTP_HOST} ^(www\.)?lyovial\.com$ [NC]
+    RewriteRule ^index\.php/?$ https://lyovial.com? [R=301,L]
+
+    # Homepage query string at project root
+    RewriteCond %{HTTP_HOST} ^(www\.)?lyovial\.com$ [NC]
+    RewriteCond %{QUERY_STRING} .
+    RewriteCond %{REQUEST_URI} ^/$
+    RewriteRule ^ https://lyovial.com? [R=301,L]
+
+    # Force HTTPS and/or strip www in ONE hop
+    RewriteCond %{HTTP_HOST} ^(www\.)?lyovial\.com$ [NC]
+    RewriteCond %{HTTPS} !=on [OR]
+    RewriteCond %{HTTP:X-Forwarded-Proto} =http [OR]
+    RewriteCond %{HTTP_HOST} ^www\.lyovial\.com$ [NC]
+    RewriteRule ^$ https://lyovial.com [R=301,L]
+
+    RewriteCond %{HTTP_HOST} ^(www\.)?lyovial\.com$ [NC]
+    RewriteCond %{HTTPS} !=on [OR]
+    RewriteCond %{HTTP:X-Forwarded-Proto} =http [OR]
+    RewriteCond %{HTTP_HOST} ^www\.lyovial\.com$ [NC]
+    RewriteRule ^(.+)$ https://lyovial.com/$1 [R=301,L]
+
+    # Front all remaining traffic into /public (no redirect)
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), accelerometer=(), gyroscope=()"
+</IfModule>

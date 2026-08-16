@@ -1,0 +1,54 @@
+<?php
+
+use App\Http\Controllers\ClearCacheController;
+use App\Http\Controllers\Front\ArticleController;
+use App\Http\Controllers\Front\ContactController;
+use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\Front\IndustryController;
+use App\Http\Controllers\Front\NewsletterController;
+use App\Http\Controllers\Front\PageController;
+use App\Http\Controllers\Front\ServiceController;
+use App\Http\Controllers\Front\ThemeDataController;
+use App\Http\Controllers\SeoController;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/clear-cache/{token}', ClearCacheController::class)
+    ->where('token', '[A-Za-z0-9\-_]+')
+    ->name('clear-cache');
+
+Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
+Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
+Route::get('/sitemap', [SeoController::class, 'htmlSitemap'])->name('sitemap.html');
+
+Route::get('/theme/cms-data', ThemeDataController::class)->name('theme.cms-data');
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
+Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
+Route::get('/blog', [ArticleController::class, 'index'])->name('blog.index');
+
+Route::get('/capabilities', [ServiceController::class, 'index'])->name('capabilities.index');
+Route::get('/capabilities/{slug}', [ServiceController::class, 'show'])
+    ->where('slug', '[A-Za-z0-9\-]+')
+    ->name('capabilities.show');
+
+// Legacy /services path — same CMS pages (not old theme HTML)
+Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+Route::get('/services/{slug}', [ServiceController::class, 'show'])
+    ->where('slug', '[A-Za-z0-9\-]+')
+    ->name('services.show');
+
+Route::get('/industries', [IndustryController::class, 'index'])->name('industries.index');
+Route::get('/industries/{slug}', [IndustryController::class, 'show'])
+    ->where('slug', '[A-Za-z0-9\-]+')
+    ->name('industries.show');
+
+Route::get('/about', [PageController::class, 'about'])->name('pages.about');
+Route::get('/quality-compliance', [PageController::class, 'quality'])->name('pages.quality');
+Route::get('/specimen-library-preservation', [PageController::class, 'specimen'])->name('pages.specimen');
+Route::get('/partnerships', [PageController::class, 'partnerships'])->name('pages.partnerships');
+
+Route::get('/contact', [ContactController::class, 'show'])->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');

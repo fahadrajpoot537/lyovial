@@ -1,0 +1,133 @@
+body {
+  overflow-x: hidden;
+  direction: rtl;
+}
+
+.owl-carousel {
+  direction: ltr;
+}
+
+.owl-carousel .owl-nav,
+.owl-carousel .owl-dots,
+.owl-carousel .owl-item {
+  direction: rtl;
+}
+
+.contact__input-box .bootstrap-select .dropdown-menu,
+.bootstrap-select .dropdown-toggle .filter-option {
+  text-align: right;
+}
+
+.about-one__flower {
+  background-position: 70px 124%;
+}
+
+.scroll-to-top {
+  left: auto;
+}
+
+.list-unstyled {
+  padding-right: 0;
+}
+
+.main-slider-one__bg::after {
+  animation: cloudMove 60s linear 0s infinite;
+}
+
+@keyframes cloudMove {
+  0% {
+    background-position: 1920px -100%;
+  }
+  100% {
+    background-position: 0 -100%;
+  }
+}
+.main-slider-one__bg::before {
+  transform: rotateY(180deg);
+}
+.main-slider-one__bg::after {
+  transform: rotateY(180deg);
+}
+.main-slider-one .owl-carousel .owl-item img {
+  width: auto !important;
+}
+.main-slider-one .main-slider-one__shape--three {
+  left: 0;
+  right: auto;
+  transform: rotateY(180deg);
+}
+
+.main-menu .main-menu__list > li + li {
+  margin-left: 0;
+}
+
+.main-header__link {
+  border-left: 1px solid var(--laboix-border-color, #DBDBDB);
+  margin-left: 0px;
+  padding-left: 30px;
+}
+
+.main-header__link {
+  border-right: 0px solid var(--laboix-border-color, #DBDBDB);
+  margin-right: 0px;
+  padding-right: 0px;
+}
+
+.topbar-one__social {
+  padding-right: 63px;
+}
+
+.topbar-one__social a + a,
+.testimonials-two__author {
+  margin-left: 0;
+}
+
+.topbar-one__right,
+.our-work__item__content {
+  padding-left: 0px;
+}
+
+.about-two__items {
+  left: 20%;
+}
+
+.about-two__shape--two,
+.about-two__items,
+.choose-us-one__thumb,
+.our-work__item::after,
+.testimonials-two::after,
+.testimonials-two::before,
+.blog-card__date,
+.blog-card__content__btn a i {
+  right: auto;
+}
+
+.service-card__thumb__item,
+.testimonials-two::after,
+.testimonials-two::before,
+.blog-card__content__btn a i,
+.footer-widget__newsletter button[type=submit] {
+  transform: rotateY(180deg);
+}
+
+.testimonials-two .carousel-thumb__two {
+  left: auto;
+  right: 39%;
+}
+
+.blog-card:hover .blog-card__content::after {
+  right: auto;
+}
+
+.video-cta__video {
+  margin-left: 42%;
+}
+
+.footer-widget__time {
+  padding-right: 30px;
+}
+
+.footer-widget__info__item i {
+  margin-left: 0;
+}
+/*# sourceMappingURL=laboix-custom-rtl.css.map */

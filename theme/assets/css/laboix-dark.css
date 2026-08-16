@@ -1,0 +1,197 @@
+:root {
+  --laboix-text: #97A5B7;
+  --laboix-text-rgb: 151, 165, 183;
+  --laboix-white: #011126;
+  --laboix-white-rgb: 1, 17, 38;
+  --laboix-base: #021936;
+  --laboix-base-rgb: 2, 25, 54;
+  --laboix-secondary: #0EBD66;
+  --laboix-secondary-rgb: 14, 189, 102;
+  --laboix-black: #fff;
+  --laboix-black-rgb: 255, 255, 255;
+  --laboix-black3: #000;
+  --laboix-black3-rgb: 0, 0, 0;
+  --laboix-black4: #DBDBDB;
+  --laboix-black4-rgb: 18, 16, 19;
+  --laboix-gray: #1c1a1d;
+  --laboix-gray-rgb: 28, 26, 29;
+  --laboix-border-color: #2f2d30;
+  --laboix-border-color-rgb: 47, 45, 48;
+}
+
+.main-menu .main-menu__list li ul li > a,
+.main-header__right__info__item,
+.about-two__box__subtitle {
+  color: var(--laboix-text);
+}
+
+.topbar-one__info__item__email:hover {
+  color: var(--laboix-black4);
+}
+
+.demo-one__card {
+  background: var(--laboix-secondary);
+}
+
+.demo-one__btns {
+  background: rgba(var(--laboix-white-rgb), 0.7);
+}
+
+.topbar-one__social a,
+.main-header__right__content__text,
+.main-header__right__content__number,
+.main-slider-one__title,
+.about-two__feature__title,
+.about-two__feature__icon,
+.main-header__btn,
+.sec-title__title,
+.about-two__list__item,
+.about-two__box__text,
+.about-two__box__icon,
+.service-card__title a,
+.service-card__icon,
+.choose-us-one__feature__title a,
+.choose-us-one__funfact__text,
+.funfact-one__item::after,
+.funfact-one__icon,
+.funfact-one__count,
+.funfact-one__text,
+.our-work__item__title,
+.our-work__item__step::before,
+.testimonials-two__text,
+.testimonials-two__author__title,
+.package-card__head__title,
+.package-card__head__top,
+.package-card__head__price,
+.package-card:hover .package-card__head__month,
+.case-studies__list__item__title,
+.video-cta__title,
+.team-card__content__title,
+.team-card__content__hover__icon i,
+.team-card__content__hover__social a,
+.blog-card__title,
+.blog-card__author__name,
+.blog-card__date,
+.blog-card:hover .blog-card__author__name, .blog-card:hover .blog-card__author__deg,
+.blog-card:hover .blog-card__title,
+.footer-widget__title,
+.footer-widget__links li a:hover,
+.footer-widget__info__item a,
+.footer-widget__newsletter button[type=submit],
+.footer-widget__social a,
+.video-cta__video a,
+.demo-one__title a,
+.video-cta__video:hover a,
+.blog-card__title a:hover,
+.demo-one__title a:hover,
+.main-menu .main-menu__list li ul li.current > a, .main-menu .main-menu__list li ul li:hover > a {
+  color: var(--laboix-black);
+}
+
+.topbar-one__social::before,
+.main-header__right__icon,
+.laboix-btn:hover::before,
+.blog-card__content__btn::before,
+.blog-card__image__link::before,
+.blog-card__image__link::after,
+.footer-widget__newsletter input[type=email] {
+  background-color: var(--laboix-black);
+}
+
+.main-slider-one__carousel .owl-dots .owl-dot {
+  background: rgba(var(--laboix-black-rgb), 0.2);
+}
+
+.about-two__feature__item:last-child,
+.about-two__feature__item:hover,
+.our-work__item__step,
+.package-card__content,
+.package-card__head__content,
+.blog-card,
+.home-showcase__inner,
+.main-header__btn {
+  background-color: var(--laboix-base);
+}
+
+.about-two__feature__item:last-child {
+  border: 1px solid var(--laboix-base);
+}
+
+.about-two__feature__item:first-child:hover {
+  background-color: var(--laboix-base);
+  border-top: 1px solid var(--laboix-base);
+  border-bottom: 1px solid var(--laboix-base);
+  border-left: 1px solid var(--laboix-base);
+}
+
+.about-two__feature__item:hover .about-two__feature__icon,
+.about-two__box:hover .about-two__box__icon,
+.funfact-one__item:hover .funfact-one__icon {
+  background-color: var(--laboix-black);
+  color: var(--laboix-secondary);
+}
+
+.service-page__bg {
+  background: var(--laboix-base);
+  opacity: 1;
+  mix-blend-mode: normal;
+}
+
+.choose-us-one__feature__item:not(:first-of-type) {
+  border-left: 1px solid rgba(var(--laboix-black-rgb), 0.1);
+}
+
+.service-card__inner,
+.choose-us-one__feature__item,
+.package-card__head__price,
+.package-card__head__content::after,
+.blog-card__content__btn {
+  background: var(--laboix-white);
+}
+
+.choose-us-one__link__btn {
+  background: var(--laboix-black);
+}
+
+.our-work__item__content::after {
+  background: linear-gradient(90deg, #ffffff -47.25%, rgba(255, 255, 255, 0) 30.29%);
+}
+
+.our-work__item::after {
+  border-top: 1px dashed var(--laboix-base);
+}
+
+.testimonials-two__carousel .owl-nav .owl-prev span, .testimonials-two__carousel .owl-nav .owl-next span,
+.testimonials-two__carousel .owl-nav .owl-prev:hover span, .testimonials-two__carousel .owl-nav .owl-next:hover span,
+.client-carousel-one .owl-theme .owl-nav button span, .client-carousel-one .owl-theme .owl-nav button span:hover {
+  color: var(--laboix-black);
+}
+
+.client-carousel-one .owl-theme .owl-nav::before,
+.client-carousel-one .owl-theme .owl-nav::after {
+  background-color: var(--laboix-base);
+}
+
+.package-card__head__month,
+.testimonials-two__author__deg {
+  color: var(--laboix-black4);
+}
+
+.package-card__content__link__btn::before {
+  background: var(--laboix-secondary) !important;
+}
+.package-card__content__link__btn:hover {
+  color: var(--laboix-black);
+}
+
+.team-card__content__hover:hover .team-card__content__hover__icon {
+  background-color: var(--laboix-black);
+}
+.team-card__content__hover:hover .team-card__content__hover__icon i {
+  color: var(--laboix-white);
+}
+
+.about-two__box {
+  box-shadow: 0px 4px 30px 0px rgba(0, 0, 0, 0.28);
+}
+/*# sourceMappingURL=laboix-dark.css.map */

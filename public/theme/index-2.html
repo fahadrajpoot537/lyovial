@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<!-- language -->
+<html lang="en">
+
+<head>
+    <!-- ========== Meta Tags ========== -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="layerdrops">
+    <meta name="description" content="Laboix is beautifully designed laboratory & research HTML template. Which fits for laboratory test, science research, biology, medical research, science technology, chemistry, pharmaceuticals, pharmacy and all other type of science & technology research websites and businesses.">
+
+    <!-- ======== Page title ============ -->
+    <title>Home Two || LABOIX || Laboratory & Research HTML5 Template</title>
+
+    <!-- ========== Favicon Icon ========== -->
+    <link rel="shortcut icon" href="assets/images/favicons/apple-touch-icon.png" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicons/favicon-16x16.png">
+    <link rel="manifest" href="assets/images/favicons/site.webmanifest">
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,900&display=swap" rel="stylesheet">
+    <!-- ===========  All Stylesheet ================= -->
+    <!--  Bootstrap css plugins -->
+    <link rel="stylesheet" href="assets/vendors/bootstrap/css/bootstrap.min.css">
+    <!-- Layout fixes when CMS-only sections are shown (no theme filler blocks) -->
+    <style>
+        .join-us-tow {
+            overflow: hidden;
+            padding-bottom: 100px;
+        }
+        .join-us-tow__bg,
+        .join-us-tow::after {
+            height: 100% !important;
+        }
+        .contact-two {
+            overflow: hidden;
+        }
+        .contact-two::after {
+            display: none !important;
+        }
+        .contact-two__map-panel {
+            height: 100%;
+            min-height: 520px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f3f3f3;
+        }
+        .cms-contact-map-inner,
+        .cms-contact-map-inner iframe {
+            width: 100%;
+            height: 100%;
+            min-height: 520px;
+            border: 0;
+            display: block;
+        }
+        .contact-map {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        .contact-map iframe {
+            width: 100%;
+            min-height: 420px;
+            border: 0;
+        }
+        .why-choose-us__feature {
+            flex-wrap: nowrap;
+        }
+        @media (max-width: 767px) {
+            .why-choose-us__feature {
+                flex-wrap: wrap;
+            }
+        }
+        .main-slider-two .main-slider-two__carousel.owl-carousel {
+            display: block;
+        }
+        /* Hero image: fill hex mask fully + visible without owl .active delay */
+        .main-slider-two__image {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+        .main-slider-two__image__item {
+            -webkit-mask-size: 100% 100% !important;
+            mask-size: 100% 100% !important;
+            -webkit-mask-repeat: no-repeat !important;
+            mask-repeat: no-repeat !important;
+            -webkit-mask-position: center !important;
+            mask-position: center !important;
+            overflow: hidden;
+        }
+        .main-slider-two__image__item img {
+            width: 100% !important;
+            height: 100% !important;
+            max-width: none !important;
+            object-fit: cover !important;
+            object-position: center center !important;
+            display: block;
+        }
+        .main-slider-two__image__item-shape {
+            opacity: 1 !important;
+        }
+        .main-slider-two__list__item {
+            padding-left: 0 !important;
+        }
+        .main-slider-two__list__item i {
+            display: none !important;
+        }
+        .main-slider-two__btn {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 12px;
+            align-items: center;
+        }
+        @media (max-width: 575px) {
+            .main-slider-two__btn {
+                flex-wrap: wrap;
+            }
+        }
+        @media (max-width: 1199px) {
+            .main-slider-two__image__item {
+                max-width: 520px;
+                height: 600px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+        @media (max-width: 767px) {
+            .main-slider-two__image__item {
+                width: 100%;
+                max-width: 340px;
+                height: 390px;
+            }
+        }
+        /* Service cards: equal height + fully clickable */
+        .service-two .row.gutter-y-30 > [class*="col-"] {
+            display: flex;
+        }
+        .service-two__item--link {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            text-decoration: none;
+            color: inherit;
+            transition: box-shadow .25s ease, border-color .25s ease;
+        }
+        .service-two__item--link:hover {
+            border-color: var(--laboix-secondary, #0EBD66);
+            box-shadow: 0 10px 28px rgba(2, 25, 54, 0.08);
+            color: inherit;
+        }
+        .service-two__item--link .service-two__content {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+        }
+        .service-two__item--link .service-two__text {
+            flex: 1 1 auto;
+        }
+        .service-two__item--link .service-two__title {
+            color: inherit;
+        }
+        .service-two__thumb {
+            margin: 0 -40px 18px;
+            height: 180px;
+            overflow: hidden;
+            background: #eef2f6;
+        }
+        @media (max-width: 1199px) and (min-width: 991px) {
+            .service-two__thumb {
+                margin: 0 -20px 16px;
+                height: 150px;
+            }
+        }
+        .service-two__thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .case-studies-two__thumb {
+            width: 100%;
+            height: 280px;
+            overflow: hidden;
+            background: #eef2f6;
+        }
+        .case-studies-two__thumb img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            object-position: center center;
+            display: block;
+        }
+        .case-studies-two__item {
+            height: 100%;
+        }
+        .case-studies-two .row.gutter-y-30 > [class*="col-"] {
+            display: flex;
+        }
+        .case-studies-two .row.gutter-y-30 > [class*="col-"] > .case-studies-two__item {
+            width: 100%;
+        }
+        /* Hover panel: keep long titles fully visible inside card */
+        .case-studies-two__hover {
+            left: 0 !important;
+            right: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            height: auto !important;
+            min-height: 210px;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            padding: 48px 18px 22px;
+            box-sizing: border-box;
+            clip-path: polygon(50% 0%, 100% 18%, 100% 100%, 0 100%, 0 18%) !important;
+        }
+        .case-studies-two__title {
+            padding: 0 8px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            white-space: normal !important;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            line-height: 1.3;
+            font-size: 18px !important;
+        }
+        .case-studies-two__title a {
+            display: inline-block;
+            max-width: 100%;
+            white-space: normal !important;
+        }
+        .case-studies-two__text {
+            padding: 0 8px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            white-space: normal !important;
+            overflow-wrap: anywhere;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .case-studies-two__icon {
+            font-size: 42px !important;
+            margin-bottom: 8px;
+        }
+        .about-three__image__item {
+            -webkit-mask-size: 100% 100% !important;
+            mask-size: 100% 100% !important;
+            -webkit-mask-repeat: no-repeat !important;
+            mask-repeat: no-repeat !important;
+            -webkit-mask-position: center !important;
+            mask-position: center !important;
+            overflow: hidden;
+            background: #eef2f6;
+        }
+        .about-three__image__item img,
+        .our-work-two__image img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            object-position: center center;
+            display: block;
+        }
+        .about-three__top__text p {
+            margin-bottom: 14px;
+        }
+        .cms-recaptcha {
+            clear: both;
+            max-width: 100%;
+            overflow: hidden;
+        }
+        .cms-newsletter-captcha {
+            margin-top: 14px;
+            max-width: 100%;
+            overflow: hidden;
+        }
+        .cms-newsletter-captcha .g-recaptcha {
+            transform: scale(0.92);
+            transform-origin: left top;
+        }
+        .footer-widget--time .footer-widget__links a {
+            color: inherit;
+        }
+        .footer-widget__capabilities .footer-widget__links__item {
+            margin-bottom: 10px;
+        }
+    </style>
+    <!--  bootstrap-select css plugins -->
+    <link rel="stylesheet" href="assets/vendors/bootstrap-select/bootstrap-select.min.css">
+    <!--  animate css plugins -->
+    <link rel="stylesheet" href="assets/vendors/animate/animate.min.css">
+    <!--  fontawesome css plugins -->
+    <link rel="stylesheet" href="assets/vendors/fontawesome/css/all.min.css">
+    <!--  jquery-ui css plugins -->
+    <link rel="stylesheet" href="assets/vendors/jquery-ui/jquery-ui.css">
+    <!--  jarallax css plugins -->
+    <link rel="stylesheet" href="assets/vendors/jarallax/jarallax.css">
+    <!--  magnific-popup css plugins -->
+    <link rel="stylesheet" href="assets/vendors/jquery-magnific-popup/jquery.magnific-popup.css">
+    <!--  nouislider css plugins -->
+    <link rel="stylesheet" href="assets/vendors/nouislider/nouislider.min.css">
+    <!--  nouislider css plugins -->
+    <link rel="stylesheet" href="assets/vendors/nouislider/nouislider.pips.css">
+    <!--  nouislider css plugins -->
+    <link rel="stylesheet" href="assets/vendors/laboix-icons/style.css">
+    <!--  slider css plugins -->
+    <link rel="stylesheet" href="assets/vendors/owl-carousel/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/vendors/owl-carousel/css/owl.theme.default.min.css">
+
+    <!-- template styles -->
+    <link rel="stylesheet" href="assets/css/laboix.css">
+</head>
+
+<body class="custom-cursor">
+
+    <!-- Custom Cursor -->
+    <div class="custom-cursor__cursor"></div>
+    <div class="custom-cursor__cursor-two"></div>
+
+    <!-- Preloader Start-->
+    <div class="preloader">
+        <div class="preloader__image" style="background-image: url(assets/images/loader.png);"></div>
+    </div>
+    <!-- Preloader End-->
+
+    <div class="page-wrapper">
+        <header class="main-header sticky-header main-header--two sticky-header--normal">
+            <div class="container-fluid">
+                <div class="main-header__inner">
+                    <div class="main-header__logo logo-laboix">
+                        <a href="/">
+                            <img src="assets/images/lyovial/logo.png" alt="LyoVial" width="130">
+                        </a>
+                    </div><!-- /.main-header__logo -->
+
+                    <nav class="main-header__nav main-menu">
+                        <ul class="main-menu__list">
+
+
+                            <li class="megamenu megamenu-clickable megamenu-clickable--toggler">
+                                <a href="index.html">Demos</a>
+                                <ul class="sub-menu">
+                                    <li>
+                                        <div class="megamenu-popup">
+                                            <a href="#" class="megamenu-clickable--close"><span class="icon-close"></span></a>
+                                            <!-- /.megamenu-clickable-close -->
+                                            <div class="megamenu-popup__content">
+                                                <div class="demo-one">
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col-md-6 col-lg-4">
+                                                                <div class="demo-one__card">
+                                                                    <div class="demo-one__image">
+                                                                        <img src="assets/images/landing/home-1.jpg" alt="">
+                                                                        <div class="demo-one__btns">
+                                                                            <a href="index.html" class="laboix-btn demo-one__btn">
+                                                                                <span>Multi Page</span>
+                                                                            </a><!-- /.thm-btn demo-one__btn -->
+                                                                            <a href="index-one-page.html" class="laboix-btn demo-one__btn">
+                                                                                <span>One Page</span>
+                                                                            </a><!-- /.thm-btn demo-one__btn -->
+                                                                        </div><!-- /.demo-one__btns -->
+                                                                    </div><!-- /.demo-one__image -->
+                                                                    <div class="demo-one__content">
+                                                                        <h3 class="demo-one__title">
+                                                                            <a href="index.html">Home Page 01</a>
+                                                                        </h3><!-- /.demo-one__title -->
+                                                                    </div><!-- /.demo-one__content -->
+                                                                </div><!-- /.demo-one__card -->
+                                                            </div><!-- /.col-md-6 col-lg-3 -->
+                                                            <div class="col-md-6 col-lg-4">
+                                                                <div class="demo-one__card">
+                                                                    <div class="demo-one__image">
+                                                                        <img src="assets/images/landing/home-2.jpg" alt="">
+                                                                        <div class="demo-one__btns">
+                                                                            <a href="index-2.html" class="laboix-btn demo-one__btn">
+                                                                                <span>Multi Page</span>
+                                                                            </a><!-- /.thm-btn demo-one__btn -->
+                                                                            <a href="index-2-one-page.html" class="laboix-btn demo-one__btn">
+                                                                                <span>One Page</span>
+                                                                            </a><!-- /.thm-btn demo-one__btn -->
+                                                                        </div><!-- /.demo-one__btns -->
+                                                                    </div><!-- /.demo-one__image -->
+                                                                    <div class="demo-one__content">
+                                                                        <h3 class="demo-one__title">
+                                                                            <a href="index-2.html">Home Page 02</a>
+                                                                        </h3><!-- /.demo-one__title -->
+                                                                    </div><!-- /.demo-one__content -->
+                                                                </div><!-- /.demo-one__card -->
+                                                            </div><!-- /.col-md-6 col-lg-3 -->
+                                                            <div class="col-md-6 col-lg-4">
+                                                                <div class="demo-one__card">
+                                                                    <div class="demo-one__image">
+                                                                        <img src="assets/images/landing/home-3.jpg" alt="">
+                                                                        <div class="demo-one__btns">
+                                                                            <a href="index-3.html" class="laboix-btn demo-one__btn">
+                                                                                <span>Multi Page</span>
+                                                                            </a><!-- /.thm-btn demo-one__btn -->
+                                                                            <a href="index-3-one-page.html" class="laboix-btn demo-one__btn">
+                                                                                <span>One Page</span>
+                                                                            </a><!-- /.thm-btn demo-one__btn -->
+                                                                        </div><!-- /.demo-one__btns -->
+                                                                    </div><!-- /.demo-one__image -->
+                                                                    <div class="demo-one__content">
+                                                                        <h3 class="demo-one__title">
+                                                                            <a href="index-3.html">Home Page 03</a>
+                                                                        </h3><!-- /.demo-one__title -->
+                                                                    </div><!-- /.demo-one__content -->
+                                                                </div><!-- /.demo-one__card -->
+                                                            </div><!-- /.col-md-6 col-lg-3 -->
+                                                            <div class="col-md-6 col-lg-4">
+                                                                <div class="demo-one__card">
+                                                                    <div class="demo-one__image">
+                                                                        <img src="assets/images/landing/home-dark.jpg" alt="">
+                                                                        <div class="demo-one__btns">
+                                                                            <a href="index-dark.html" class="laboix-btn demo-one__btn">
+                                                                                <span>View Page</span>
+                                                                            </a><!-- /.thm-btn demo-one__btn -->
+                                                                        </div><!-- /.demo-one__btns -->
+                                                                    </div><!-- /.demo-one__image -->
+                                                                    <div class="demo-one__content">
+                                                                        <h3 class="demo-one__title">
+                                                                            <a href="index-dark.html">Home Dark</a>
+                                                                        </h3><!-- /.demo-one__title -->
+                                                                    </div><!-- /.demo-one__content -->
+                                                                </div><!-- /.demo-one__card -->
+                                                            </div><!-- /.col-md-6 col-lg-3 -->
+                                                            <div class="col-md-6 col-lg-4">
+                                                                <div class="demo-one__card">
+                                                                    <div class="demo-one__image">
+                                                                        <img src="assets/images/landing/home-boxed.jpg" alt="">
+                                                                        <div class="demo-one__btns">
+                                                                            <a href="index-boxed.html" class="laboix-btn demo-one__btn">
+                                                                                <span>View Page</span>
+                                                                            </a><!-- /.thm-btn demo-one__btn -->
+                                                                        </div><!-- /.demo-one__btns -->
+                                                                    </div><!-- /.demo-one__image -->
+                                                                    <div class="demo-one__content">
+                                                                        <h3 class="demo-one__title">
+                                                                            <a href="index-boxed.html">Home Boxed</a>
+                                                                        </h3><!-- /.demo-one__title -->
+                                                                    </div><!-- /.demo-one__content -->
+                                                                </div><!-- /.demo-one__card -->
+                                                            </div><!-- /.col-md-6 col-lg-3 -->
+                                                            <div class="col-md-6 col-lg-4">
+                                                                <div class="demo-one__card">
+                                                                    <div class="demo-one__image">
+                                                                        <img src="assets/images/landing/home-rtl.jpg" alt="">
+                                                                        <div class="demo-one__btns">
+                                                                            <a href="index-rtl.html#googtrans(en%7car)" class="laboix-btn demo-one__btn">
+                                                                                <span>View Page</span>
+                                                                            </a><!-- /.thm-btn demo-one__btn -->
+                                                                        </div><!-- /.demo-one__btns -->
+                                                                    </div><!-- /.demo-one__image -->
+                                                                    <div class="demo-one__content">
+                                                                        <h3 class="demo-one__title">
+                                                                            <a href="index.html">Home RTL</a>
+                                                                        </h3><!-- /.demo-one__title -->
+                                                                    </div><!-- /.demo-one__content -->
+                                                                </div><!-- /.demo-one__card -->
+                                                            </div><!-- /.col-md-6 col-lg-3 -->
+                                                        </div><!-- /.row -->
+                                                    </div><!-- /.container -->
+                                                </div><!-- /.demos-one -->
+                                            </div><!-- /.megamenu-popup__content -->
+                                        </div><!-- /.megamenu-popup -->
+                                    </li>
+                                </ul>
+                            </li>
+
+
+                            <li>
+                                <a href="about.html">About</a>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="#">Service</a>
+                                <ul>
+                                    <li><a href="services.html">Services</a></li>
+                                    <li><a href="services-carousel.html">Services Carousel</a></li>
+                                    <li><a href="services-2.html">Services 2</a></li>
+                                    <li><a href="services-carousel-2.html">Services Carousel 2</a></li>
+                                    <li><a href="service-d-artificial.html">Artificial</a></li>
+                                    <li><a href="service-d-genetic-tests.html">Specialized</a></li>
+                                    <li><a href="service-d-research.html">Chemical</a></li>
+                                    <li><a href="service-d-pathology.html">Pathology</a></li>
+                                    <li><a href="service-d-sampling.html">Free Home</a></li>
+                                    <li><a href="service-d-diagnoses.html">Safe diagnoses</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="#">Pages</a>
+                                <ul>
+                                    <li><a href="team.html">Team</a></li>
+                                    <li><a href="team-carousel.html">Team Carousel</a></li>
+                                    <li><a href="team-details.html">Team Details</a></li>
+                                    <li><a href="packages.html">Packages</a></li>
+                                    <li><a href="packages-carousel.html">Packages Carousel</a></li>
+                                    <li class="sub-menu"><a href="gallery.html">Gallery</a>
+                                        <ul class="dropdown">
+                                            <li><a href="gallery-grid.html">Gallery Grid</a></li>
+                                            <li><a href="gallery-filter.html">Gallery filter</a></li>
+                                            <li><a href="gallery-carousel.html">Gallery Carousel</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="faq.html">FAQs</a></li>
+                                    <li><a href="login.html">Login</a></li>
+                                    <li><a href="404.html">404 Error</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown">
+                                <a href="#">Shop</a>
+                                <ul>
+                                    <li class="sub-menu"><a href="#">Products</a>
+                                        <ul class="dropdown">
+                                            <li><a href="products.html">No Sidebar</a></li>
+                                            <li><a href="products-left.html">Left Sidebar</a></li>
+                                            <li><a href="products-right.html">Right Sidebar</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="products-carousel.html">Products Carousel</a></li>
+                                    <li><a href="product-details.html">Product Details</a></li>
+                                    <li><a href="cart.html">Cart</a></li>
+                                    <li><a href="checkout.html">Checkout</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#">Blog</a>
+                                <ul>
+                                    <li class="sub-menu"><a href="#">Blog</a>
+                                        <ul class="dropdown">
+                                            <li><a href="blog-grid.html">No Sidebar</a></li>
+                                            <li><a href="blog-grid-left.html">Left Sidebar</a></li>
+                                            <li><a href="blog-grid-right.html">Right Sidebar</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="sub-menu"><a href="#">Blog List</a>
+                                        <ul class="dropdown">
+                                            <li><a href="blog-list.html">No Sidebar</a></li>
+                                            <li><a href="blog-list-left.html">Left Sidebar</a></li>
+                                            <li><a href="blog-list-right.html">Right Sidebar</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="blog-carousel.html">Blog Carousel</a></li>
+                                    <li class="sub-menu"><a href="#">Blog Details</a>
+                                        <ul class="dropdown">
+                                            <li><a href="blog-details.html">No Sidebar</a></li>
+                                            <li><a href="blog-details-left.html">Left Sidebar</a></li>
+                                            <li><a href="blog-details-right.html">Right Sidebar</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="contact.html">Contact</a>
+                            </li>
+                        </ul>
+                    </nav><!-- /.main-header__nav -->
+                    <div class="main-header__right">
+                        <a href="tel:+92-3800-8060" class="main-header__right__call">
+                            <div class="main-header__right__icon">
+                                <i class="icon-telephone-call-1"></i>
+                            </div>
+                            <div class="main-header__right__content">
+                                <span class="main-header__right__content__text">Call to Anytime</span>
+                                <h6 class="main-header__right__content__number">+92 3800 8060</h6>
+                            </div>
+                        </a>
+                        <div class="main-header__right__info">
+                            <a href="#" class="search-toggler main-header__right__info__item"> <i class="icon-search" aria-hidden="true"></i> <span class="sr-only">Search</span> </a>
+                        </div>
+                        <div class="mobile-nav__btn mobile-nav__toggler">
+                            <span></span><span></span><span></span>
+                        </div><!-- /.mobile-nav__toggler -->
+                    </div><!-- /.main-header__right -->
+                </div><!-- /.main-header__inner -->
+            </div><!-- /.container-fluid -->
+        </header><!-- /.main-header -->
+
+        <!-- main-slider-start -->
+        <section class="main-slider-two">
+            <div class="main-slider-two__carousel laboix-owl__carousel owl-carousel" data-owl-options='{
+		"loop": false,
+		"animateOut": "fadeOut",
+		"animateIn": "fadeIn",
+		"items": 1,
+		"autoplay": false,
+		"smartSpeed": 1000,
+		"nav": false,
+		"dots": false,
+		"margin": 0
+	    }'>
+                <!-- item -->
+                <div class="item">
+                    <div class="main-slider-two__item">
+                        <div class="main-slider-two__bg" style="background-image: url(assets/images/lyovial/banner-ab.jpg);"></div>
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6">
+                                    <div class="main-slider-two__content">
+                                        <h2 class="main-slider-two__title">Contract Lyophilization Services — Pilot-Scale Vial Freeze-Drying</h2>
+                                        <ul class="main-slider-two__list list-unstyled"><li class="main-slider-two__list__item">LyoVial · Kanata, Ontario</li><li class="main-slider-two__list__item">Formulation, cycle development, and pilot-batch vial lyophilization for Canadian diagnostics, biotech, and specialty research teams. Built for the projects that outgrew a benchtop dryer but haven&#039;t reached commercial scale yet.</li></ul>
+                                        <div class="main-slider-two__btn">
+                                            <a href="/contact" class="laboix-btn">Request a Feasibility Quote</a>
+                                            <a href="/services" class="laboix-btn laboix-btn--white cms-hero-secondary">See Our Capabilities</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="main-slider-two__image">
+                                        <div class="main-slider-two__image__item">
+                                            <img src="assets/images/lyovial/banner-ab.jpg" alt="LyoVial lyophilization">
+                                        </div>
+                                        <div class="main-slider-two__image__item-shape">
+                                            <img src="assets/images/shapes/hero-2-2.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="main-slider-two__item__shape">
+                            <img src="assets/images/shapes/hero-2-1.png" alt>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- main-slider-end -->
+
+        <!-- About Us section start (Who Is LyoVial) -->
+        <section class="about-three" id="about">
+            <div class="about-three__bg" style="background-image: url(assets/images/shapes/about-bg-3-3.png);"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="about-three__left wow fadeInLeft" data-wow-duration="700ms" data-wow-delay="500ms">
+                            <div class="about-three__image">
+                                <div class="about-three__image__item">
+                                    <img src="assets/images/lyovial/about.jpg" alt="Who Is LyoVial — laboratory lyophilization">
+                                </div>
+                                <div class="about-three__image__shape">
+                                    <img src="assets/images/shapes/about-shape-3-3.png" alt>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="about-three__right wow fadeInRight" data-wow-duration="700ms" data-wow-delay="500ms">
+                            <div class="about-three__top">
+                                <div class="sec-title text-start wow fadeInUp" data-wow-duration="1500ms">
+                                    <h6 class="sec-title__tagline"><img src="assets/images/shapes/sec-title-s-2.png" alt="" class="sec-title__img">Who Is LyoVial</h6>
+                                    <h3 class="sec-title__title">Who Is LyoVial</h3>
+                                </div>
+                                <div class="about-three__top__text"><p>LyoVial is a Canadian contract lyophilization company built around one clear idea: pilot-scale, vial-format freeze-drying done properly. We take on the projects that fall in an awkward gap for the big CDMOs — too small for their minimums, too critical for a benchtop unit in your own lab.</p><p>Our clients are diagnostic reagent manufacturers, calibrator and control producers, biotech startups, university and hospital research groups, analytical testing labs, and cosmetic ingredient formulators. What they have in common is a formulation that needs a locked, reproducible lyophilization cycle, and a partner who'll tell them plainly what will and won't work.</p><p>We're part of the Evik Diagnostics group of companies. Freeze-drying process expertise across diagnostic applications isn't a bolt-on service for us — it's what the group has been built around. If you've been looking for lyophilization services in Canada from a specialist rather than a generalist CDMO, that's the space we sit in.</p></div>
+                            </div>
+                            <div class="about-three__link">
+                                <a href="/quality-compliance" class="about-three__link__btn laboix-btn">Learn About Quality</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="about-three__shape">
+                <img src="assets/images/shapes/about-shape-3-1.png" alt>
+            </div>
+            <div class="about-three__shape__two">
+                <img src="assets/images/shapes/about-shape-3-2.png" alt>
+            </div>
+        </section>
+        <!-- About Us section End -->
+
+        <!-- Service section Start (What We Do) -->
+        <section class="service-two" id="capabilities">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="sec-title text-center wow fadeInUp" data-wow-duration="1500ms">
+                            <h6 class="sec-title__tagline"><img src="assets/images/shapes/sec-title-s-1.png" alt="" class="sec-title__img">What We Do</h6>
+                            <h3 class="sec-title__title">What We Do</h3>
+                        </div>
+                        <p class="text-center cms-services-intro" style="max-width:780px;margin:-10px auto 40px;color:#6A6A6A;">Three services that follow the natural sequence of a lyophilization project: work out the formulation, lock the cycle, then produce the pilot batches. Each stage is documented so it can transfer cleanly to your own operation, or to whoever manufactures for you next.</p>
+                    </div>
+                </div>
+                <div class="row gutter-y-30">
+                    <div class="col-lg-4 col-md-6">
+                        <a href="/services/formulation-lyo-cycle-development" class="service-two__item service-two__item--link wow fadeInUp" data-wow-duration="500ms" data-wow-delay="300ms">
+                            <div class="service-two__thumb">
+                                <img src="assets/images/lyovial/svc-1.jpg" alt="Formulation &amp; Lyo Cycle Development">
+                            </div>
+                            <div class="service-two__icon"><i class="icon-artificial-intelligence-2"></i></div>
+                            <div class="service-two__content">
+                                <h4 class="service-two__title">Formulation &amp; Lyo Cycle Development</h4>
+                                <p class="service-two__text">We work from your existing liquid formulation, or help develop one from scratch. Excipient and cryoprotectant selection, freeze-thaw and thermal characterization, cycle design, and small feasibility runs to confirm cake appearance, reconstitution, and stability — before you commit to a locked process.</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <a href="/services/scale-up-technology-transfer" class="service-two__item service-two__item--link wow fadeInUp" data-wow-duration="500ms" data-wow-delay="400ms">
+                            <div class="service-two__thumb">
+                                <img src="assets/images/lyovial/svc-2.jpg" alt="Scale-Up &amp; Technology Transfer">
+                            </div>
+                            <div class="service-two__icon"><i class="icon-dna-1"></i></div>
+                            <div class="service-two__content">
+                                <h4 class="service-two__title">Scale-Up &amp; Technology Transfer</h4>
+                                <p class="service-two__text">Once a cycle is set at feasibility scale, we move it to pilot batch size. Every parameter is documented as it scales, so the process transfers cleanly to your own production line — or to your next-stage manufacturer, when the project outgrows us.</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <a href="/services/pilot-batch-vial-lyophilization" class="service-two__item service-two__item--link wow fadeInUp" data-wow-duration="500ms" data-wow-delay="500ms">
+                            <div class="service-two__thumb">
+                                <img src="assets/images/lyovial/svc-3.jpg" alt="Pilot-Batch Vial Lyophilization">
+                            </div>
+                            <div class="service-two__icon"><i class="icon-pathology-2-1"></i></div>
+                            <div class="service-two__content">
+                                <h4 class="service-two__title">Pilot-Batch Vial Lyophilization</h4>
+                                <p class="service-two__text">Small and mid-size pilot runs of lyophilized vials for R&amp;D, product launch, validation studies, and early commercial supply. Glass vial formats sized to your product. Documented, consistent, run-to-run — the vial lyophilization service most bench-scale programs step up to next.</p>
+                            </div>
+                        </a>
+                    </div></div>
+            </div>
+        </section>
+        <!-- Service section End -->
+
+        <!-- Industries (theme: case-studies-two) -->
+        <section class="case-studies-two" id="industries">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="sec-title text-center wow fadeInUp" data-wow-duration="1500ms">
+                            <h6 class="sec-title__tagline"><img src="assets/images/shapes/sec-title-s-1.png" alt="" class="sec-title__img">Who We Serve</h6>
+                            <h3 class="sec-title__title">Who We Serve</h3>
+                        </div>
+                        <p class="text-center cms-industries-intro" style="max-width:780px;margin:-10px auto 40px;color:#6A6A6A;">The teams that come to us usually share one of a handful of profiles. If your work falls outside these and involves a lyophilized product, get in touch anyway — we&#039;ll tell you plainly whether we&#039;re a fit.</p>
+                    </div>
+                </div>
+                <div class="row gutter-y-30 cms-industries-grid">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="case-studies-two__item wow fadeInUp" data-wow-duration="700ms" data-wow-delay="500ms">
+                            <div class="case-studies-two__thumb">
+                                <img src="assets/images/lyovial/ind-1.jpg" alt="Diagnostic Assay Reagent Manufacturers">
+                            </div>
+                            <div class="case-studies-two__hover">
+                                <div class="case-studies-two__icon"><i class="icon-diagonostic"></i></div>
+                                <h4 class="case-studies-two__title"><a href="/industries/diagnostic-assay-reagent-manufacturers">Diagnostic Assay Reagent Manufacturers</a></h4>
+                                <p class="case-studies-two__text">Freeze-dried enzymes, oligos, and detection reagents for in-vitro diagnostic kits and lateral-flow assays.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="case-studies-two__item wow fadeInUp" data-wow-duration="700ms" data-wow-delay="600ms">
+                            <div class="case-studies-two__thumb">
+                                <img src="assets/images/lyovial/ind-2.jpg" alt="Calibrator &amp; Control Producers">
+                            </div>
+                            <div class="case-studies-two__hover">
+                                <div class="case-studies-two__icon"><i class="icon-diagonostic"></i></div>
+                                <h4 class="case-studies-two__title"><a href="/industries/calibrator-control-producers">Calibrator &amp; Control Producers</a></h4>
+                                <p class="case-studies-two__text">Lyophilized calibrators and quality-control materials with reproducible reconstitution and long shelf life.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="case-studies-two__item wow fadeInUp" data-wow-duration="700ms" data-wow-delay="700ms">
+                            <div class="case-studies-two__thumb">
+                                <img src="assets/images/lyovial/ind-3.jpg" alt="Microbiology Media &amp; Supplement Suppliers">
+                            </div>
+                            <div class="case-studies-two__hover">
+                                <div class="case-studies-two__icon"><i class="icon-diagonostic"></i></div>
+                                <h4 class="case-studies-two__title"><a href="/industries/microbiology-media-supplement-suppliers">Microbiology Media &amp; Supplement Suppliers</a></h4>
+                                <p class="case-studies-two__text">Freeze-dried microbiology media, supplements, and culture components in vial format.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="case-studies-two__item wow fadeInUp" data-wow-duration="700ms" data-wow-delay="800ms">
+                            <div class="case-studies-two__thumb">
+                                <img src="assets/images/lyovial/ind-4.jpg" alt="Analytical Testing Laboratories">
+                            </div>
+                            <div class="case-studies-two__hover">
+                                <div class="case-studies-two__icon"><i class="icon-diagonostic"></i></div>
+                                <h4 class="case-studies-two__title"><a href="/industries/analytical-testing-laboratories">Analytical Testing Laboratories</a></h4>
+                                <p class="case-studies-two__text">Reference materials, standards, and stabilized reagents for testing-lab workflows.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="case-studies-two__item wow fadeInUp" data-wow-duration="700ms" data-wow-delay="900ms">
+                            <div class="case-studies-two__thumb">
+                                <img src="assets/images/lyovial/ind-5.jpg" alt="University &amp; Institutional R&amp;D Groups">
+                            </div>
+                            <div class="case-studies-two__hover">
+                                <div class="case-studies-two__icon"><i class="icon-diagonostic"></i></div>
+                                <h4 class="case-studies-two__title"><a href="/industries/university-institutional-rd-groups">University &amp; Institutional R&amp;D Groups</a></h4>
+                                <p class="case-studies-two__text">Biospecimen library preservation, research samples, and one-off formulation work for academic and hospital labs.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="case-studies-two__item wow fadeInUp" data-wow-duration="700ms" data-wow-delay="1000ms">
+                            <div class="case-studies-two__thumb">
+                                <img src="assets/images/lyovial/ind-6.jpg" alt="Cosmetic Ingredient Formulators">
+                            </div>
+                            <div class="case-studies-two__hover">
+                                <div class="case-studies-two__icon"><i class="icon-diagonostic"></i></div>
+                                <h4 class="case-studies-two__title"><a href="/industries/cosmetic-ingredient-formulators">Cosmetic Ingredient Formulators</a></h4>
+                                <p class="case-studies-two__text">Lyophilized cosmetic actives, single-dose beads, and stabilized botanicals for premium skincare formulations.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose Us Section Start -->
+        <section class="why-choose-us" id="why-choose">
+            <div class="container">
+                <div class="row gutter-y-30">
+                    <div class="col-12">
+                        <div class="why-choose-us__left">
+                            <div class="why-choose-us__top">
+                                <div class="sec-title text-start wow fadeInUp" data-wow-duration="1500ms">
+                                    <h6 class="sec-title__tagline"><img src="assets/images/shapes/sec-title-s-1.png" alt="" class="sec-title__img">Why Teams Choose LyoVial</h6>
+                                    <h3 class="sec-title__title">Why Teams Choose LyoVial</h3>
+                                </div>
+                                <p class="why-choose-us__top__text">There are only a handful of lyophilization companies in Canada that will take on pilot-scale work. Here&#039;s what separates us from the ones that will, and from the big CDMOs that won&#039;t.</p>
+                            </div>
+                            <div class="why-choose-us__feature cms-why-row-1">
+                                <div class="why-choose-us__feature__item">
+                                    <div class="why-choose-us__feature__icon"><i class="icon-trophy-2"></i></div>
+                                    <h4 class="why-choose-us__feature__title">Formulation-first, not just a service run</h4>
+                                    <p class="why-choose-us__feature__text">Most freeze drying services will run whatever cycle you hand them. We start with the formulation — because a bad cycle on a mismatched formulation costs you a batch, and you rarely find out until reconstitution. Fixing it at the formulation stage costs a fraction of what fixing it at pilot scale does.</p>
+                                </div>
+                                <div class="why-choose-us__feature__item">
+                                    <div class="why-choose-us__feature__icon"><i class="icon-microscope-1"></i></div>
+                                    <h4 class="why-choose-us__feature__title">Pilot-scale is our scale, not a stretch</h4>
+                                    <p class="why-choose-us__feature__text">We deliberately stay at the pilot batch level. That means your project isn&#039;t the smallest thing on the floor, and it isn&#039;t being fitted around a commercial run. If your product has outgrown pilot volumes, we&#039;ll help you scope what a scale-up partner needs from the work we&#039;ve already done together.</p>
+                                </div>
+                            </div>
+                            <div class="why-choose-us__feature cms-why-row-2" style="margin-top:30px;">
+                                <div class="why-choose-us__feature__item">
+                                    <div class="why-choose-us__feature__icon"><i class="icon-case"></i></div>
+                                    <h4 class="why-choose-us__feature__title">Documentation the next manufacturer will accept</h4>
+                                    <p class="why-choose-us__feature__text">Batch records, cycle parameters, and process notes are structured for technology transfer from day one — because in this industry, &quot;we lyophilized it and it looked fine&quot; is not a handoff. Every project we take on is designed to move cleanly to whoever manufactures it next.</p>
+                                </div>
+                                <div class="why-choose-us__feature__item">
+                                    <div class="why-choose-us__feature__icon"><i class="icon-clients"></i></div>
+                                    <h4 class="why-choose-us__feature__title">One point of contact, plain answers</h4>
+                                    <p class="why-choose-us__feature__text">You&#039;ll speak to the same person from feasibility through delivery. When we can&#039;t help — or when your regulatory needs sit outside our quality tier — we&#039;ll say so up front. Straightforward communication isn&#039;t a marketing line for us; it&#039;s how we keep projects on schedule.</p>
+                                </div>
+                            </div>
+                            <div class="why-choose-us__link">
+                                <a href="/contact" class="why-choose-us__link__btn laboix-btn">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Why Choose Us Section End -->
+
+        <!-- Canada coverage (theme: our-work-two + contact map) -->
+        <section class="our-work-two" id="canada-coverage">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="sec-title text-center wow fadeInUp" data-wow-duration="1500ms">
+                            <h6 class="sec-title__tagline"><img src="assets/images/shapes/sec-title-s-1.png" alt="" class="sec-title__img">Canada Coverage</h6>
+                            <h3 class="sec-title__title">Lyophilization Services Across Canada</h3>
+                        </div>
+                        <p class="text-center cms-canada-intro" style="max-width:820px;margin:-10px auto 40px;color:#6A6A6A;">LyoVial is based in Kanata, Ontario, in the Ottawa area. We work with clients across Canada — from British Columbia biotech labs to Atlantic diagnostic manufacturers — with courier-shipped materials moving between our facility and every province.If you&#039;re doing biotech work in Ottawa or contract manufacturing anywhere in Ontario, we&#039;re an easy on-site visit. For everyone else, we run the same conversation over video, and material moves by overnight courier with cold-chain handling where the product needs it.</p>
+                    </div>
+                </div>
+                <div class="row align-items-center gutter-y-30 gutter-x-20 cms-canada-points">
+                    <div class="col-lg-4">
+                        <div class="our-work-two__left wow fadeInLeft" data-wow-duration="700ms" data-wow-delay="500ms">
+                            <div class="our-work-two__item">
+                                <div class="our-work-two__item__icon"></div>
+                                <h4 class="our-work-two__item__title">Ottawa &amp; Kanata</h4>
+                            </div>
+                            <div class="our-work-two__item">
+                                <div class="our-work-two__item__icon"></div>
+                                <h4 class="our-work-two__item__title">Ontario</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="our-work-two__middle wow fadeInUp" data-wow-duration="700ms" data-wow-delay="500ms">
+                            <div class="our-work-two__image">
+                                <img src="assets/images/lyovial/canada.jpg" alt="LyoVial Canada coverage">
+                            </div>
+                            <div class="our-work-two__shape">
+                                <img src="assets/images/shapes/our-work-line.png" alt>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="our-work-two__right wow fadeInRight" data-wow-duration="700ms" data-wow-delay="500ms">
+                            <div class="our-work-two__item">
+                                <div class="our-work-two__item__icon"></div>
+                                <h4 class="our-work-two__item__title">Canada-wide</h4>
+                            </div>
+                            <div class="our-work-two__item">
+                                <div class="our-work-two__item__icon"></div>
+                                <h4 class="our-work-two__item__title">Cross-border / international</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Canada coverage End -->
+
+        <!-- FAQ (theme: faq-page accordion) -->
+        <section class="faq-page" id="faq">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <div class="sec-title text-start wow fadeInUp" data-wow-duration="1500ms">
+                            <h6 class="sec-title__tagline"><img src="assets/images/shapes/sec-title-s-1.png" alt="" class="sec-title__img">Common Questions</h6>
+                            <h3 class="sec-title__title">Common Questions</h3>
+                        </div>
+                        <p class="cms-faq-intro" style="color:#6A6A6A;margin-bottom:30px;">Things buyers ask us most often before a first call. If your question isn&#039;t here, send it — we&#039;ll answer plainly.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="faq-page__accordion laboix-accrodion cms-faq-accordion" data-grp-name="laboix-accrodion">
+                            <div class="accrodion active">
+                                <div class="accrodion-title">
+                                    <h4 class="accrodion-title__text">Is lyophilization the same as freeze drying?<span class="accrodion-title__icon"></span></h4>
+                                </div>
+                                <div class="accrodion-content">
+                                    <div class="inner"><p class="inner__text">Yes. Lyophilization and freeze drying refer to the same process: removing water from a frozen product under vacuum so ice sublimes directly to vapor. The terms are used interchangeably in diagnostics, biotech, and contract manufacturing.</p></div>
+                                </div>
+                            </div>
+                            <div class="accrodion">
+                                <div class="accrodion-title">
+                                    <h4 class="accrodion-title__text">What batch sizes do you handle?<span class="accrodion-title__icon"></span></h4>
+                                </div>
+                                <div class="accrodion-content">
+                                    <div class="inner"><p class="inner__text">We focus on pilot-scale vial lyophilization — the step between benchtop development and commercial manufacturing. Exact capacity depends on vial format and cycle design; tell us your target batch size and we&#039;ll confirm fit on the first call.</p></div>
+                                </div>
+                            </div>
+                            <div class="accrodion">
+                                <div class="accrodion-title">
+                                    <h4 class="accrodion-title__text">Do you handle GMP lyophilization work?<span class="accrodion-title__icon"></span></h4>
+                                </div>
+                                <div class="accrodion-content">
+                                    <div class="inner"><p class="inner__text">We operate quality-minded, documented workflows suited to diagnostic and laboratory development. If your project requires a specific GMP tier beyond our scope, we&#039;ll say so plainly and help you understand what documentation from our pilot work will transfer to a GMP manufacturer.</p></div>
+                                </div>
+                            </div>
+                            <div class="accrodion">
+                                <div class="accrodion-title">
+                                    <h4 class="accrodion-title__text">What products do you lyophilize?<span class="accrodion-title__icon"></span></h4>
+                                </div>
+                                <div class="accrodion-content">
+                                    <div class="inner"><p class="inner__text">Typical work includes diagnostic assay reagents, calibrators and controls, microbiology media and supplements, analytical reference materials, university and institutional R&amp;D samples, and specialty cosmetic actives — all in vial formats.</p></div>
+                                </div>
+                            </div>
+                            <div class="accrodion">
+                                <div class="accrodion-title">
+                                    <h4 class="accrodion-title__text">How long does lyophilization cycle development take?<span class="accrodion-title__icon"></span></h4>
+                                </div>
+                                <div class="accrodion-content">
+                                    <div class="inner"><p class="inner__text">Timing depends on formulation complexity, characterization needs, and scheduling. Many programs start with a feasibility discussion, then move into targeted cycle trials. We&#039;ll give you a realistic timeline once we understand your material and goals.</p></div>
+                                </div>
+                            </div>
+                            <div class="accrodion">
+                                <div class="accrodion-title">
+                                    <h4 class="accrodion-title__text">Where is LyoVial located and can I visit?<span class="accrodion-title__icon"></span></h4>
+                                </div>
+                                <div class="accrodion-content">
+                                    <div class="inner"><p class="inner__text">We are at 105 Schneider Road, Unit 123, Kanata, Ontario K2K 1Y3 — in the Ottawa area. On-site meetings and facility visits are welcome for Ottawa and Ontario partners. Call (613) 614-8733 or email info@lyovial.com to arrange a visit.</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ready to Talk (theme: join-us-tow) -->
+        <section class="join-us-tow" id="ready-to-talk">
+            <div class="join-us-tow__bg" style="background-image: url(assets/images/lyovial/ready.jpg);"></div>
+            <div class="container">
+                <div class="join-us-tow__top wow fadeInUp" data-wow-duration="700ms" data-wow-delay="500ms">
+                    <div class="row align-items-center">
+                        <div class="col-lg-7">
+                            <div class="sec-title sec-title--two text-start wow fadeInUp" data-wow-duration="1500ms">
+                                <h6 class="sec-title__tagline"><img src="assets/images/shapes/sec-title-s-2.png" alt="" class="sec-title__img">Ready to Talk?</h6>
+                                <h3 class="sec-title__title">Ready to Talk?</h3>
+                            </div>
+                            <p class="cms-ready-text" style="color:#fff;opacity:.9;max-width:560px;">Tell us about your formulation, target batch size, and timeline — even if you&#039;re not sure yet whether lyophilization is the right approach. A short feasibility conversation costs nothing, and it&#039;s the fastest way to find out whether we&#039;re a fit.</p>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="join-us-tow__link">
+                                <a href="/contact" class="join-us-tow__link__btn laboix-btn laboix-btn--white">Request a Feasibility Quote</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section start -->
+        <section class="contact-two" id="contact">
+            <div class="container">
+                <div class="row align-items-stretch gutter-y-30">
+                    <div class="col-lg-6">
+                        <div class="contact-two__right wow fadeInUp" data-wow-duration="700ms" data-wow-delay="500ms" style="margin-left:0;">
+                            <div class="sec-title sec-title--two text-start wow fadeInUp" data-wow-duration="1500ms">
+                                <h6 class="sec-title__tagline"><img src="assets/images/shapes/sec-title-s-2.png" alt="" class="sec-title__img">Contact With Us</h6>
+                                <h3 class="sec-title__title">Send a Project Inquiry</h3>
+                            </div>
+                            <form class="contact-two__form form-one wow fadeInUp" data-wow-duration="1500ms" action="/contact" method="POST">
+                                <div class="form-one__group">
+                                    <div class="form-one__control form-one__control--full">
+                                        <input type="text" name="name" placeholder="Your name" required>
+                                    </div>
+                                    <div class="form-one__control form-one__control--full">
+                                        <input type="email" name="email" placeholder="Email address" required>
+                                    </div>
+                                    <div class="form-one__control form-one__control--full">
+                                        <input type="text" name="company" placeholder="Company / Subject">
+                                    </div>
+                                    <div class="form-one__control form-one__control--full">
+                                        <textarea name="message" placeholder="Write a Message" required></textarea>
+                                    </div>
+                                    <div class="form-one__control form-one__control--full">
+                                        <button type="submit" class="laboix-btn laboix-btn--submite">Send a Message</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="contact-two__map-panel wow fadeInUp" data-wow-duration="700ms" data-wow-delay="700ms">
+                            <div class="cms-contact-map-inner">
+                                <iframe title="LyoVial Kanata map" src="https://www.google.com/maps?q=105+Schneider+Road+Unit+123+Kanata+ON+K2K+1Y3&output=embed" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Contact Section End -->
+
+        <footer class="main-footer main-footer--one">
+            <div class="main-footer__inner">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-md-6 col-xl-4">
+                            <div class="footer-widget footer-widget--info">
+                                <a href="/" class="footer-widget__logo">
+                                    <img src="assets/images/lyovial/logo.png" width="130" alt="LyoVial logo">
+                                </a><!-- /.footer-widget__logo -->
+                                <p class="footer-widget__text">Pilot-scale contract lyophilization &amp; formulation services. Member of the Evik Diagnostics group.</p><!-- /.footer-widget__text -->
+                                <form action="/newsletter" method="POST" class="footer-widget__newsletter">
+                                    <input type="email" name="email" placeholder="Email" required>
+                                    <button type="submit" class="laboix-btn laboix-btn--submite"><i class="icon-right-arrow"></i></button>
+                                </form><!-- /.footer-widget__newsletter -->
+                                <div class="cms-newsletter-captcha"></div>
+                                <div class="mc-form__response"></div><!-- /.mc-form__response -->
+                            </div><!-- /.footer-widget -->
+                        </div><!-- /.col-md-6 -->
+
+                        <div class="col-md-6 col-xl-2">
+                            <div class="footer-widget footer-widget--link">
+                                <h4 class="footer-widget__title">Quick Links</h4>
+                                <ul class="list-unstyled footer-widget__links">
+                                    <li class="footer-widget__links__item"><a href="/">Home</a></li>
+                                    <li class="footer-widget__links__item"><a href="/services">Capabilities</a></li>
+                                    <li class="footer-widget__links__item"><a href="/industries">Industries We Serve</a></li>
+                                    <li class="footer-widget__links__item"><a href="/quality-compliance">Quality &amp; Compliance</a></li>
+                                    <li class="footer-widget__links__item"><a href="/contact">Contact</a></li>
+                                </ul><!-- /.list-unstyled footer-widget__links -->
+                            </div><!-- /.footer-widget -->
+                        </div><!-- /.col-md-6 -->
+
+                        <div class="col-md-6 col-xl-3">
+                            <div class="footer-widget footer-widget--about">
+                                <h4 class="footer-widget__title">Contact</h4>
+                                <ul class="list-unstyled footer-widget__info">
+                                    <li class="footer-widget__info__item"><span class="footer-widget__info__item__text">105 Schneider Road, Unit 123<br>Kanata, Ontario K2K 1Y3<br>Canada</span></li>
+                                    <li class="footer-widget__info__item"><i class="icon-telephone-call-1" aria-hidden="true"></i> <a href="tel:6136148733">(613) 614-8733</a></li>
+                                    <li class="footer-widget__info__item"><i class="icon-email" aria-hidden="true"></i> <a href="mailto:info@lyovial.com">info@lyovial.com</a></li>
+                                </ul><!-- /.list-unstyled -->
+                                <div class="footer-widget__social">
+                                    <a href="https://facebook.com"> <i class="fab fa-facebook-f" aria-hidden="true"></i> <span class="sr-only">Facebook</span> </a>
+                                    <a href="https://twitter.com"> <i class="fab fa-twitter" aria-hidden="true"></i> <span class="sr-only">Twitter</span> </a>
+                                    <a href="https://linkedin.com"> <i class="fab fa-linkedin-in" aria-hidden="true"></i> <span class="sr-only">LinkedIn</span></a>
+                                </div><!-- /.footer-widget__social -->
+                            </div><!-- /.footer-widget -->
+                        </div><!-- /.col-md-6 -->
+
+                        <div class="col-md-6 col-xl-3">
+                            <div class="footer-widget footer-widget--time">
+                                <h4 class="footer-widget__title">Capabilities</h4>
+                                <ul class="list-unstyled footer-widget__links footer-widget__capabilities">
+                                    <li class="footer-widget__links__item"><a href="/services/formulation-lyo-cycle-development">Formulation &amp; Lyo Cycle Development</a></li>
+                                    <li class="footer-widget__links__item"><a href="/services/scale-up-technology-transfer">Scale-Up &amp; Technology Transfer</a></li>
+                                    <li class="footer-widget__links__item"><a href="/services/pilot-batch-vial-lyophilization">Pilot-Batch Vial Lyophilization</a></li>
+                                    <li class="footer-widget__links__item"><a href="/specimen-library-preservation">Specimen Library Preservation</a></li>
+                                </ul>
+                            </div><!-- /.footer-widget -->
+                        </div><!-- /.col-md-6 -->
+                    </div><!-- /.row -->
+                </div><!-- /.container -->
+            </div><!-- /.main-footer__middle -->
+
+            <div class="main-footer__bottom">
+                <div class="container">
+                    <div class="main-footer__bottom__inner">
+                        <p class="main-footer__copyright">&copy; Copyright <span class="dynamic-year"></span> LyoVial. All Rights Reserved.</p>
+                    </div><!-- /.main-footer__inner -->
+                </div><!-- /.container -->
+            </div><!-- /.main-footer__bottom -->
+            <div class="main-footer__shape">
+                <img src="assets/images/shapes/footer-shape-1-1.png" alt>
+            </div>
+            <div class="main-footer__shape main-footer__shape--two">
+                <img src="assets/images/shapes/footer-shape-1-2.png" alt>
+            </div>
+
+        </footer><!-- /.main-footer -->
+
+    </div><!-- /.page-wrapper -->
+
+
+
+    <div class="mobile-nav__wrapper">
+        <div class="mobile-nav__overlay mobile-nav__toggler"></div>
+        <!-- /.mobile-nav__overlay -->
+        <div class="mobile-nav__content">
+            <span class="mobile-nav__close mobile-nav__toggler"><i class="fa fa-times"></i></span>
+
+            <div class="logo-box">
+                <a href="/" aria-label="logo image"><img src="assets/images/lyovial/logo.png" width="155" alt="LyoVial"></a>
+            </div>
+            <!-- /.logo-box -->
+            <div class="mobile-nav__container"></div>
+            <!-- /.mobile-nav__container -->
+
+            <ul class="mobile-nav__contact list-unstyled">
+                <li>
+                    <i class="fa fa-envelope"></i>
+                    <a href="mailto:needhelp@laboix.com">needhelp@laboix.com</a>
+                </li>
+                <li>
+                    <i class="fa fa-phone-alt"></i>
+                    <a href="tel:666-888-0000">666 888 0000</a>
+                </li>
+            </ul><!-- /.mobile-nav__contact -->
+            <div class="mobile-nav__social">
+                <a href="https://twitter.com"> <i class="fab fa-twitter" aria-hidden="true"></i> <span class="sr-only">Twitter</span> </a>
+                <a href="https://facebook.com"> <i class="fab fa-facebook-f" aria-hidden="true"></i> <span class="sr-only">Facebook</span> </a>
+                <a href="https://pinterest.com"> <i class="fab fa-pinterest-p" aria-hidden="true"></i> <span class="sr-only">Pinterest</span></a>
+                <a href="https://instagram.com"> <i class="fab fa-instagram" aria-hidden="true"></i> <span class="sr-only">Instagram</span></a>
+            </div><!-- /.mobile-nav__social -->
+        </div>
+        <!-- /.mobile-nav__content -->
+    </div>
+    <!-- /.mobile-nav__wrapper -->
+    <div class="search-popup">
+        <div class="search-popup__overlay search-toggler"></div>
+        <!-- /.search-popup__overlay -->
+        <div class="search-popup__content">
+            <form role="search" method="get" class="search-popup__form" action="#">
+                <input type="text" id="search" placeholder="Search Here...">
+                <button type="submit" aria-label="search submit" class="laboix-btn laboix-btn--submite">
+                    <span><i class="icon-search"></i></span>
+                </button>
+            </form>
+        </div>
+        <!-- /.search-popup__content -->
+    </div>
+    <!-- /.search-popup -->
+
+    <a href="#" data-target="html" class="scroll-to-target scroll-to-top">
+        <span class="scroll-to-top__text">back top</span>
+        <span class="scroll-to-top__wrapper"><span class="scroll-to-top__inner"></span></span>
+    </a>
+
+
+    <!--  ALl JS Plugins =====================
+        ====================================== -->
+    <!--  jquery-3.7.0 js plugins -->
+    <script src="assets/vendors/jquery/jquery-3.7.0.min.js"></script>
+    <!--  Bootstrap js plugins -->
+    <script src="assets/vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+    <!--  jarallax js plugins -->
+    <script src="assets/vendors/jarallax/jarallax.min.js"></script>
+    <!--  jquery-ui js plugins -->
+    <script src="assets/vendors/jquery-ui/jquery-ui.js"></script>
+    <!--  jquery-ajaxchimp js plugins -->
+    <script src="assets/vendors/jquery-ajaxchimp/jquery.ajaxchimp.min.js"></script>
+    <!--  jquery-appear js plugins -->
+    <script src="assets/vendors/jquery-appear/jquery.appear.min.js"></script>
+    <!-- jquery-circle-progress js plugins -->
+    <script src="assets/vendors/jquery-circle-progress/jquery.circle-progress.min.js"></script>
+    <!--  magnific-popup js plugins -->
+    <script src="assets/vendors/jquery-magnific-popup/jquery.magnific-popup.min.js"></script>
+    <!--  validate js plugins -->
+    <script src="assets/vendors/jquery-validate/jquery.validate.min.js"></script>
+    <!--  nouislider js plugins -->
+    <script src="assets/vendors/nouislider/nouislider.min.js"></script>
+    <!--  wnumb js plugins -->
+    <script src="assets/vendors/wnumb/wNumb.min.js"></script>
+    <!--  owl-carousel js plugins -->
+    <script src="assets/vendors/owl-carousel/js/owl.carousel.min.js"></script>
+    <!--  Bootstrap js plugins -->
+    <script src="assets/vendors/wow/wow.js"></script>
+    <!--  wow js plugins -->
+    <script src="assets/vendors/imagesloaded/imagesloaded.min.js"></script>
+    <!--  isotope js plugins -->
+    <script src="assets/vendors/isotope/isotope.js"></script>
+    <!--  countdown js plugins -->
+    <script src="assets/vendors/countdown/countdown.min.js"></script>
+    <!--  Chart.js js plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+    <!--  jquery-circleType js plugins -->
+    <script src="assets/vendors/jquery-circleType/jquery.circleType.js"></script>
+    <script src="assets/vendors/jquery-lettering/jquery.lettering.min.js"></script>
+    <!-- template js -->
+    <script src="assets/js/laboix.js"></script>
+    <script src="assets/js/cms-bind.js"></script>
+</body>
+
+</html>

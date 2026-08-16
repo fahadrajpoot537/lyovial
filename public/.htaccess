@@ -1,0 +1,69 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # ------------------------------------------------------------------
+    # Production host only (lyovial.com / www.lyovial.com)
+    # All redirects are single-hop 301 → https://lyovial.com[...]
+    # ------------------------------------------------------------------
+
+    # 1) Homepage + query string → https://lyovial.com
+    RewriteCond %{HTTP_HOST} ^(www\.)?lyovial\.com$ [NC]
+    RewriteCond %{QUERY_STRING} .
+    RewriteCond %{REQUEST_URI} ^/(index\.php)?$ [NC]
+    RewriteRule ^ https://lyovial.com? [R=301,L]
+
+    # 2) /index.php → https://lyovial.com
+    RewriteCond %{HTTP_HOST} ^(www\.)?lyovial\.com$ [NC]
+    RewriteCond %{THE_REQUEST} \s/+index\.php[\s?] [NC]
+    RewriteRule ^index\.php/?$ https://lyovial.com? [R=301,L]
+
+    # 3) /public or /public/ → https://lyovial.com
+    RewriteCond %{HTTP_HOST} ^(www\.)?lyovial\.com$ [NC]
+    RewriteRule ^public/?$ https://lyovial.com? [R=301,L]
+
+    # 4) Force HTTPS and/or strip www in ONE hop (path + query preserved)
+    #    Covers: http://lyovial.com/..., http://www..., https://www...
+    RewriteCond %{HTTP_HOST} ^(www\.)?lyovial\.com$ [NC]
+    RewriteCond %{HTTPS} !=on [OR]
+    RewriteCond %{HTTP:X-Forwarded-Proto} =http [OR]
+    RewriteCond %{HTTP_HOST} ^www\.lyovial\.com$ [NC]
+    RewriteRule ^$ https://lyovial.com [R=301,L]
+
+    RewriteCond %{HTTP_HOST} ^(www\.)?lyovial\.com$ [NC]
+    RewriteCond %{HTTPS} !=on [OR]
+    RewriteCond %{HTTP:X-Forwarded-Proto} =http [OR]
+    RewriteCond %{HTTP_HOST} ^www\.lyovial\.com$ [NC]
+    RewriteRule ^(.+)$ https://lyovial.com/$1 [R=301,L]
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Handle X-XSRF-Token Header
+    RewriteCond %{HTTP:x-xsrf-token} .
+    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Security headers (Apache) — applied to static assets + PHP responses
+<IfModule mod_headers.c>
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), accelerometer=(), gyroscope=()"
+    # HSTS — only effective over HTTPS (Apache ignores on plain HTTP responses)
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" env=HTTPS
+</IfModule>

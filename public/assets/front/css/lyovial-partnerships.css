@@ -27,9 +27,18 @@
 .lp-page ul { list-style: none; margin: 0; padding: 0; }
 
 .lp-wrap {
-  max-width: 1180px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 1400px) {
+  .lp-wrap {
+    max-width: 1480px;
+    padding: 0 28px;
+  }
 }
 
 /* Solid site navbar on this page */
@@ -515,12 +524,6 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
     grid-template-columns: 1fr;
   }
 
-  .lp-wrap {
-    padding: 0 20px !important;
-    width: 100%;
-    box-sizing: border-box;
-  }
-
   .lp-hero {
     padding: 40px 0 28px;
   }
@@ -558,11 +561,31 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 1200px) {
   .lp-wrap {
-    padding: 0 16px !important;
+    padding: 0 32px;
   }
+}
 
+@media (max-width: 768px) {
+  .lp-wrap {
+    padding: 0 24px;
+  }
+}
+
+@media (max-width: 576px) {
+  .lp-wrap {
+    padding: 0 18px;
+  }
+}
+
+@media (max-width: 400px) {
+  .lp-wrap {
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 640px) {
   .lp-hero {
     padding: 32px 0 24px;
   }

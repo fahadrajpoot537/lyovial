@@ -15,13 +15,14 @@
     'bannerTitle' => $page->title ?: 'Specimen Library Preservation',
     'bannerSubtitle' => $x['hero_eyebrow'] ?? null,
     'bannerImage' => $bannerImage,
+    'align' => 'start',
 ])
 <link rel="stylesheet" href="{{ asset('assets/front/css/lyovial-theme-pages.css') }}">
 
 <div class="lv-theme">
   @if(!empty($x['hero_sub']))
   <section class="approach" style="padding:50px 0 20px">
-    <div class="container" style="text-align:center;max-width:720px">
+    <div class="container">
       <h2 style="font-size:28px;color:var(--navy-900);margin-bottom:14px">{{ $heading }}</h2>
       <p style="color:var(--text-muted)">{{ $x['hero_sub'] }}</p>
       <a href="{{ route('contact') }}" class="btn" style="margin-top:18px">{{ $x['hero_button'] ?: 'Talk to Us About Your Collection' }}</a>
@@ -64,7 +65,7 @@
   <section class="solution">
     <div class="container">
       <div class="section-head">
-        <div class="eyebrow" style="justify-content:center;">{{ $x['solution_eyebrow'] ?? '' }}</div>
+        <div class="eyebrow">{{ $x['solution_eyebrow'] ?? '' }}</div>
         <h2>{{ $x['solution_heading'] ?? '' }}</h2>
       </div>
       @foreach(($x['solution_steps'] ?? []) as $step)
@@ -102,8 +103,9 @@
 
   @if(!empty($x['faqs']))
   <section class="faq">
+    <div class="container">
     <div class="section-head" style="margin-bottom:36px;">
-      <div class="eyebrow" style="justify-content:center;">{{ $x['faq_eyebrow'] ?? '' }}</div>
+      <div class="eyebrow">{{ $x['faq_eyebrow'] ?? '' }}</div>
       <h2>{{ $x['faq_heading'] ?? '' }}</h2>
     </div>
     @foreach($x['faqs'] as $faq)
@@ -113,13 +115,16 @@
         <p>{{ $faq['answer'] ?? '' }}</p>
       </details>
     @endforeach
+    </div>
   </section>
   @endif
 
+  <div class="container">
   <div class="cta-banner" id="contact" style="background:linear-gradient(180deg,rgba(14,124,134,.9),rgba(14,124,134,.86)),url('{{ SiteImages::get('home_process') }}') center/cover no-repeat">
     <h3 class="heading-bold">{{ $x['cta_heading'] ?? '' }}</h3>
     <p>{{ $x['cta_body'] ?? '' }}</p>
     <a href="{{ route('contact') }}" class="btn">{{ $x['cta_button'] ?: 'Request a Consultation' }}</a>
+  </div>
   </div>
 </div>
 @endsection

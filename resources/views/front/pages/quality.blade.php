@@ -15,6 +15,7 @@
     'bannerTitle' => $page->title ?: 'Quality & Compliance',
     'bannerSubtitle' => $x['hero_eyebrow'] ?? null,
     'bannerImage' => $bannerImage,
+    'align' => 'start',
 ])
 <link rel="stylesheet" href="{{ asset('assets/front/css/lyovial-theme-pages.css') }}">
 
@@ -22,7 +23,7 @@
   <section class="approach">
     <div class="container">
       <div class="section-head">
-        <div class="eyebrow" style="justify-content:center;">{{ $x['approach_eyebrow'] ?? '' }}</div>
+        <div class="eyebrow">{{ $x['approach_eyebrow'] ?? '' }}</div>
         <h2 class="heading-bold">{{ $x['approach_heading'] ?: $heading }}</h2>
         @if(!empty($x['hero_sub']))
           <p style="color:var(--text-muted);margin-top:14px">{{ $x['hero_sub'] }}</p>
@@ -52,7 +53,7 @@
   <section class="fit">
     <div class="container">
       <div class="section-head">
-        <div class="eyebrow" style="justify-content:center;">{{ $x['fit_eyebrow'] ?? '' }}</div>
+        <div class="eyebrow">{{ $x['fit_eyebrow'] ?? '' }}</div>
         <h2 class="heading-bold">{{ $x['fit_heading'] ?? '' }}</h2>
       </div>
       <div class="fit-grid">
@@ -80,15 +81,19 @@
 
   @if(!empty($x['quote']))
   <div class="quote-banner">
-    <blockquote>"{{ $x['quote'] }}"</blockquote>
-    <span>{{ $x['quote_label'] ?? '' }}</span>
+    <div class="container">
+      <blockquote>"{{ $x['quote'] }}"</blockquote>
+      <span>{{ $x['quote_label'] ?? '' }}</span>
+    </div>
   </div>
   @endif
 
   <div class="cta-final" id="contact">
-    <h3>{{ $x['cta_heading'] ?? '' }}</h3>
-    <p>{{ $x['cta_body'] ?? '' }}</p>
-    <a href="{{ route('contact') }}" class="btn">{{ $x['cta_button'] ?: 'Ask Us Directly' }}</a>
+    <div class="container">
+      <h3>{{ $x['cta_heading'] ?? '' }}</h3>
+      <p>{{ $x['cta_body'] ?? '' }}</p>
+      <a href="{{ route('contact') }}" class="btn">{{ $x['cta_button'] ?: 'Ask Us Directly' }}</a>
+    </div>
   </div>
 </div>
 @endsection

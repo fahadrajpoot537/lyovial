@@ -63,8 +63,9 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <div class="container">
+        <div class="container footer-bottom-inner">
             <span>{{ $siteCopyright }}</span>
+            <span class="footer-credit">Created by <a href="https://kodrank.com/" target="_blank" rel="noopener noreferrer">KodRank</a></span>
         </div>
     </div>
 </footer>

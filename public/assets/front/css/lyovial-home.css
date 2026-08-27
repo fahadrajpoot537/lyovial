@@ -1218,6 +1218,23 @@ body.nav-drawer-open{
   padding-top:14px;
   padding-bottom:14px;
 }
+.footer-bottom-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px 24px;
+  flex-wrap:wrap;
+  font-size:.9rem;
+}
+.footer-credit{opacity:.9}
+.lyovial-home-page .site-footer .footer-credit a,
+.footer-credit a{
+  color:#fff;
+  font-weight:600;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+.footer-credit a:hover{opacity:.85}
 .btn-brand{
   display:inline-block;background:#fff;border:1.5px solid #fff;color:#0e7c86;
   font-weight:700;padding:.7rem 1.15rem;border-radius:6px;

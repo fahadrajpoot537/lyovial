@@ -49,6 +49,7 @@ Route::middleware('web')
             Route::put('profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
 
             Route::post('theme', [ThemeController::class, 'update'])->name('theme.update');
+            Route::post('media/editor-upload', [MediaController::class, 'uploadEditor'])->name('media.editor-upload');
 
             Route::get('settings', [SettingController::class, 'edit'])->middleware('permission:settings.manage')->name('settings.edit');
             Route::put('settings', [SettingController::class, 'update'])->middleware('permission:settings.manage')->name('settings.update');
@@ -66,7 +67,6 @@ Route::middleware('web')
                 Route::put('media/{media}', [MediaController::class, 'update'])->name('media.update');
                 Route::post('media/{media}/replace', [MediaController::class, 'replace'])->name('media.replace');
                 Route::delete('media/{media}', [MediaController::class, 'destroy'])->name('media.destroy');
-                Route::post('media/editor-upload', [MediaController::class, 'uploadEditor'])->name('media.editor-upload');
             });
 
             Route::middleware('permission:files.manage')->group(function () {

@@ -46,7 +46,7 @@ class SpecimenLibrarySeeder extends Seeder
 
 <h2>Start a Conversation</h2>
 <p>Share details about your specimen type, storage goals, preferred vial format, and timeline. Our Kanata team will help map a practical next step.</p>
-<p>Email <a href="mailto:info@lyovial.com">info@lyovial.com</a> or call <a href="tel:6136148733">(613) 614-8733</a>.</p>
+<p>Email <a href="mailto:vlad@evik.ca">vlad@evik.ca</a> or call <a href="tel:6136148733">(613) 614-8733</a>.</p>
 HTML,
                 'status' => true,
                 'sort_order' => 2,

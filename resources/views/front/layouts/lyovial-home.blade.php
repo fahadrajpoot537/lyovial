@@ -44,11 +44,17 @@
 
     @include('front.partials.favicon')
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="{{ asset('assets/front/css/lyovial-home.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/front/css/site.css') }}" rel="stylesheet">
+    @php $liteFront = ! empty($liteFront); @endphp
+    <link rel="preload" href="{{ asset('assets/front/fonts/inter-latin-400.woff2') }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ asset('assets/front/fonts/inter-latin-700.woff2') }}" as="font" type="font/woff2" crossorigin>
+    <link href="{{ asset('assets/front/css/lyovial-home.css') }}?v={{ filemtime(public_path('assets/front/css/lyovial-home.css')) }}" rel="stylesheet">
+    @unless($liteFront)
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" media="print" onload="this.media='all'">
+      <noscript><link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"></noscript>
+    @endunless
+    @stack('head')
     <style>
         /* Brand + typography overrides (beat Bootstrap / site.css) */
         body.lyovial-home-page {
@@ -67,18 +73,23 @@
         body.lyovial-home-page a:hover { color: inherit; }
 
         /* Navbar — match HTML theme (avoid Bootstrap .nav) */
-        .lyovial-home-page .header .header-nav {
-            align-items: center;
-            gap: 28px;
-            margin: 0;
-            padding: 0;
-            list-style: none;
+        @media (min-width: 993px) {
+            .lyovial-home-page .header .header-nav {
+                align-items: center;
+                gap: 28px;
+                margin: 0;
+                padding: 0;
+                list-style: none;
+            }
+            .lyovial-home-page .header .header-nav > a,
+            .lyovial-home-page .header .header-nav .nav-drop-toggle {
+                font-size: 14px !important;
+                font-weight: 500 !important;
+            }
         }
         .lyovial-home-page .header .header-nav > a,
         .lyovial-home-page .header .header-nav .nav-drop-toggle {
             color: #fff !important;
-            font-size: 14px !important;
-            font-weight: 500 !important;
             letter-spacing: .2px;
             background: transparent !important;
             border: 0 !important;
@@ -90,6 +101,13 @@
             }
             .lyovial-home-page .header.nav-open .header-nav {
                 display: flex !important;
+            }
+            .lyovial-home-page .header .nav-dropdown:hover > .nav-drop-menu,
+            .lyovial-home-page .header .nav-dropdown:focus-within > .nav-drop-menu {
+                display: none !important;
+            }
+            .lyovial-home-page .header .nav-dropdown.is-open > .nav-drop-menu {
+                display: block !important;
             }
         }
         .lyovial-home-page .header .header-nav > a:hover,
@@ -105,6 +123,9 @@
             background: rgba(255,255,255,.12) !important;
             color: #fff !important;
         }
+        .lyovial-home-page .header .nav-drop-heading {
+            color: rgba(255,255,255,.55) !important;
+        }
         .lyovial-home-page .header-cta,
         .lyovial-home-page .header-cta a,
         .lyovial-home-page .header-cta strong {
@@ -112,6 +133,15 @@
         }
         .lyovial-home-page .header-cta .phone-icon { color: #fff !important; }
         .lyovial-home-page .header-cta .phone-txt small { color: #fff !important; opacity: 1 !important; }
+        .lyovial-home-page .header-cta a.nav-contact-btn {
+            color: #0e7c86 !important;
+            background: #fff !important;
+        }
+        .lyovial-home-page .header-cta a.nav-contact-btn:hover {
+            color: #fff !important;
+            background: transparent !important;
+            outline: 1.5px solid #fff;
+        }
 
         /* Buttons */
         .lyovial-home-page .btn.btn-primary,
@@ -291,7 +321,9 @@
 
     @include('front.partials.footer')
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    @unless($liteFront)
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+    @endunless
     <script>
         (function () {
             const header = document.getElementById('lyovialNav') || document.querySelector('.header.lyovial-nav');
@@ -299,47 +331,79 @@
 
             const hamburger = header.querySelector('.hamburger');
             const nav = header.querySelector('.header-nav');
+            const mobileNav = window.matchMedia('(max-width: 992px)');
+            let lockScrollY = 0;
 
-            const closeMenu = () => {
-                header.classList.remove('nav-open');
+            const closeDropdowns = () => {
                 header.querySelectorAll('.nav-dropdown.is-open').forEach((el) => {
                     el.classList.remove('is-open');
                     const btn = el.querySelector('[data-nav-toggle]');
                     if (btn) btn.setAttribute('aria-expanded', 'false');
                 });
+            };
+
+            const lockPage = (lock) => {
+                const locked = document.body.classList.contains('nav-drawer-open');
+                if (lock) {
+                    if (locked) return;
+                    lockScrollY = window.scrollY || 0;
+                    document.body.classList.add('nav-drawer-open');
+                    document.body.style.top = '-' + lockScrollY + 'px';
+                    document.body.style.position = 'fixed';
+                    document.body.style.width = '100%';
+                    return;
+                }
+                if (!locked) return;
+                document.body.classList.remove('nav-drawer-open');
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.width = '';
+                window.scrollTo(0, lockScrollY);
+            };
+
+            const closeMenu = () => {
+                header.classList.remove('nav-open');
+                closeDropdowns();
                 if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
+                lockPage(false);
             };
 
             hamburger?.addEventListener('click', function (e) {
+                e.preventDefault();
                 e.stopPropagation();
-                const open = header.classList.toggle('nav-open');
+                const open = !header.classList.contains('nav-open');
+                header.classList.toggle('nav-open', open);
                 this.setAttribute('aria-expanded', open ? 'true' : 'false');
-                if (!open) closeMenu();
+                if (open) {
+                    closeDropdowns();
+                    lockPage(true);
+                } else {
+                    closeMenu();
+                }
             });
 
             header.querySelectorAll('[data-nav-toggle]').forEach((btn) => {
                 btn.addEventListener('click', function (e) {
-                    // Desktop: hover handles dropdowns; mobile accordion needs click
-                    if (window.matchMedia('(max-width: 992px)').matches) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        const wrap = this.closest('.nav-dropdown');
-                        const willOpen = !wrap.classList.contains('is-open');
-                        header.querySelectorAll('.nav-dropdown.is-open').forEach((el) => {
-                            if (el !== wrap) {
-                                el.classList.remove('is-open');
-                                el.querySelector('[data-nav-toggle]')?.setAttribute('aria-expanded', 'false');
-                            }
+                    if (!mobileNav.matches) return;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const wrap = this.closest('.nav-dropdown');
+                    const willOpen = !wrap.classList.contains('is-open');
+                    closeDropdowns();
+                    if (willOpen) {
+                        wrap.classList.add('is-open');
+                        this.setAttribute('aria-expanded', 'true');
+                        window.requestAnimationFrame(() => {
+                            wrap.scrollIntoView({ block: 'nearest', inline: 'nearest' });
                         });
-                        wrap.classList.toggle('is-open', willOpen);
-                        this.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
                     }
+                    this.blur();
                 });
             });
 
             nav?.querySelectorAll('a').forEach((link) => {
                 link.addEventListener('click', () => {
-                    if (window.matchMedia('(max-width: 992px)').matches) closeMenu();
+                    if (mobileNav.matches) closeMenu();
                 });
             });
 
@@ -347,13 +411,23 @@
                 if (!header.contains(e.target)) closeMenu();
             });
 
+            let resizeTimer = 0;
             window.addEventListener('resize', () => {
-                if (!window.matchMedia('(max-width: 992px)').matches) closeMenu();
+                window.clearTimeout(resizeTimer);
+                resizeTimer = window.setTimeout(() => {
+                    if (!mobileNav.matches) closeMenu();
+                }, 150);
             });
 
+            let stickyTicking = false;
             const onScroll = () => {
-                if (window.scrollY > 40) header.classList.add('is-sticky');
-                else header.classList.remove('is-sticky');
+                if (document.body.classList.contains('nav-drawer-open')) return;
+                if (stickyTicking) return;
+                stickyTicking = true;
+                window.requestAnimationFrame(() => {
+                    header.classList.toggle('is-sticky', window.scrollY > 40);
+                    stickyTicking = false;
+                });
             };
             onScroll();
             window.addEventListener('scroll', onScroll, { passive: true });

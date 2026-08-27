@@ -26,6 +26,7 @@
         <li><a href="{{ url('/about') }}">About Us</a></li>
         <li><a href="{{ url('/quality-compliance') }}">Quality &amp; Compliance</a></li>
         <li><a href="{{ url('/specimen-library-preservation') }}">Specimen Library Preservation</a></li>
+        <li><a href="{{ url('/blog') }}">Blog</a></li>
         <li><a href="{{ url('/contact') }}">Contact</a></li>
     </ul>
 
@@ -52,6 +53,15 @@
         <ul>
             @foreach ($industries as $industry)
                 <li><a href="{{ url('/industries/'.$industry->slug) }}">{{ $industry->seo?->breadcrumb_title ?: $industry->title }}</a></li>
+            @endforeach
+        </ul>
+    @endif
+
+    @if ($articles->isNotEmpty())
+        <h2>Blog</h2>
+        <ul>
+            @foreach ($articles as $article)
+                <li><a href="{{ url('/blog/'.$article->slug) }}">{{ $article->seo?->breadcrumb_title ?: $article->title }}</a></li>
             @endforeach
         </ul>
     @endif

@@ -17,19 +17,10 @@
         return \App\Support\SiteImages::resolve($path, $fallback);
     };
 
-    $themeTestimonialAvatars = [
-        'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=200&auto=format&fit=crop&q=80',
-        'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&auto=format&fit=crop&q=80',
-    ];
     $themeArticleThumbs = [
         \App\Support\SiteImages::url('process.jpg'),
         \App\Support\SiteImages::url('svc-1.jpg'),
         \App\Support\SiteImages::url('why-lg.jpg'),
-    ];
-    $themeArticleAvatars = [
-        'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&auto=format&fit=crop&q=80',
-        'https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=200&auto=format&fit=crop&q=80',
-        'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=200&auto=format&fit=crop&q=80',
     ];
 
     $usableImg = function (?string $path) {
@@ -45,7 +36,12 @@
     };
 
     $heroBg = \App\Support\SiteImages::resolve($usableImg($hero?->image), \App\Support\SiteImages::get('home_hero'));
+    $heroLcpMobile = (str_contains($heroBg, '/images/site/hero') && is_file(public_path('images/site/hero-800.webp')))
+        ? '/images/site/hero-800.webp'
+        : $heroBg;
+    [$heroW, $heroH] = \App\Support\SiteImages::dimensions($heroBg);
     $aboutImg = \App\Support\SiteImages::resolve($usableImg($about?->image), \App\Support\SiteImages::get('home_about'));
+    [$aboutW, $aboutH] = \App\Support\SiteImages::dimensions($aboutImg);
     $whyImg = \App\Support\SiteImages::resolve($usableImg($whyIntro?->image), \App\Support\SiteImages::get('home_why'));
     $whyImgSm = \App\Support\SiteImages::get('home_why_sm');
     $partnerBg = \App\Support\SiteImages::resolve($usableImg($partner?->image), \App\Support\SiteImages::get('home_partner'));
@@ -67,9 +63,8 @@
 
     $statItems = $stats?->extra['items'] ?? [
         ['num' => '250+', 'label' => 'Lyo Cycles<br/>Completed', 'icon' => 'flask'],
-        ['num' => '40+', 'label' => 'Client<br/>Programs', 'icon' => 'doc'],
-        ['num' => '12+', 'label' => 'Vial Formats<br/>Supported', 'icon' => 'vial'],
-        ['num' => '100%', 'label' => 'Documented<br/>Cycles', 'icon' => 'check'],
+        ['num' => '20+', 'label' => 'Client<br/>Programs', 'icon' => 'doc'],
+        ['num' => '4+', 'label' => 'Vial Formats<br/>Supported', 'icon' => 'vial'],
     ];
     $partnerCards = $partner?->extra['cards'] ?? [];
     $processSteps = $process?->extra['steps'] ?? [];
@@ -99,15 +94,12 @@
     $phoneDisplay = $sitePhone ?: '+1 613 800 8060';
 @endphp
 
+@push('head')
+<link rel="preload" as="image" href="{{ $heroLcpMobile }}" imagesrcset="{{ $heroLcpMobile }} 800w, {{ $heroBg }} 1600w" imagesizes="100vw" fetchpriority="high">
+@endpush
+
 @push('styles')
 <style>
-.hero {
-  --hero-bg-img: url('{{ $heroBg }}');
-  background:
-    linear-gradient(90deg, rgba(14,124,134,.92) 0%, rgba(14,124,134,.75) 30%, rgba(14,124,134,.15) 60%, rgba(14,124,134,0) 100%),
-    url('{{ $heroBg }}') center right / cover no-repeat !important;
-}
-.about-img-inner { background-image: url('{{ $aboutImg }}') !important; background-size: cover; background-position: center; }
 .why-visual-hex-lg { background-image: url('{{ $whyImg }}') !important; background-size: cover; background-position: center; }
 .why-visual-hex-sm { background-image: url('{{ $whyImgSm }}') !important; background-size: cover; background-position: center; }
 .partner {
@@ -125,6 +117,17 @@
 {{-- HERO --}}
 @if(!$hero || $hero->is_active)
 <section class="hero">
+  <img
+    class="hero-media"
+    src="{{ $heroLcpMobile }}"
+    srcset="{{ $heroLcpMobile }} 800w, {{ $heroBg }} 1600w"
+    sizes="100vw"
+    alt="{{ $heroHeading }}"
+    width="{{ $heroW ?: 1600 }}"
+    height="{{ $heroH ?: 900 }}"
+    fetchpriority="high"
+    decoding="async"
+  >
   <div class="container">
     <div class="hero-content">
       <h1>{{ $heroHeading }}</h1>
@@ -143,8 +146,8 @@
   <div class="container">
     <div class="about-grid">
       <div class="about-img">
-        <div class="about-img-inner" style="background-image:url('{{ $aboutImg }}');">
-          <img src="{{ $aboutImg }}" alt="{{ $about->image_alt ?: ($about->heading ?: 'About LyoVial') }}" class="about-img-fallback" loading="lazy" decoding="async">
+        <div class="about-img-inner">
+          <img src="{{ $aboutImg }}" alt="{{ $about->image_alt ?: ($about->heading ?: 'About LyoVial') }}" class="about-img-fallback" width="{{ $aboutW ?: 900 }}" height="{{ $aboutH ?: 900 }}" loading="lazy" decoding="async">
         </div>
       </div>
       <div>
@@ -188,13 +191,15 @@
       <h2>{{ $servicesIntro?->heading ?? 'Three services covering the full lyophilization workflow' }}</h2>
       <p>{{ strip_tags($servicesIntro?->description ?? '') }}</p>
     </div>
-    <div class="service-grid">
+    <div class="service-grid is-carousel">
       @foreach($services as $i => $service)
         @php
           $svcImg = $resolveImg($usableImg($service->featured_image), $themeServiceImgs[$i % count($themeServiceImgs)]);
         @endphp
         <a href="{{ url('/capabilities/'.$service->slug) }}" class="service-card" style="display:block;color:inherit">
-          <div class="service-img" style="background-image:url('{{ $svcImg }}')"></div>
+          <div class="service-img">
+            <img src="{{ $svcImg }}" alt="{{ $service->title }}" width="800" height="450" loading="lazy" decoding="async">
+          </div>
           <div class="service-body">
             <div class="service-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">{!! $serviceIcons[$i % count($serviceIcons)] !!}</svg>
@@ -205,6 +210,7 @@
         </a>
       @endforeach
     </div>
+    <div class="home-swipe-hint">Swipe to see more</div>
   </div>
 </section>
 
@@ -216,24 +222,26 @@
       <h2>{{ $industriesIntro?->heading ?? 'Teams that turn to LyoVial for contract freeze-drying' }}</h2>
       <p>{{ strip_tags($industriesIntro?->description ?? '') }}</p>
     </div>
-    <div class="serve-grid">
+    <div class="serve-grid is-carousel">
       @foreach($industries as $i => $industry)
         @php
           $indImg = $resolveImg($usableImg($industry->image), $themeIndustryImgs[$i % count($themeIndustryImgs)]);
+          $indNav = \App\Support\IndustryPageDefaults::navTitle($industry->extra ?? null, $industry->slug, $industry->title);
         @endphp
-        <div class="serve-card">
+        <a href="{{ url('/industries/'.$industry->slug) }}" class="serve-card">
           <div class="serve-card-thumb">
-            <img src="{{ $indImg }}" alt="{{ $industry->title }}" loading="lazy">
+            <img src="{{ $indImg }}" alt="{{ $industry->title }}" width="800" height="600" loading="lazy" decoding="async">
           </div>
           <div class="serve-card-hover">
-            <h3 class="serve-card-title">{{ $industry->title }}</h3>
+            <h3 class="serve-card-title">{{ $indNav }}</h3>
             @if($industry->short_description)
               <p class="serve-card-text">{{ $industry->short_description }}</p>
             @endif
           </div>
-        </div>
+        </a>
       @endforeach
     </div>
+    <div class="home-swipe-hint">Swipe to see more</div>
   </div>
 </section>
 
@@ -308,7 +316,7 @@
       @if($testimonialsIntro?->small_title)<div class="eyebrow">{{ $testimonialsIntro->small_title }}</div>@endif
       <h2>{{ $testimonialsIntro?->heading ?? 'What our contract lyophilization clients say' }}</h2>
     </div>
-    <div class="testimonial-grid">
+    <div class="testimonial-grid is-carousel">
       @foreach($testimonials as $testimonial)
         <div class="testimonial">
           <div class="testimonial-header">
@@ -330,6 +338,7 @@
         </div>
       @endforeach
     </div>
+    <div class="home-swipe-hint">Swipe to see more</div>
   </div>
 </section>
 @endif
@@ -375,48 +384,38 @@
 {{-- EXISTING FAQ (before Articles) --}}
 <section class="lyovial-faq" id="faq">
   <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <div class="text-center mb-4">
-          @if($faqIntro?->small_title)<div class="eyebrow" style="justify-content:center;display:inline-flex;margin:0 auto 12px">{{ $faqIntro->small_title }}</div>@endif
-          <h2 class="section-title">{{ $faqIntro?->heading ?? 'FAQ' }}</h2>
-          <p class="mx-auto" style="max-width:640px;color:#000">{{ strip_tags($faqIntro?->description ?? '') }}</p>
-        </div>
-        <div class="accordion" id="faqAccordion">
-          @foreach($faqs as $i => $faq)
-            <div class="accordion-item mb-2 border rounded-3 overflow-hidden">
-              <h3 class="accordion-header">
-                <button class="accordion-button {{ $i ? 'collapsed' : '' }}" type="button" data-bs-toggle="collapse" data-bs-target="#faq{{ $faq->id }}">
-                  {{ $faq->question }}
-                </button>
-              </h3>
-              <div id="faq{{ $faq->id }}" class="accordion-collapse collapse {{ $i ? '' : 'show' }}" data-bs-parent="#faqAccordion">
-                <div class="accordion-body">{{ $faq->answer }}</div>
-              </div>
-            </div>
-          @endforeach
-        </div>
-      </div>
+    <div class="section-head">
+      @if($faqIntro?->small_title)<div class="eyebrow" style="justify-content:center;display:inline-flex;margin:0 auto 12px">{{ $faqIntro->small_title }}</div>@endif
+      <h2 class="section-title">{{ $faqIntro?->heading ?? 'FAQ' }}</h2>
+      <p style="max-width:640px;margin:0 auto;color:#000">{{ strip_tags($faqIntro?->description ?? '') }}</p>
+    </div>
+    <div class="lyovial-faq-list">
+      @foreach($faqs as $i => $faq)
+        <details class="lyovial-faq-item" @if(!$i) open @endif>
+          <summary>{{ $faq->question }}</summary>
+          <div class="faq-body">{{ $faq->answer }}</div>
+        </details>
+      @endforeach
     </div>
   </div>
 </section>
 
-{{-- ARTICLES --}}
+{{-- BLOGS --}}
 @if((!$articlesIntro || $articlesIntro->is_active) && $articles->count())
 <section class="blog" id="articles">
   <div class="container">
     <div class="section-head blog-head">
       <div>
-        @if($articlesIntro?->small_title)<div class="eyebrow">{{ $articlesIntro->small_title }}</div>@endif
+        <div class="eyebrow">Blogs</div>
         <h2>{{ $articlesIntro?->heading ?? 'Latest lyophilization insights & case notes' }}</h2>
       </div>
-      <a href="{{ route('articles.index') }}" class="btn btn-primary">View All →</a>
+      <a href="{{ route('blog.index') }}" class="btn btn-primary">View All →</a>
     </div>
-    <div class="blog-grid">
+    <div class="blog-grid is-carousel">
       @foreach($articles as $i => $article)
         @php
-          $thumb = $resolveImg($article->featured_image, $themeArticleThumbs[$i % count($themeArticleThumbs)]);
-          $avatar = $resolveImg($article->author_avatar, $themeArticleAvatars[$i % count($themeArticleAvatars)]);
+          $thumb = $resolveImg($usableImg($article->featured_image), $themeArticleThumbs[$i % count($themeArticleThumbs)]);
+          $initials = strtoupper(mb_substr(trim($article->author_name ?: 'LV'), 0, 1));
           $day = $article->published_at?->format('d') ?? '01';
           $month = $article->published_at?->format('M') ?? 'Jan';
         @endphp
@@ -428,18 +427,19 @@
           </div>
           <div class="blog-body">
             <div class="blog-author">
-              <div class="blog-author-avatar" style="background-image:url('{{ $avatar }}')"></div>
+              <div class="blog-author-avatar is-initials" aria-hidden="true">{{ $initials }}</div>
               <div>
                 <strong>{{ $article->author_name }}</strong>
                 <span>{{ $article->author_role }}</span>
               </div>
             </div>
             <h3>{{ $article->title }}</h3>
-            <a href="{{ route('articles.show', $article) }}" class="read-more">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            <a href="{{ route('blog.show', $article) }}" class="read-more">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
           </div>
         </div>
       @endforeach
     </div>
+    <div class="home-swipe-hint">Swipe to see more</div>
   </div>
 </section>
 @endif

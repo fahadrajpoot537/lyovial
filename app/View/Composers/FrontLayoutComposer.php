@@ -3,6 +3,7 @@
 namespace App\View\Composers;
 
 use App\Models\Article;
+use App\Models\Industry;
 use App\Models\Menu;
 use App\Models\Service;
 use App\Models\Setting;
@@ -24,6 +25,7 @@ class FrontLayoutComposer
             'headerMenus' => Menu::tree('header'),
             'footerMenus' => Menu::tree('footer'),
             'navServices' => Service::query()->active()->orderBy('sort_order')->get(['id', 'title', 'slug']),
+            'navIndustries' => Industry::query()->active()->orderBy('sort_order')->get(['id', 'title', 'slug', 'extra']),
             'navArticles' => Article::query()->active()->published()->orderBy('sort_order')->orderByDesc('published_at')->take(6)->get(['id', 'title', 'slug']),
         ]);
     }

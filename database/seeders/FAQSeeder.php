@@ -39,7 +39,7 @@ class FAQSeeder extends Seeder
             ],
             [
                 'question' => 'Where is LyoVial located and can I visit?',
-                'answer' => 'We are at 105 Schneider Road, Unit 123, Kanata, Ontario K2K 1Y3 — in the Ottawa area. On-site meetings and facility visits are welcome for Ottawa and Ontario partners. Call (613) 614-8733 or email info@lyovial.com to arrange a visit.',
+                'answer' => 'We are at 105 Schneider Road, Unit 123, Kanata, Ontario K2K 1Y3 — in the Ottawa area. On-site meetings and facility visits are welcome for Ottawa and Ontario partners. Call (613) 614-8733 or email vlad@evik.ca to arrange a visit.',
                 'sort_order' => 6,
             ],
         ];

@@ -100,7 +100,7 @@ class MediaController extends Controller
         $media = $this->mediaService->upload($file, 'editor');
 
         return response()->json([
-            'url' => $media->url,
+            'url' => storage_url($media->path) ?: $media->url,
             'uploaded' => true,
         ]);
     }

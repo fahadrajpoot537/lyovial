@@ -26,7 +26,7 @@ class ContactPageSeeder extends Seeder
             'description' => 'Ready to discuss formulation support, lyophilization cycle development, scale-up, technology transfer, or pilot-batch vial production? Send us a message and our Kanata team will respond promptly.',
             'form_heading' => 'Send a Project Inquiry',
             'phone' => '(613) 614-8733',
-            'email' => 'info@lyovial.com',
+            'email' => 'vlad@evik.ca',
             'address' => $this->addressBlock(),
             'map_embed' => $this->mapEmbed(),
             'what_to_include_heading' => 'What to Include in Your Message',
@@ -50,7 +50,7 @@ HTML,
 <li>Pilot-batch vial lyophilization</li>
 <li>Guidance for diagnostic, laboratory, research, and specialty ingredient programs</li>
 </ul>
-<p>Call us at <strong>(613) 614-8733</strong> or email <a href="mailto:info@lyovial.com">info@lyovial.com</a>.</p>
+<p>Call us at <strong>(613) 614-8733</strong> or email <a href="mailto:vlad@evik.ca">vlad@evik.ca</a>.</p>
 <p><strong>Visit:</strong><br>105 Schneider Road, Unit 123<br>Kanata, Ontario K2K 1Y3<br>Canada</p>
 HTML,
         ]);
@@ -58,8 +58,8 @@ HTML,
         $page->syncSeo([
             'seo_title' => 'Contact LyoVial | Kanata Lyophilization Team',
             'meta_title' => 'Contact LyoVial | Pilot-Scale Lyophilization in Kanata, Ontario',
-            'meta_description' => 'Contact LyoVial at (613) 614-8733 or info@lyovial.com. Visit 105 Schneider Road, Unit 123, Kanata, Ontario K2K 1Y3 for lyophilization project support.',
-            'meta_keywords' => 'contact LyoVial, Kanata lyophilization, freeze drying Canada, info@lyovial.com',
+            'meta_description' => 'Contact LyoVial at (613) 614-8733 or vlad@evik.ca. Visit 105 Schneider Road, Unit 123, Kanata, Ontario K2K 1Y3 for lyophilization project support.',
+            'meta_keywords' => 'contact LyoVial, Kanata lyophilization, freeze drying Canada, vlad@evik.ca',
             'canonical_url' => url('/contact'),
             'slug' => 'contact',
             'focus_keyword' => 'contact LyoVial',
@@ -67,7 +67,7 @@ HTML,
             'og_description' => 'Talk with our Kanata team about cycle development, tech transfer, and pilot vial lyophilization.',
             'og_image' => $banner,
             'twitter_title' => 'Contact LyoVial',
-            'twitter_description' => 'Phone (613) 614-8733 · info@lyovial.com · Kanata, Ontario',
+            'twitter_description' => 'Phone (613) 614-8733 · vlad@evik.ca · Kanata, Ontario',
             'twitter_image' => $banner,
             'breadcrumb_title' => 'Contact',
             'robots_meta' => 'index, follow',
@@ -82,7 +82,7 @@ HTML,
                     '@type' => 'Organization',
                     'name' => 'LyoVial',
                     'telephone' => '+1-613-614-8733',
-                    'email' => 'info@lyovial.com',
+                    'email' => 'vlad@evik.ca',
                     'address' => [
                         '@type' => 'PostalAddress',
                         'streetAddress' => '105 Schneider Road, Unit 123',

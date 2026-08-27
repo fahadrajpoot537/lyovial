@@ -12,9 +12,9 @@ class ThemePageContentSeeder extends Seeder
     public function run(): void
     {
         $leads = [
-            'formulation-lyo-cycle-development' => 'We work from your existing liquid formulation, or help you build one from scratch, and design a freeze-drying cycle around it. Every stage — from excipient selection to a final, reproducible process — is documented, so it transfers cleanly to your own operation or your next-stage manufacturer.',
+            'formulation-lyo-cycle-development' => 'We work from your existing liquid formulation, or help you build one from scratch, and design a freeze-drying cycle around it. Every stage — from excipient selection to a final, reproducible process — is documented.',
             'pilot-batch-vial-lyophilization' => 'Once your formulation and cycle are locked, we scale production into glass vials — sized for R&D use, validation studies, product launches, and early commercial supply, without the commitment of large-scale manufacturing.',
-            'scale-up-technology-transfer' => 'Once a cycle is set at feasibility scale, we scale it up to pilot-batch size. Every parameter is documented as it moves from a handful of vials to a full pilot run, so the process transfers cleanly to your own production line or to a larger manufacturer later.',
+            'scale-up-technology-transfer' => 'Once a cycle is set at feasibility scale, we scale it up to pilot-batch size. Every parameter is documented as it moves from a handful of vials to a full pilot run.',
         ];
 
         foreach ($leads as $slug => $lead) {

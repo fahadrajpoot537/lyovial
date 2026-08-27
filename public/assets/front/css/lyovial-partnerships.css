@@ -105,8 +105,8 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
 .lp-grid {
   padding: 20px 0 72px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
+  grid-template-columns: 1fr;
+  gap: 24px;
 }
 
 .lp-card {
@@ -125,29 +125,36 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
   display: none !important;
 }
 
-.lp-card-banner {
-  height: 170px;
-  position: relative;
-  background:
-    radial-gradient(circle at 30% 20%, rgba(14, 124, 134, 0.06), transparent 55%),
-    #FBFCFC;
+.lp-card-inner {
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-bottom: 1px solid var(--line);
+  gap: 36px;
+  padding: 32px 100px 32px 32px;
+}
+
+.lp-card-logo {
+  flex: 0 0 220px;
+  width: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .lp-logo {
-  max-width: 66%;
-  max-height: 64px;
+  max-width: 100%;
+  max-height: 80px;
+  width: auto;
+  height: auto;
   object-fit: contain;
+  object-position: left center;
   display: block;
+  margin: 0;
 }
 
 .lp-badge {
   position: absolute;
-  bottom: -22px;
-  right: 24px;
+  top: 18px;
+  right: 18px;
   width: 64px;
   height: 56px;
   background: var(--teal);
@@ -177,14 +184,16 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
 }
 
 .lp-card-body {
-  padding: 34px 28px 28px;
+  flex: 1;
+  min-width: 0;
+  padding: 0;
 }
 
 .lp-meta {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .lp-avatar {
@@ -304,10 +313,11 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
 }
 
 .lp-detail-logo {
-  height: 26px;
+  height: 40px;
+  max-width: 180px;
   object-fit: contain;
-  margin-right: auto;
-  margin-left: 6px;
+  object-position: left center;
+  margin-right: 8px;
 }
 
 .lp-pill {
@@ -538,8 +548,22 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
     font-size: 15.5px !important;
   }
 
+  .lp-card-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 24px 72px 24px 20px;
+  }
+
+  .lp-card-logo {
+    flex: none;
+    width: auto;
+    max-width: 200px;
+  }
+
   .lp-card-body {
-    padding: 30px 20px 22px;
+    padding: 0;
+    width: 100%;
   }
 
   .lp-detail {
@@ -612,11 +636,8 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
     text-align: center;
   }
 
-  .lp-card-banner {
-    height: 140px;
-  }
-
   .lp-badge {
+    top: 16px;
     right: 16px;
     width: 56px;
     height: 50px;

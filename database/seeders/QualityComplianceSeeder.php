@@ -46,7 +46,7 @@ class QualityComplianceSeeder extends Seeder
 
 <h2>Talk to Us About Your Quality Needs</h2>
 <p>If your project requires particular records, review checkpoints, or partner handoff packages, tell us early. We will help shape a practical plan that supports both product performance and compliance readiness.</p>
-<p>Contact LyoVial at <a href="mailto:info@lyovial.com">info@lyovial.com</a> or <a href="tel:6136148733">(613) 614-8733</a>.</p>
+<p>Contact LyoVial at <a href="mailto:vlad@evik.ca">vlad@evik.ca</a> or <a href="tel:6136148733">(613) 614-8733</a>.</p>
 HTML,
                 'status' => true,
                 'sort_order' => 1,

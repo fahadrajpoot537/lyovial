@@ -27,6 +27,7 @@ class HomeController extends Controller
             'articles' => Article::query()->active()->published()->onHome()->orderBy('sort_order')->orderByDesc('published_at')->take(3)->get(),
             'faqs' => Faq::query()->active()->forSection('home')->orderBy('sort_order')->get(),
             'seo' => $sections->get('hero')?->seo ?? $sections->get('navbar')?->seo,
+            'liteFront' => true,
         ]);
     }
 }

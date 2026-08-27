@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Industry;
+use App\Models\Service;
+use App\Support\IndustryPageDefaults;
 use Illuminate\View\View;
 
 class IndustryController extends Controller
@@ -30,6 +32,9 @@ class IndustryController extends Controller
             ->limit(6)
             ->get();
 
-        return view('front.industries.show', compact('industry', 'others'));
+        $x = IndustryPageDefaults::merge($industry->extra, $industry->slug);
+        $capabilities = Service::query()->active()->orderBy('sort_order')->get(['id', 'title', 'slug']);
+
+        return view('front.industries.show', compact('industry', 'others', 'x', 'capabilities'));
     }
 }

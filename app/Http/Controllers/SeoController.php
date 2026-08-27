@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use App\Models\Industry;
 use App\Models\Page;
 use App\Models\Service;
@@ -70,6 +71,18 @@ class SeoController extends Controller
             $urls->push(['loc' => url('/specimen-library-preservation'), 'priority' => '0.6']);
             $urls->push(['loc' => url('/capabilities'), 'priority' => '0.7']);
             $urls->push(['loc' => url('/industries'), 'priority' => '0.7']);
+            $urls->push(['loc' => url('/blog'), 'priority' => '0.7']);
+
+            Article::query()->active()->published()->with('seo')->orderByDesc('published_at')->get()->each(function (Article $article) use ($urls) {
+                if ($article->seo && $article->seo->indexable === false) {
+                    return;
+                }
+                $urls->push([
+                    'loc' => url('/blog/'.$article->slug),
+                    'lastmod' => optional($article->updated_at)->toAtomString(),
+                    'priority' => '0.6',
+                ]);
+            });
 
             $body = $urls->unique('loc')->map(function (array $item) use ($changefreq) {
                 $lastmod = isset($item['lastmod']) ? '<lastmod>'.$item['lastmod'].'</lastmod>' : '';
@@ -94,7 +107,9 @@ class SeoController extends Controller
             ->filter(fn (Service $service) => ! ($service->seo && $service->seo->indexable === false));
         $industries = Industry::query()->active()->with('seo')->orderBy('sort_order')->get()
             ->filter(fn (Industry $industry) => ! ($industry->seo && $industry->seo->indexable === false));
+        $articles = Article::query()->active()->published()->with('seo')->orderByDesc('published_at')->get()
+            ->filter(fn (Article $article) => ! ($article->seo && $article->seo->indexable === false));
 
-        return view('front.sitemap', compact('pages', 'services', 'industries'));
+        return view('front.sitemap', compact('pages', 'services', 'industries', 'articles'));
     }
 }

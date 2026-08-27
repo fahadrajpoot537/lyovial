@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Article;
 use App\Models\ContactPage;
 use App\Models\Faq;
 use App\Models\Industry;
@@ -200,6 +201,10 @@ class SeoHeadService
             return Industry::query()->active()->where('slug', $slug ?: $m[1])->with('seo')->first();
         }
 
+        if (preg_match('#^/(?:blog|articles)/([^/]+)$#', $path, $m)) {
+            return Article::query()->active()->published()->where('slug', $slug ?: $m[1])->with('seo')->first();
+        }
+
         if ($path === '/capabilities' || $path === '/services' || $path === '/industries') {
             return Page::query()->active()->where('slug', ltrim(str_replace('/services', '/capabilities', $path), '/'))->with('seo')->first();
         }
@@ -219,6 +224,21 @@ class SeoHeadService
                 'description' => strip_tags((string) ($model->short_description ?? $description)),
                 'provider' => ['@type' => 'Organization', 'name' => Setting::get('site_name', 'LyoVial', 'general')],
                 'url' => url()->current(),
+            ];
+        }
+
+        if ($model instanceof Article) {
+            return [
+                '@context' => 'https://schema.org',
+                '@type' => 'BlogPosting',
+                'headline' => $model->title ?? $title,
+                'description' => strip_tags((string) ($model->excerpt ?? $description)),
+                'datePublished' => optional($model->published_at)->toAtomString(),
+                'author' => [
+                    '@type' => 'Person',
+                    'name' => $model->author_name ?: Setting::get('site_name', 'LyoVial', 'general'),
+                ],
+                'url' => url('/blog/'.$model->slug),
             ];
         }
 

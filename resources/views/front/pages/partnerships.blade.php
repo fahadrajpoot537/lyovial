@@ -18,7 +18,7 @@
 @include('front.partials.lyovial-navbar', ['transparent' => false])
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('assets/front/css/lyovial-partnerships.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/lyovial-partnerships.css') }}?v={{ filemtime(public_path('assets/front/css/lyovial-partnerships.css')) }}">
 
 <div class="lp-page">
   <main>
@@ -32,37 +32,32 @@
       @foreach($partners as $partner)
         @continue(empty($partner['name']))
         <article class="lp-card">
-          <div class="lp-card-banner">
+          <div class="lp-card-inner">
             @if(!empty($partner['logo']))
-              <img class="lp-logo" src="{{ $partner['logo'] }}" alt="{{ $partner['name'] }} logo">
+              <div class="lp-card-logo">
+                <img class="lp-logo" src="{{ $partner['logo'] }}" alt="{{ $partner['name'] }} logo">
+              </div>
             @endif
-            <div class="lp-badge">
-              <span class="lp-badge-n">{{ $partner['num'] ?? str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-              <span class="lp-badge-t">Partner</span>
+            <div class="lp-card-body">
+              <div class="lp-meta">
+                <div>
+                  <div class="lp-role-name">{{ $partner['name'] }}</div>
+                  <div class="lp-role-title">{{ $partner['location'] ?? '' }}</div>
+                </div>
+              </div>
+              <h2 class="lp-card-title">{{ $partner['title'] ?? '' }}</h2>
+              <p class="lp-card-text">{{ $partner['summary'] ?? '' }}</p>
+              <a href="#{{ $partner['anchor'] ?? ('partner-'.$loop->iteration) }}" class="lp-read-more">
+                READ MORE
+                <span class="lp-arrow">
+                  <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </a>
             </div>
           </div>
-          <div class="lp-card-body">
-            <div class="lp-meta">
-              <div class="lp-avatar">
-                @if($loop->first)
-                  <svg viewBox="0 0 24 24" fill="none"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6" stroke="currentColor" stroke-width="1.6"/></svg>
-                @else
-                  <svg viewBox="0 0 24 24" fill="none"><path d="M9 3v4M15 3v4M4 8h16l-1.5 12.5A2 2 0 0 1 16.5 22h-9a2 2 0 0 1-2-1.5L4 8Z" stroke="currentColor" stroke-width="1.6"/></svg>
-                @endif
-              </div>
-              <div>
-                <div class="lp-role-name">{{ $partner['name'] }}</div>
-                <div class="lp-role-title">{{ $partner['location'] ?? '' }}</div>
-              </div>
-            </div>
-            <h2 class="lp-card-title">{{ $partner['title'] ?? '' }}</h2>
-            <p class="lp-card-text">{{ $partner['summary'] ?? '' }}</p>
-            <a href="#{{ $partner['anchor'] ?? ('partner-'.$loop->iteration) }}" class="lp-read-more">
-              READ MORE
-              <span class="lp-arrow">
-                <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </span>
-            </a>
+          <div class="lp-badge">
+            <span class="lp-badge-n">{{ $partner['num'] ?? str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+            <span class="lp-badge-t">Partner</span>
           </div>
         </article>
       @endforeach
@@ -72,11 +67,11 @@
       @continue(empty($partner['name']))
       <section class="lp-detail lp-wrap" id="{{ $partner['anchor'] ?? ('partner-'.$loop->iteration) }}">
         <div class="lp-detail-head">
-          <span class="lp-idx">{{ $partner['num'] ?? str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-          <h3 class="lp-detail-name">{{ $partner['name'] }}</h3>
           @if(!empty($partner['logo']))
             <img class="lp-detail-logo" src="{{ $partner['logo'] }}" alt="{{ $partner['name'] }}">
           @endif
+          <span class="lp-idx">{{ $partner['num'] ?? str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+          <h3 class="lp-detail-name">{{ $partner['name'] }}</h3>
           @if(!empty($partner['location']))
             <span class="lp-pill">{{ $partner['location'] }}</span>
           @endif

@@ -4,7 +4,7 @@
 @include('front.partials.lyovial-navbar', ['transparent' => true])
 
 @include('front.partials.page-banner', [
-    'bannerTitle' => 'Articles',
+    'bannerTitle' => 'Blog',
     'bannerSubtitle' => 'Latest lyophilization insights & case notes',
     'bannerImage' => \App\Support\SiteImages::get('banner_articles'),
 ])
@@ -18,7 +18,7 @@
                 @endphp
                 <div class="col-md-6 col-lg-4">
                     <article class="card-soft h-100">
-                        <a href="{{ route('articles.show', $article) }}" class="text-decoration-none text-dark">
+                        <a href="{{ route('blog.show', $article) }}" class="text-decoration-none text-dark">
                             <img src="{{ $thumb }}" alt="{{ $article->title }}" loading="lazy">
                             <div class="body">
                                 <p class="small text-secondary mb-2">

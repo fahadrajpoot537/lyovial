@@ -21,11 +21,53 @@
     'bannerImage' => $bannerImage,
 ])
 
-<link rel="stylesheet" href="{{ asset('assets/front/css/lyovial-theme-pages.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/front/css/lyovial-theme-pages.css') }}?v={{ filemtime(public_path('assets/front/css/lyovial-theme-pages.css')) }}">
 
 <div class="lv-theme">
   <div class="service-layout">
     <div class="container">
+      <aside class="sidebar">
+        <div>
+          <ul class="service-list">
+            @foreach($sidebarServices as $item)
+              <li>
+                <a href="{{ $item['url'] }}" @class(['active' => $item['active'] ?? false])>{{ $item['title'] }}</a>
+              </li>
+            @endforeach
+          </ul>
+        </div>
+
+        <div class="cta-box" id="quote" style="--cta-bg-image:url('{{ $featureImg }}')">
+          <h4 class="heading-bold">{{ $x['sidebar_cta_title'] }}</h4>
+          <p>{{ $x['sidebar_cta_body'] }}</p>
+          <a href="{{ url($service->button_link ?: '/contact') }}" class="btn block">{{ $x['sidebar_cta_button'] ?: ($service->button_text ?: 'Request a Quote') }}</a>
+        </div>
+
+        <div class="contact-box">
+          <h4 class="heading-bold">Get In Touch</h4>
+          <ul>
+            @if($sitePhone)
+              <li>
+                <i class="bi bi-telephone" style="color:var(--green-500)"></i>
+                <div>
+                  <strong><a href="tel:{{ preg_replace('/\D+/', '', $sitePhone) }}">{{ $sitePhone }}</a></strong>
+                  Mon–Fri, 9am–6pm
+                </div>
+              </li>
+            @endif
+            @if($siteEmail)
+              <li>
+                <i class="bi bi-envelope" style="color:var(--green-500)"></i>
+                <div>
+                  <strong><a href="mailto:{{ $siteEmail }}">{{ $siteEmail }}</a></strong>
+                  We reply within 1 business day
+                </div>
+              </li>
+            @endif
+          </ul>
+        </div>
+      </aside>
+
       <div class="main-content">
         <div class="feature-image">
           <img src="{{ $featureImg }}" alt="{{ $service->title }}">
@@ -106,48 +148,6 @@
           <a href="{{ url($service->button_link ?: '/contact') }}" class="btn">{{ $x['bottom_cta_button'] ?: ($service->button_text ?: 'Request a Quote') }}</a>
         </div>
       </div>
-
-      <aside class="sidebar">
-        <div>
-          <ul class="service-list">
-            @foreach($sidebarServices as $item)
-              <li>
-                <a href="{{ $item['url'] }}" @class(['active' => $item['active'] ?? false])>{{ $item['title'] }}</a>
-              </li>
-            @endforeach
-          </ul>
-        </div>
-
-        <div class="cta-box" id="quote" style="--cta-bg-image:url('{{ $featureImg }}')">
-          <h4 class="heading-bold">{{ $x['sidebar_cta_title'] }}</h4>
-          <p>{{ $x['sidebar_cta_body'] }}</p>
-          <a href="{{ url($service->button_link ?: '/contact') }}" class="btn block">{{ $x['sidebar_cta_button'] ?: ($service->button_text ?: 'Request a Quote') }}</a>
-        </div>
-
-        <div class="contact-box">
-          <h4 class="heading-bold">Get In Touch</h4>
-          <ul>
-            @if($sitePhone)
-              <li>
-                <i class="bi bi-telephone" style="color:var(--green-500)"></i>
-                <div>
-                  <strong><a href="tel:{{ preg_replace('/\D+/', '', $sitePhone) }}">{{ $sitePhone }}</a></strong>
-                  Mon–Fri, 9am–6pm
-                </div>
-              </li>
-            @endif
-            @if($siteEmail)
-              <li>
-                <i class="bi bi-envelope" style="color:var(--green-500)"></i>
-                <div>
-                  <strong><a href="mailto:{{ $siteEmail }}">{{ $siteEmail }}</a></strong>
-                  We reply within 1 business day
-                </div>
-              </li>
-            @endif
-          </ul>
-        </div>
-      </aside>
     </div>
   </div>
 </div>

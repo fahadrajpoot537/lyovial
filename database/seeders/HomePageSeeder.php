@@ -68,9 +68,8 @@ class HomePageSeeder extends Seeder
                 'extra' => [
                     'items' => [
                         ['num' => '250+', 'label' => "Lyo Cycles<br/>Completed", 'icon' => 'flask'],
-                        ['num' => '40+', 'label' => "Client<br/>Programs", 'icon' => 'doc'],
-                        ['num' => '12+', 'label' => "Vial Formats<br/>Supported", 'icon' => 'vial'],
-                        ['num' => '100%', 'label' => "Documented<br/>Cycles", 'icon' => 'check'],
+                        ['num' => '20+', 'label' => "Client<br/>Programs", 'icon' => 'doc'],
+                        ['num' => '4+', 'label' => "Vial Formats<br/>Supported", 'icon' => 'vial'],
                     ],
                 ],
             ],
@@ -136,7 +135,7 @@ class HomePageSeeder extends Seeder
             'process' => [
                 'small_title' => 'Our Process',
                 'heading' => 'How our contract lyophilization services work',
-                'description' => 'Every contract lyophilization project follows the same four-stage process — from the first feasibility conversation through documented pilot batches. Each stage is signed off before the next begins, so you know exactly what\'s been locked in, what\'s still open, and what the next manufacturer will receive when the project transfers.',
+                'description' => 'Every contract lyophilization project follows the same four-stage process — from the first feasibility conversation through documented pilot batches.',
                 'image' => 'https://images.unsplash.com/photo-1581093458791-9d09c5c1aef2?w=600&auto=format&fit=crop&q=80',
                 'is_active' => true,
                 'sort_order' => 9,
@@ -150,7 +149,7 @@ class HomePageSeeder extends Seeder
                 ],
             ],
             'articles' => [
-                'small_title' => 'Articles',
+                'small_title' => 'Blogs',
                 'heading' => 'Latest lyophilization insights & case notes',
                 'description' => 'Working notes from our cycle development bench — freeze-drying process design, formulation troubleshooting, and what we\'ve learned running contract lyophilization projects for Canadian diagnostic and biotech teams.',
                 'is_active' => true,

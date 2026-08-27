@@ -10,6 +10,7 @@ use App\Http\Controllers\Front\PageController;
 use App\Http\Controllers\Front\ServiceController;
 use App\Http\Controllers\Front\ThemeDataController;
 use App\Http\Controllers\SeoController;
+use App\Models\Article;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/clear-cache/{token}', ClearCacheController::class)
@@ -24,9 +25,12 @@ Route::get('/theme/cms-data', ThemeDataController::class)->name('theme.cms-data'
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
-Route::get('/articles/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
 Route::get('/blog', [ArticleController::class, 'index'])->name('blog.index');
+Route::get('/blog/{article:slug}', [ArticleController::class, 'show'])->name('blog.show');
+Route::permanentRedirect('/articles', '/blog');
+Route::get('/articles/{article:slug}', function (Article $article) {
+    return redirect()->route('blog.show', $article, 301);
+});
 
 Route::get('/capabilities', [ServiceController::class, 'index'])->name('capabilities.index');
 Route::get('/capabilities/{slug}', [ServiceController::class, 'show'])
@@ -40,6 +44,12 @@ Route::get('/services/{slug}', [ServiceController::class, 'show'])
     ->name('services.show');
 
 Route::get('/industries', [IndustryController::class, 'index'])->name('industries.index');
+Route::permanentRedirect('/industries/diagnostic-reagent-lyophilization', '/industries/diagnostic-assay-reagent-manufacturers');
+Route::permanentRedirect('/industries/calibrator-control-lyophilization', '/industries/calibrator-control-producers');
+Route::permanentRedirect('/industries/microbiology-media-freeze-drying', '/industries/microbiology-media-supplement-suppliers');
+Route::permanentRedirect('/industries/analytical-reference-material-lyophilization', '/industries/analytical-testing-laboratories');
+Route::permanentRedirect('/industries/research-sample-lyophilization', '/industries/university-institutional-rd-groups');
+Route::permanentRedirect('/industries/cosmetic-ingredient-lyophilization', '/industries/cosmetic-ingredient-formulators');
 Route::get('/industries/{slug}', [IndustryController::class, 'show'])
     ->where('slug', '[A-Za-z0-9\-]+')
     ->name('industries.show');

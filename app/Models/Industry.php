@@ -20,6 +20,7 @@ class Industry extends Model
         'heading',
         'short_description',
         'description',
+        'extra',
         'show_on_home',
         'status',
         'sort_order',
@@ -33,6 +34,7 @@ class Industry extends Model
             'status' => 'boolean',
             'sort_order' => 'integer',
             'home_sort_order' => 'integer',
+            'extra' => 'array',
         ];
     }
 

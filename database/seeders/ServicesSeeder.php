@@ -17,7 +17,7 @@ class ServicesSeeder extends Seeder
                 'title' => 'Formulation & Lyo Cycle Development',
                 'slug' => 'formulation-lyo-cycle-development',
                 'page_heading' => 'Formulation & Lyophilization Cycle Development',
-                'short_description' => 'We work from your existing liquid formulation, or help develop one from scratch. Excipient and cryoprotectant selection, freeze-thaw and thermal characterization, cycle design, and small feasibility runs to confirm cake appearance, reconstitution, and stability — before you commit to a locked process.',
+                'short_description' => 'We work from your existing liquid formulation, or help you build one from scratch, and design a freeze-drying cycle around it. Every stage — from excipient selection to a final, reproducible process — is documented.',
                 'long_description' => <<<'HTML'
 <p>Successful lyophilization begins with the right formulation and a cycle grounded in product thermal behaviour. LyoVial helps you develop freeze-drying strategies for diagnostic reagents, calibrators, controls, media components, and research materials that must remain stable, reconstitutable, and transportable.</p>
 <h2>What We Help You Define</h2>
@@ -75,10 +75,10 @@ HTML,
                 ],
             ],
             [
-                'title' => 'Scale-Up & Technology Transfer',
+                'title' => 'Scale-Up',
                 'slug' => 'scale-up-technology-transfer',
-                'page_heading' => 'Scale-Up & Technology Transfer',
-                'short_description' => 'Once a cycle is set at feasibility scale, we move it to pilot batch size. Every parameter is documented as it scales, so the process transfers cleanly to your own production line — or to your next-stage manufacturer, when the project outgrows us.',
+                'page_heading' => 'Scale-Up',
+                'short_description' => 'Once a cycle is set at feasibility scale, we scale it up to pilot-batch size. Every parameter is documented as it moves from a handful of vials to a full pilot run.',
                 'long_description' => <<<'HTML'
 <p>Moving a lyophilized product from development into broader production requires more than a working small-batch cycle. LyoVial supports scale-up planning and technology transfer so your process remains scientifically grounded and operationally practical.</p>
 <h2>Transfer-Ready Deliverables</h2>
@@ -95,7 +95,7 @@ HTML,
 HTML,
                 'button_text' => 'Plan a Transfer',
                 'button_link' => '/contact',
-                'breadcrumb_title' => 'Scale-Up & Tech Transfer',
+                'breadcrumb_title' => 'Scale-Up',
                 'show_on_home' => true,
                 'is_featured' => true,
                 'sort_order' => 2,

@@ -25,7 +25,12 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="content">Content</label>
-                    @include('admin.partials.editor', ['name' => 'content', 'id' => 'content', 'value' => $item?->content])
+                    <p class="form-text mb-2">
+                        Use <strong>Heading</strong> / <strong>Subheading</strong> in the editor. Click under the heading
+                        where the photo should appear, then use the <strong>image</strong> button to upload it.
+                        Click the image to add a caption or choose full-width / side layout.
+                    </p>
+                    @include('admin.partials.editor', ['name' => 'content', 'id' => 'content', 'value' => $item?->content, 'minHeight' => 440])
                 </div>
                 <div class="row g-3">
                     <div class="col-md-6">

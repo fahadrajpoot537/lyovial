@@ -9,7 +9,42 @@ class SiteImages
 
     public static function url(string $name): string
     {
-        return self::BASE.'/'.ltrim($name, '/');
+        return self::preferWebp(self::BASE.'/'.ltrim($name, '/'));
+    }
+
+    /**
+     * Serve a WebP sibling when it exists (homepage / theme photos).
+     */
+    public static function preferWebp(string $path): string
+    {
+        if (! filled($path) || str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        $relative = ltrim(str_replace('\\', '/', parse_url($path, PHP_URL_PATH) ?: $path), '/');
+        if (! preg_match('/\.(jpe?g|png)$/i', $relative)) {
+            return $path;
+        }
+
+        $webpRelative = preg_replace('/\.(jpe?g|png)$/i', '.webp', $relative);
+        if ($webpRelative && is_file(public_path($webpRelative))) {
+            return '/'.$webpRelative;
+        }
+
+        return $path;
+    }
+
+    /** @return array{0:?int,1:?int} */
+    public static function dimensions(string $path): array
+    {
+        $relative = ltrim(str_replace('\\', '/', parse_url($path, PHP_URL_PATH) ?: $path), '/');
+        $full = public_path($relative);
+        if (! is_file($full)) {
+            return [null, null];
+        }
+        $info = @getimagesize($full);
+
+        return $info ? [(int) $info[0], (int) $info[1]] : [null, null];
     }
 
     /**
@@ -25,6 +60,10 @@ class SiteImages
         $path = str_replace('\\', '/', trim($uploaded));
 
         if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            if (str_contains($path, 'images.unsplash.com')) {
+                return $fallback;
+            }
+
             return $path;
         }
 
@@ -44,10 +83,10 @@ class SiteImages
         foreach ($candidates as $full) {
             if (is_file($full) && filesize($full) > 5000) {
                 if (str_starts_with($path, '/')) {
-                    return $path;
+                    return self::preferWebp($path);
                 }
 
-                return '/storage/'.$relative;
+                return self::preferWebp('/storage/'.$relative);
             }
         }
 

@@ -36,12 +36,12 @@ class SiteSettingsSeeder extends Seeder
             'general' => [
                 'site_name' => 'LyoVial',
                 'phone' => '(613) 614-8733',
-                'email' => 'info@lyovial.com',
+                'email' => 'vlad@evik.ca',
                 'address' => $this->addressBlock(),
                 'map_embed' => $this->mapEmbed(),
                 'copyright' => '© '.date('Y').' LyoVial. All Rights Reserved. | Contract lyophilization services based in Ottawa, serving Canada-wide.',
                 'logo' => '/lyovial-logo.png',
-                'favicon' => '/theme/assets/images/lyovial/logo.png',
+                'favicon' => '/images/site/favicon-icon.svg',
             ],
             'social' => [
                 'facebook' => 'https://www.facebook.com/lyovial',
@@ -56,7 +56,7 @@ class SiteSettingsSeeder extends Seeder
                 'organization_name' => 'LyoVial',
                 'organization_logo' => $logo,
                 'organization_phone' => '(613) 614-8733',
-                'organization_email' => 'info@lyovial.com',
+                'organization_email' => 'vlad@evik.ca',
                 'organization_address' => $this->addressBlock(),
                 'default_meta_title' => 'LyoVial | Pilot-Scale Vial Lyophilization in Canada',
                 'default_meta_description' => 'LyoVial provides formulation support, lyo cycle development, scale-up, technology transfer, and pilot-batch vial lyophilization from Kanata, Ontario.',
@@ -86,7 +86,7 @@ class SiteSettingsSeeder extends Seeder
             ],
             'contact' => [
                 'phone' => '(613) 614-8733',
-                'email' => 'info@lyovial.com',
+                'email' => 'vlad@evik.ca',
                 'address' => $this->addressBlock(),
                 'map_embed' => $this->mapEmbed(),
             ],

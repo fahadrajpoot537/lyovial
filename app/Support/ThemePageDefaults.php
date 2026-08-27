@@ -375,10 +375,6 @@ class ThemePageDefaults
                     'body' => 'Every freezing, drying, and hold-time parameter is recorded as the batch size grows.',
                 ],
                 [
-                    'title' => 'Batch Records Built for Transfer',
-                    'body' => 'Documentation formatted so it can be handed to your own team or your next manufacturing partner without reconstruction.',
-                ],
-                [
                     'title' => 'Support Through the Transition',
                     'body' => 'We stay involved through the move from feasibility to pilot scale, flagging anything that needs adjustment.',
                 ],
@@ -386,11 +382,10 @@ class ThemePageDefaults
             'why_heading' => 'Why This Matters for Your Project',
             'why_bullets' => [
                 'A cycle that works in five vials doesn\'t always behave the same in five hundred — we catch that gap before it becomes a problem.',
-                'Complete batch records mean your next manufacturer isn\'t starting from scratch.',
                 'You keep the same point of contact through the entire scale-up, not a hand-off to someone new partway through.',
             ],
             'steps_heading' => 'How It Works',
-            'steps_intro' => 'Four stages, from feasibility data to a transfer-ready pilot batch.',
+            'steps_intro' => 'Three stages, from feasibility data to a documented pilot batch.',
             'steps' => [
                 [
                     'num' => '01',
@@ -406,11 +401,6 @@ class ThemePageDefaults
                     'num' => '03',
                     'title' => 'Run the Pilot Batch',
                     'body' => 'Execute and document the scaled process.',
-                ],
-                [
-                    'num' => '04',
-                    'title' => 'Package for Transfer',
-                    'body' => 'Deliver batch records ready for your line or next manufacturer.',
                 ],
             ],
             'related_heading' => 'Related Services',

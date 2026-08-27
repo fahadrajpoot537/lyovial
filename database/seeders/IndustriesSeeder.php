@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Industry;
+use App\Support\IndustryPageDefaults;
 use Database\Seeders\Concerns\SeedsDemoMedia;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -17,8 +18,8 @@ class IndustriesSeeder extends Seeder
             [
                 'title' => 'Diagnostic Assay Reagent Manufacturers',
                 'slug' => 'diagnostic-assay-reagent-manufacturers',
-                'heading' => 'Lyophilization Support for Diagnostic Assay Reagents',
-                'short_description' => 'Freeze-dried enzymes, oligos, and detection reagents for in-vitro diagnostic kits and lateral-flow assays.',
+                'heading' => 'Diagnostic reagent lyophilization, built to hold through scale-up',
+                'short_description' => 'Freeze-dried enzymes, oligos, and detection reagents for IVD kits and lateral-flow assays — cycle development and pilot vial batches, documented to transfer cleanly.',
                 'description' => <<<'HTML'
 <p>Diagnostic assay developers rely on lyophilization to protect sensitive reagents from hydrolysis, temperature excursions, and logistics complexity. LyoVial partners with reagent manufacturers to develop freeze-drying approaches that preserve analytical performance.</p>
 <h2>Typical Needs We Support</h2>
@@ -36,8 +37,8 @@ HTML,
             [
                 'title' => 'Calibrator & Control Producers',
                 'slug' => 'calibrator-control-producers',
-                'heading' => 'Freeze-Drying for Calibrators and Quality Controls',
-                'short_description' => 'Lyophilized calibrators and quality-control materials with reproducible reconstitution and long shelf life.',
+                'heading' => 'Calibrator and control lyophilization with values that hold',
+                'short_description' => 'Freeze-dried calibrators, controls, and QC materials with reproducible reconstitution and stable value assignment across a long shelf life — developed and documented in vial format.',
                 'description' => <<<'HTML'
 <p>Calibrators and controls must remain precise, stable, and easy to prepare. Lyophilization can extend usability and reduce cold-chain dependence when cycles and formulations are designed carefully.</p>
 <p>LyoVial supports calibrator and control producers with formulation guidance, cycle development, and pilot-batch vial lyophilization that prioritize consistency and presentation quality.</p>
@@ -48,8 +49,8 @@ HTML,
             [
                 'title' => 'Microbiology Media & Supplement Suppliers',
                 'slug' => 'microbiology-media-supplement-suppliers',
-                'heading' => 'Lyophilized Media Components and Supplements',
-                'short_description' => 'Freeze-dried microbiology media, supplements, and culture components in vial format.',
+                'heading' => 'Microbiology media freeze-drying that rehydrates ready to work',
+                'short_description' => 'Freeze-dried culture media, supplements, and enrichment components in vial format — developed so they rehydrate cleanly and perform the way the wet product did.',
                 'description' => <<<'HTML'
 <p>Microbiology media suppliers often need lyophilized supplements and components that rehydrate cleanly and perform reliably in culture systems. LyoVial helps translate those requirements into workable freeze-drying processes.</p>
 <ul>
@@ -64,8 +65,8 @@ HTML,
             [
                 'title' => 'Analytical Testing Laboratories',
                 'slug' => 'analytical-testing-laboratories',
-                'heading' => 'Lyophilization Collaboration for Analytical Labs',
-                'short_description' => 'Reference materials, standards, and stabilized reagents for testing-lab workflows.',
+                'heading' => 'Reference material lyophilization for testing-lab workflows',
+                'short_description' => 'Freeze-dried reference materials, standards, and stabilized reagents — developed for homogeneity, stability, and reconstitution accuracy, with documentation testing labs can stand behind.',
                 'description' => <<<'HTML'
 <p>Analytical laboratories frequently require small, well-controlled lyophilized lots for method development, reference materials, and specialized testing programs. LyoVial provides accessible pilot-scale freeze-drying support with clear communication and documentation.</p>
 HTML,
@@ -75,8 +76,8 @@ HTML,
             [
                 'title' => 'University & Institutional R&D Groups',
                 'slug' => 'university-institutional-rd-groups',
-                'heading' => 'Research Lyophilization for Universities and Institutes',
-                'short_description' => 'Biospecimen library preservation, research samples, and one-off formulation work for academic and hospital labs.',
+                'heading' => 'Research sample lyophilization for labs without a lyo specialist',
+                'short_description' => 'Freeze-drying for academic and hospital labs — biospecimen library preservation, one-off formulation work, and small research batches, handled by a specialist so your team doesn\'t have to become one.',
                 'description' => <<<'HTML'
 <p>University and institutional R&amp;D groups often need freeze-drying support beyond standard lab lyophilizers — especially when preparing materials for partner evaluation, grant milestones, or translational programs.</p>
 <p>LyoVial works with research teams to develop cycles, produce pilot vials, and document process learnings that can travel with the project as it matures.</p>
@@ -87,8 +88,8 @@ HTML,
             [
                 'title' => 'Cosmetic Ingredient Formulators',
                 'slug' => 'cosmetic-ingredient-formulators',
-                'heading' => 'Lyophilization for Cosmetic Ingredient Programs',
-                'short_description' => 'Lyophilized cosmetic actives, single-dose beads, and stabilized botanicals for premium skincare formulations.',
+                'heading' => 'Cosmetic active lyophilization that keeps the potency in the product',
+                'short_description' => 'Freeze-dried cosmetic actives, single-dose beads, and stabilized botanicals for premium skincare — cycles developed to preserve peptide, protein, and botanical potency in an elegant format.',
                 'description' => <<<'HTML'
 <p>Cosmetic ingredient formulators use lyophilization to protect sensitive actives, improve handling, and create distinctive powdered or cake presentations. LyoVial supports early development and pilot vial work for specialty ingredient programs that benefit from controlled freeze-drying.</p>
 HTML,
@@ -110,6 +111,7 @@ HTML,
                     'heading' => $data['heading'],
                     'short_description' => $data['short_description'],
                     'description' => $data['description'],
+                    'extra' => IndustryPageDefaults::forSlug($data['slug']),
                     'show_on_home' => true,
                     'status' => true,
                     'sort_order' => $data['sort_order'],

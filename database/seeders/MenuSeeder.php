@@ -100,7 +100,8 @@ class MenuSeeder extends Seeder
             ['title' => 'Capabilities', 'url' => '/capabilities', 'sort_order' => 1],
             ['title' => 'Industries', 'url' => '/industries', 'sort_order' => 2],
             ['title' => 'Quality & Compliance', 'url' => '/quality-compliance', 'sort_order' => 3],
-            ['title' => 'Contact', 'url' => '/contact', 'sort_order' => 4],
+            ['title' => 'About', 'url' => '/about', 'sort_order' => 4],
+            ['title' => 'Contact', 'url' => '/contact', 'sort_order' => 5],
         ];
 
         Menu::query()->where('location', 'footer')->forceDelete();

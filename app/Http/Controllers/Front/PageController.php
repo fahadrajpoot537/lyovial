@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
-use App\Models\HomeSection;
 use App\Models\Page;
 use App\Support\ThemePageDefaults;
 use Illuminate\View\View;
@@ -12,9 +11,12 @@ class PageController extends Controller
 {
     public function about(): View
     {
-        $about = HomeSection::query()->where('section_key', 'about')->with('seo')->first();
+        $page = $this->typedPage(Page::TYPE_ABOUT, 'About Us');
+        if (! $page->heading) {
+            $page->heading = 'A lyophilization specialist, not a generalist CDMO';
+        }
 
-        return view('front.about', compact('about'));
+        return view('front.pages.about', compact('page'));
     }
 
     public function quality(): View
@@ -47,6 +49,19 @@ class PageController extends Controller
         return view('front.pages.partnerships', compact('page'));
     }
 
+    public function privacy(): View
+    {
+        $page = $this->typedPage(Page::TYPE_PRIVACY, 'Privacy Policy');
+        if (! $page->heading) {
+            $page->heading = 'Privacy Policy';
+        }
+        if (! filled($page->content)) {
+            $page->content = ThemePageDefaults::privacyContent();
+        }
+
+        return view('front.pages.privacy', compact('page'));
+    }
+
     public function show(string $slug): View
     {
         $page = Page::query()
@@ -59,6 +74,8 @@ class PageController extends Controller
             Page::TYPE_QUALITY_COMPLIANCE => view('front.pages.quality', compact('page')),
             Page::TYPE_SPECIMEN_LIBRARY => view('front.pages.specimen', compact('page')),
             Page::TYPE_PARTNERSHIPS => view('front.pages.partnerships', compact('page')),
+            Page::TYPE_ABOUT => view('front.pages.about', compact('page')),
+            Page::TYPE_PRIVACY => view('front.pages.privacy', compact('page')),
             default => view('front.pages.show', compact('page')),
         };
     }
@@ -76,6 +93,8 @@ class PageController extends Controller
                 Page::TYPE_QUALITY_COMPLIANCE => ThemePageDefaults::qualityExtra(),
                 Page::TYPE_SPECIMEN_LIBRARY => ThemePageDefaults::specimenExtra(),
                 Page::TYPE_PARTNERSHIPS => ThemePageDefaults::partnershipsExtra(),
+                Page::TYPE_ABOUT => ThemePageDefaults::aboutExtra(),
+                Page::TYPE_PRIVACY => ThemePageDefaults::privacyExtra(),
                 default => [],
             };
 

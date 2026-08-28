@@ -20,6 +20,10 @@ class Page extends Model
 
     public const TYPE_PARTNERSHIPS = 'partnerships';
 
+    public const TYPE_PRIVACY = 'privacy';
+
+    public const TYPE_ABOUT = 'about';
+
     protected $fillable = [
         'title',
         'slug',
@@ -58,6 +62,8 @@ class Page extends Model
             self::TYPE_QUALITY_COMPLIANCE => 'Quality & Compliance',
             self::TYPE_SPECIMEN_LIBRARY => 'Specimen Library Preservation',
             self::TYPE_PARTNERSHIPS => 'Partnerships',
+            self::TYPE_ABOUT => 'About Us',
+            self::TYPE_PRIVACY => 'Privacy Policy',
         ];
     }
 }

@@ -1,13 +1,21 @@
 @php
     $page = $page ?? null;
-    $type = old('type', $page?->type ?? 'custom');
+    $type = old('type', $page?->type ?? request('type', 'custom'));
     $extra = old('extra', $page?->extra ?? []);
+    $contentValue = old('content', $page?->content);
     if ($type === \App\Models\Page::TYPE_QUALITY_COMPLIANCE) {
         $extra = array_replace_recursive(\App\Support\ThemePageDefaults::qualityExtra(), is_array($extra) ? $extra : []);
     } elseif ($type === \App\Models\Page::TYPE_SPECIMEN_LIBRARY) {
         $extra = array_replace_recursive(\App\Support\ThemePageDefaults::specimenExtra(), is_array($extra) ? $extra : []);
     } elseif ($type === \App\Models\Page::TYPE_PARTNERSHIPS) {
         $extra = array_replace_recursive(\App\Support\ThemePageDefaults::partnershipsExtra(), is_array($extra) ? $extra : []);
+    } elseif ($type === \App\Models\Page::TYPE_PRIVACY) {
+        $extra = array_replace_recursive(\App\Support\ThemePageDefaults::privacyExtra(), is_array($extra) ? $extra : []);
+        if (! filled($contentValue)) {
+            $contentValue = \App\Support\ThemePageDefaults::privacyContent();
+        }
+    } elseif ($type === \App\Models\Page::TYPE_ABOUT) {
+        $extra = array_replace_recursive(\App\Support\ThemePageDefaults::aboutExtra(), is_array($extra) ? $extra : []);
     }
 @endphp
 
@@ -20,18 +28,19 @@
                     <div class="col-md-8">
                         <label class="form-label" for="title">Title</label>
                         <input type="text" name="title" id="title" class="form-control @error('title') is-invalid @enderror"
-                               value="{{ old('title', $page?->title) }}" required>
+                               value="{{ old('title', $page?->title ?? ($type === \App\Models\Page::TYPE_PRIVACY ? 'Privacy Policy' : ($type === \App\Models\Page::TYPE_ABOUT ? 'About Us' : ''))) }}" required>
                         @error('title')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                     <div class="col-md-4">
                         <label class="form-label" for="slug">Slug</label>
                         <input type="text" name="slug" id="slug" class="form-control @error('slug') is-invalid @enderror"
-                               value="{{ old('slug', $page?->slug) }}">
+                               value="{{ old('slug', $page?->slug ?? ($type === \App\Models\Page::TYPE_PRIVACY ? 'privacy-policy' : ($type === \App\Models\Page::TYPE_ABOUT ? 'about' : ''))) }}">
                         @error('slug')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                     <div class="col-md-6">
                         <label class="form-label" for="type">Type</label>
-                        <select name="type" id="type" class="form-select @error('type') is-invalid @enderror">
+                        <select name="type" id="type" class="form-select @error('type') is-invalid @enderror"
+                                @unless($page) onchange="window.location='{{ route('admin.pages.create') }}?type='+encodeURIComponent(this.value)" @endunless>
                             @foreach (\App\Models\Page::types() as $value => $label)
                                 <option value="{{ $value }}" @selected($type === $value)>{{ $label }}</option>
                             @endforeach
@@ -41,13 +50,13 @@
                     <div class="col-md-6">
                         <label class="form-label" for="heading">Hero / page heading</label>
                         <input type="text" name="heading" id="heading" class="form-control @error('heading') is-invalid @enderror"
-                               value="{{ old('heading', $page?->heading) }}">
+                               value="{{ old('heading', $page?->heading ?? ($type === \App\Models\Page::TYPE_PRIVACY ? 'Privacy Policy' : ($type === \App\Models\Page::TYPE_ABOUT ? 'About Us' : ''))) }}">
                         @error('heading')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
-                    @if($type === 'custom')
+                    @if(in_array($type, ['custom', \App\Models\Page::TYPE_PRIVACY], true))
                     <div class="col-12">
                         <label class="form-label" for="content">Content</label>
-                        @include('admin.partials.editor', ['name' => 'content', 'id' => 'content', 'value' => $page?->content])
+                        @include('admin.partials.editor', ['name' => 'content', 'id' => 'content', 'value' => $contentValue, 'minHeight' => $type === \App\Models\Page::TYPE_PRIVACY ? 420 : 280])
                     </div>
                     @else
                         <input type="hidden" name="content" value="{{ old('content', $page?->content) }}">
@@ -62,6 +71,10 @@
             @include('admin.pages._extra-specimen', ['extra' => $extra])
         @elseif($type === \App\Models\Page::TYPE_PARTNERSHIPS)
             @include('admin.pages._extra-partnerships', ['extra' => $extra])
+        @elseif($type === \App\Models\Page::TYPE_PRIVACY)
+            @include('admin.pages._extra-privacy', ['extra' => $extra])
+        @elseif($type === \App\Models\Page::TYPE_ABOUT)
+            @include('admin.pages._extra-about', ['extra' => $extra])
         @endif
 
         @include('admin.partials.seo-fields', ['seo' => $page?->seo, 'hideSeoSlug' => true, 'seoSourceTitle' => old('title', $page?->title)])

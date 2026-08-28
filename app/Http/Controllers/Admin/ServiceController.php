@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ServiceRequest;
 use App\Models\Service;
 use App\Models\ServiceGallery;
-use App\Support\SeoHelper;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -31,13 +30,15 @@ class ServiceController extends Controller
 
     public function store(ServiceRequest $request): RedirectResponse
     {
-        $data = collect($request->validated())->except(array_merge(SeoHelper::fields(), ['galleries']))->all();
+        $validated = $request->validated();
+        $data = $this->payloadWithoutSeo($validated, ['galleries']);
         $data['banner_image'] = $this->uploadImage($request, 'banner_image', 'services');
         $data['featured_image'] = $this->uploadImage($request, 'featured_image', 'services');
         $data['extra'] = $this->normalizeServiceExtra($request->input('extra', []));
+        $validated['slug'] = $data['slug'];
 
         $service = Service::create(array_filter($data, fn ($value) => $value !== null));
-        $this->syncSeoFromRequest($request, $request->validated(), $service);
+        $this->syncSeoFromRequest($request, $validated, $service);
         $this->syncGalleries($service, $request);
 
         return redirect()
@@ -59,13 +60,15 @@ class ServiceController extends Controller
 
     public function update(ServiceRequest $request, Service $service): RedirectResponse
     {
-        $data = collect($request->validated())->except(array_merge(SeoHelper::fields(), ['galleries']))->all();
+        $validated = $request->validated();
+        $data = $this->payloadWithoutSeo($validated, ['galleries']);
         $data['banner_image'] = $this->resolveImageField($request, 'banner_image', 'services', $service->banner_image);
         $data['featured_image'] = $this->resolveImageField($request, 'featured_image', 'services', $service->featured_image);
         $data['extra'] = $this->normalizeServiceExtra($request->input('extra', []));
+        $validated['slug'] = $data['slug'];
 
         $service->update(array_filter($data, fn ($value) => $value !== null));
-        $this->syncSeoFromRequest($request, $request->validated(), $service);
+        $this->syncSeoFromRequest($request, $validated, $service);
         $this->syncGalleries($service, $request);
 
         return back()->with('success', 'Service updated successfully.');

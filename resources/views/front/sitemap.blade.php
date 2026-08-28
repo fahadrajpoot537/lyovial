@@ -26,6 +26,8 @@
         <li><a href="{{ url('/about') }}">About Us</a></li>
         <li><a href="{{ url('/quality-compliance') }}">Quality &amp; Compliance</a></li>
         <li><a href="{{ url('/specimen-library-preservation') }}">Specimen Library Preservation</a></li>
+        <li><a href="{{ url('/partnerships') }}">Partnerships</a></li>
+        <li><a href="{{ url('/privacy-policy') }}">Privacy Policy</a></li>
         <li><a href="{{ url('/blog') }}">Blog</a></li>
         <li><a href="{{ url('/contact') }}">Contact</a></li>
     </ul>

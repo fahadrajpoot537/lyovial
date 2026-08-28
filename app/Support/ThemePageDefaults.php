@@ -130,6 +130,8 @@ class ThemePageDefaults
             'quality_compliance' => self::qualityExtra(),
             'specimen_library' => self::specimenExtra(),
             'partnerships' => self::partnershipsExtra(),
+            'privacy' => self::privacyExtra(),
+            'about' => self::aboutExtra(),
             default => [],
         };
 
@@ -206,6 +208,157 @@ class ThemePageDefaults
                 ['tag' => 'Wholesale RUO', 'text' => 'Sourced through Lyolab Diagnostics'],
                 ['tag' => 'Independent testing', 'text' => 'Arranged through Vanguard Analytical'],
             ],
+        ];
+    }
+
+    public static function privacyExtra(): array
+    {
+        return [
+            'effective_date' => '2026-08-27',
+            'last_updated' => '2026-08-27',
+            'change_log' => 'v.2',
+        ];
+    }
+
+    public static function privacyContent(): string
+    {
+        return <<<'HTML'
+<h2>About Us</h2>
+<p>This website, <a href="https://lyovial.ca">lyovial.ca</a> (the “Site”), is owned and operated by LyoVial, a member of the Evik Diagnostics group of companies (“LyoVial,” “we,” “our,” or “us”). If you have a question or complaint about our personal information handling practices, please contact us at <a href="mailto:hello@lyovial.ca">hello@lyovial.ca</a>.</p>
+<p>In this Privacy Policy (“Policy”), the terms “we,” “our,” and “us” mean LyoVial, and the terms “you” and “your” refer to users of the Site, including visitors and prospective or existing LyoVial clients.</p>
+
+<h2>Scope</h2>
+<p>This Policy applies to the information we obtain through your use of the Site as described below.</p>
+
+<h2>How Our Site Is Hosted</h2>
+<p>Our Site is hosted and served by a third-party web hosting and content delivery provider. Information submitted through the Site may be stored or processed on that provider's servers, and on the servers of the form-handling service described below.</p>
+
+<h2>What Personal Information We Collect and What Do We Do With It?</h2>
+<p>When you visit our Site, we collect personal information. Personal information is information that identifies you, or that could be combined with other information to identify you. We collect it in the following ways:</p>
+<p><strong>Information you provide to us directly:</strong> When you use our contact form or otherwise reach out to us, we may ask for your name, email address, company or institution, and details about your project (such as formulation type, target batch size, and timeline). We also receive your contact information if you email us directly.</p>
+<p>LyoVial does not process payments or sell products directly through the Site. If you do not wish to provide the personal information requested on our contact form, you do not have to — it may simply mean we're unable to respond to your inquiry.</p>
+<p><strong>Information we collect automatically:</strong> We may collect some information automatically when you visit the Site, such as the geographic location associated with your IP address, device type, pages viewed, links clicked, browser type and settings, and the date and time of your visit. This may be collected directly or through an analytics service such as Google Analytics. This helps us understand how the Site is used so we can improve it.</p>
+
+<h2>Cookies</h2>
+<p>Our Site may use cookies — small pieces of information stored on your device — to support basic site functionality and, if enabled, analytics such as Google Analytics.</p>
+<p>Most browsers automatically accept cookies. You can configure your browser to block cookies or notify you when a cookie is set. Our Site can generally still be used without accepting cookies, though some functionality may be limited.</p>
+
+<h2>How We Use Personal Information</h2>
+<p>We collect and use personal information for the following purposes:</p>
+<ul>
+<li>To respond to your inquiry, provide information about our services, or follow up on a quote or project discussion.</li>
+<li>To provide ongoing communication related to a project you've engaged us for.</li>
+<li>To improve our Site, by understanding how visitors use it (for example, through aggregated analytics).</li>
+<li>To detect and prevent fraudulent, abusive, or malicious use of the Site.</li>
+<li>To send you updates about LyoVial, where you've consented to receive them.</li>
+<li>To comply with applicable laws and regulations.</li>
+</ul>
+
+<h2>Sharing Your Personal Information</h2>
+<p>We do not share your personal information except in the following limited circumstances:</p>
+<ul>
+<li>To comply with a court order, subpoena, warrant, or other legal requirement issued by a body with jurisdiction to compel disclosure.</li>
+<li>To comply with a lawful request from a police or law enforcement agency in connection with an actual or potential investigation.</li>
+<li>To establish or defend our legal rights. Where possible and appropriate, we will notify you of this type of disclosure.</li>
+<li>To an actual or potential buyer of LyoVial (and its agents and advisers) in connection with an actual or proposed purchase, merger, or acquisition of any part of our business.</li>
+<li>With our partner organizations — such as Lyolab Diagnostics or Vanguard Analytical — but only where necessary to fulfill a request you've made that involves their services, and only to the extent needed for that purpose.</li>
+<li>With service providers who help us operate the Site (such as our hosting provider or contact-form service), solely to the extent needed for them to perform that function.</li>
+<li>To protect the security of the Site or of Site users' information.</li>
+</ul>
+
+<h2>Age of Consent</h2>
+<p>We do not knowingly collect personal information from children under the age of 18. If we determine we have collected personal information from someone younger than 18, we will take reasonable steps to remove it from our systems. If you are under 18, please do not submit personal information through the Site.</p>
+
+<h2>Data Storage and Transfer</h2>
+<p>Personal information you submit may be transferred to, processed, and stored on the servers of our hosting and form-handling providers, which may be located in Canada, the United States, or elsewhere. By submitting personal information through the Site, you acknowledge it may be stored and accessed in those jurisdictions and will be subject to the laws of the country in which it is stored.</p>
+
+<h2>Data Security</h2>
+<p>We take reasonable precautions to protect the personal information you provide, including limiting who can access it. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security of information you transmit to us; you acknowledge you do so at your own risk.</p>
+<p>LyoVial does not process credit card or payment information directly through the Site.</p>
+
+<h2>Data Retention</h2>
+<p>We retain your personal information for as long as we have an ongoing relationship with you, and for a reasonable period afterward where we have a legitimate business or legal reason to retain it. After that, we take steps to delete it.</p>
+
+<h2>Consent</h2>
+<p>When you submit an inquiry or contact form, we treat that as consent to our collecting and using that information to respond to you. If we want to use your information for another purpose, such as sending marketing communications, we will ask for your express consent or give you a clear way to decline.</p>
+
+<h2>Third-Party Services</h2>
+<p>Third-party providers we use — such as our web hosting provider, contact-form service, and analytics provider — will only collect, use, and disclose your information to the extent necessary to perform the service they provide us.</p>
+<p>If you follow a link from our Site to a third-party website, you are no longer covered by this Policy. We encourage you to review the privacy policies of any third-party site you visit.</p>
+
+<h2>Your Rights</h2>
+<p>You have rights relating to your personal information, including the right to:</p>
+<ul>
+<li>Know what personal information we hold about you, and confirm it is accurate and up to date.</li>
+<li>Request a copy of your personal information, ask us to restrict its processing, or ask us to delete it.</li>
+<li>Object to our continued processing of your personal information.</li>
+<li>Withdraw any consent you previously gave for a specific use of your information.</li>
+</ul>
+<p>You can exercise these rights, or ask us not to send you further communications, at any time by emailing <a href="mailto:hello@lyovial.ca">hello@lyovial.ca</a>.</p>
+<p>You can also reach us at:</p>
+<p>LyoVial<br>105 Schneider Road<br>Ottawa, ON, K2K 1Y3, Canada</p>
+<p>You may also file a complaint with your local data protection authority, such as the Office of the Privacy Commissioner of Canada, who can advise on how to submit one.</p>
+
+<h2>Changes to This Privacy Policy</h2>
+<p>We may update this Privacy Policy from time to time. Material changes will be noted on this page, and the “Last Updated” date below will be revised. Continued use of the Site after changes take effect means you accept the updated Policy.</p>
+HTML;
+    }
+
+    public static function aboutExtra(): array
+    {
+        $img = '/images/site';
+
+        return [
+            'hero_eyebrow' => 'About LyoVial',
+            'hero_heading' => "A lyophilization specialist,\nnot a generalist CDMO",
+            'hero_sub' => 'The people, the expertise, and the group behind the freeze-drying work.',
+            'hero_image' => $img.'/lyovial-freeze-drying-facility-kanata-north-ottawa-1920.webp',
+            'hero_image_alt' => 'LyoVial contract freeze-drying facility in Kanata North, Ottawa',
+            'cards' => [
+                ['title' => 'Pilot-scale', 'text' => 'Glass-vial batch production'],
+                ['title' => 'Evik group', 'text' => 'Freeze-drying heritage'],
+            ],
+            'origin_eyebrow' => 'Our Origin',
+            'origin_heading' => "Built on freeze-drying expertise\nthe group already had",
+            'origin_body' => 'LyoVial is part of the Evik Diagnostics group of companies. We carry forward that group\'s freeze-drying expertise, applied to a wider range of clients across diagnostics, microbiology, and cosmetics.',
+            'origin_quote' => 'Freeze-drying isn\'t a bolt-on service for us — it\'s what the group has been built around, and the one thing we do.',
+            'origin_image' => $img.'/lyovial-pilot-scale-freeze-drying-development-1200.webp',
+            'origin_image_alt' => 'Pilot-scale freeze-drying suite used for cycle development and scale-up at LyoVial',
+            'expertise_eyebrow' => 'Our Expertise',
+            'expertise_heading' => 'Years of hands-on lyophilization experience',
+            'expertise_body' => 'Our team works across the full arc of a freeze-drying project — from the formulation chemistry that decides whether a cycle will hold, to the pilot batches that go out the door.',
+            'expertise_image' => $img.'/lyovial-thermal-assessment-cryoprotectant-selection-1600.webp',
+            'expertise_image_alt' => 'LyoVial scientist performing thermal assessment and cryoprotectant selection',
+            'steps' => [
+                [
+                    'num' => '01',
+                    'title' => 'Cryoprotectant & excipient selection',
+                    'body' => 'Choosing stabilizers and bulking agents that keep a formulation intact through freezing, drying, and reconstitution.',
+                ],
+                [
+                    'num' => '02',
+                    'title' => 'Freeze-drying cycle development & optimization',
+                    'body' => 'Designing and refining cycles that are reproducible run after run, not just workable once.',
+                ],
+                [
+                    'num' => '03',
+                    'title' => 'Formulation troubleshooting & stability-focused design',
+                    'body' => 'Diagnosing collapse, cracking, and reconstitution issues at the formulation stage, where they\'re cheapest to fix.',
+                ],
+                [
+                    'num' => '04',
+                    'title' => 'Scale-up from feasibility runs to pilot batch production',
+                    'body' => 'Moving a locked cycle from a handful of vials to a full pilot run, with every parameter documented.',
+                ],
+            ],
+            'band_heading' => 'Pilot-scale batches, in glass vials',
+            'band_body' => 'We manufacture pilot-scale batches sized for R&D, validation studies, product launches, and early commercial supply — the volume between a benchtop dryer and full commercial manufacturing.',
+            'band_tags' => ['R&D', 'Validation', 'Launch', 'Early supply'],
+            'cta_eyebrow' => 'Work With Us',
+            'cta_heading' => 'Tell us about your project',
+            'cta_body' => 'Whether you need a formulation developed from scratch, a freeze-drying cycle optimized, or a pilot batch produced, get in touch — and we\'ll tell you plainly whether we\'re a fit.',
+            'cta_button' => 'Start a conversation',
+            'cta_link' => '/contact',
         ];
     }
 

@@ -43,7 +43,7 @@
       <a href="{{ url('/partnerships') }}">Partner</a>
     </nav>
     <div class="header-cta">
-      <a href="{{ route('contact') }}" class="nav-contact-btn">Get a quote</a>
+      <a href="{{ route('contact') }}" class="nav-contact-btn">Get A Quote</a>
       <button class="hamburger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="lyovialHeaderNav"><span></span><span></span><span></span></button>
     </div>
   </div>

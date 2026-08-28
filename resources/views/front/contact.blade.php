@@ -44,9 +44,14 @@
               <input type="email" name="email" id="email" value="{{ old('email') }}" required class="@error('email') is-invalid @enderror">
               @error('email')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
             </div>
-            <div class="col-12">
+            <div class="col-md-6">
               <label for="phone">Phone</label>
               <input type="text" name="phone" id="phone" value="{{ old('phone') }}">
+            </div>
+            <div class="col-md-6">
+              <label for="company">Company <span style="font-weight:500;color:#8a97a0">(optional)</span></label>
+              <input type="text" name="company" id="company" value="{{ old('company') }}" class="@error('company') is-invalid @enderror">
+              @error('company')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
             </div>
             <div class="col-12">
               <label for="message">Message</label>

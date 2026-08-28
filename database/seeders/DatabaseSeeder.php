@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
             ServicesSeeder::class,
             IndustriesSeeder::class,
             QualityComplianceSeeder::class,
+            PrivacyPolicySeeder::class,
+            AboutPageSeeder::class,
             SpecimenLibrarySeeder::class,
             ContactPageSeeder::class,
             FAQSeeder::class,

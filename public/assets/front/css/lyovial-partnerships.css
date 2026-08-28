@@ -1,7 +1,4 @@
-/* Partnerships page — matches public/new theme/partnerships.html
-   Unique lp-* classes (avoids collision with home .hero / .partner-card)
-   Brand colors: site teal #0e7c86 */
-
+/* Partnerships — logo column + content column, aligned on every screen */
 .lp-page {
   --teal: #0e7c86;
   --teal-deep: #0b6670;
@@ -15,45 +12,90 @@
   --btn-bg: #EDF1F1;
   --font-display: 'Poppins', sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
+  --logo-w: 200px;
+  --logo-h: 72px;
 
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-body);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.lp-page *,
+.lp-page *::before,
+.lp-page *::after {
+  box-sizing: border-box;
 }
 
 .lp-page a { color: inherit; text-decoration: none; }
 .lp-page ul { list-style: none; margin: 0; padding: 0; }
+.lp-page img { max-width: 100%; height: auto; }
 
-.lp-wrap {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 24px;
-  width: 100%;
-  box-sizing: border-box;
+body.lyovial-home-page .lp-page h1,
+body.lyovial-home-page .lp-page h2,
+body.lyovial-home-page .lp-page h3,
+body.lyovial-home-page .lp-page h4 {
+  font-family: var(--font-display), Inter, sans-serif !important;
+  text-shadow: none !important;
 }
 
+body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
+  background: #0e7c86 !important;
+}
+body.lyovial-home-page .header.lyovial-nav:not(.is-transparent):not(.is-sticky) {
+  position: sticky !important;
+}
+
+/* Nav + page share one box so copy lines up with the LYOVIAL logo */
+body.lyovial-home-page .container {
+  max-width: 1400px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 24px !important;
+  padding-right: 24px !important;
+}
 @media (min-width: 1400px) {
-  .lp-wrap {
-    max-width: 1480px;
-    padding: 0 28px;
+  body.lyovial-home-page .container {
+    max-width: 1480px !important;
+    padding-left: 28px !important;
+    padding-right: 28px !important;
+  }
+}
+@media (max-width: 1200px) {
+  body.lyovial-home-page .container {
+    padding-left: 32px !important;
+    padding-right: 32px !important;
+  }
+}
+@media (max-width: 768px) {
+  body.lyovial-home-page .container {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
+@media (max-width: 576px) {
+  body.lyovial-home-page .container {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+}
+@media (max-width: 400px) {
+  body.lyovial-home-page .container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
   }
 }
 
-/* Solid site navbar on this page */
-body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
-  position: relative !important;
-  background: #0e7c86 !important;
-}
-
-/* Hero — light theme (NOT home .hero) */
 .lp-hero {
   padding: 76px 0 56px;
   background: transparent !important;
   min-height: 0 !important;
   color: var(--ink) !important;
   display: block !important;
+  text-align: left;
 }
 
 .lp-eyebrow {
@@ -90,8 +132,6 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
   background: none !important;
   padding: 0 !important;
   display: inline !important;
-  box-decoration-break: initial;
-  -webkit-box-decoration-break: initial;
 }
 
 .lp-lede {
@@ -101,12 +141,33 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
   margin: 0 !important;
 }
 
-/* Cards */
+/* Shared logo slot — same width on cards and detail so text starts on one line */
+.lp-brand {
+  width: var(--logo-w);
+  min-width: var(--logo-w);
+  height: var(--logo-h);
+  flex: 0 0 var(--logo-w);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.lp-page .lp-logo {
+  display: block;
+  width: var(--logo-w) !important;
+  max-width: var(--logo-w) !important;
+  height: var(--logo-h) !important;
+  object-fit: contain;
+  object-position: left center;
+  margin: 0;
+}
+
 .lp-grid {
-  padding: 20px 0 72px;
+  padding: 8px 0 64px;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
+  align-items: stretch;
 }
 
 .lp-card {
@@ -115,8 +176,10 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
   border-radius: 6px;
   overflow: hidden;
   position: relative;
-  box-shadow: none;
   padding: 0 !important;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .lp-card::before,
@@ -125,30 +188,30 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
   display: none !important;
 }
 
-.lp-card-inner {
+.lp-card-row {
   display: flex;
-  align-items: center;
-  gap: 36px;
-  padding: 32px 100px 32px 32px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 28px 28px 28px;
+  min-width: 0;
+  height: 100%;
 }
 
-.lp-card-logo {
-  flex: 0 0 220px;
-  width: 220px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+.lp-grid .lp-brand {
+  width: 100%;
+  max-width: 200px;
+  height: 64px;
+  min-width: 0;
+  flex: 0 0 auto;
 }
 
-.lp-logo {
-  max-width: 100%;
-  max-height: 80px;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  object-position: left center;
-  display: block;
-  margin: 0;
+.lp-card-body {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .lp-badge {
@@ -165,6 +228,7 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
   justify-content: center;
   color: #fff;
   box-shadow: 0 6px 14px rgba(11, 102, 112, 0.25);
+  z-index: 2;
 }
 
 .lp-badge-n {
@@ -183,35 +247,7 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
   margin-top: 2px;
 }
 
-.lp-card-body {
-  flex: 1;
-  min-width: 0;
-  padding: 0;
-}
-
-.lp-meta {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-
-.lp-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--btn-bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--teal);
-  flex-shrink: 0;
-}
-
-.lp-avatar svg {
-  width: 18px;
-  height: 18px;
-}
+.lp-meta { margin-bottom: 10px; }
 
 .lp-role-name {
   font-family: var(--font-display);
@@ -252,6 +288,7 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
   font-size: 12.5px;
   letter-spacing: 0.06em;
   color: var(--teal-deep) !important;
+  margin-top: auto;
 }
 
 .lp-arrow {
@@ -265,28 +302,35 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
   flex-shrink: 0;
 }
 
-.lp-arrow svg {
-  width: 13px;
-  height: 13px;
-}
+.lp-arrow svg { width: 13px; height: 13px; }
+.lp-read-more:hover .lp-arrow { background: var(--teal-deep); }
 
-.lp-read-more:hover .lp-arrow {
-  background: var(--teal-deep);
-}
-
-/* Detail */
 .lp-detail {
-  padding: 56px 0;
+  padding: 48px 0;
   border-top: 1px solid var(--line);
+}
+
+.lp-detail-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.lp-detail-row .lp-brand {
+  margin-top: 4px;
+}
+
+.lp-detail-main {
+  flex: 1;
+  min-width: 0;
 }
 
 .lp-detail-head {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 28px;
   flex-wrap: wrap;
-  row-gap: 14px;
+  gap: 12px 16px;
+  margin: 0 0 24px;
 }
 
 .lp-idx {
@@ -310,14 +354,6 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
   font-size: clamp(22px, 2.8vw, 30px) !important;
   color: var(--ink) !important;
   margin: 0 !important;
-}
-
-.lp-detail-logo {
-  height: 40px;
-  max-width: 180px;
-  object-fit: contain;
-  object-position: left center;
-  margin-right: 8px;
 }
 
 .lp-pill {
@@ -344,9 +380,7 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
   border-radius: 4px;
 }
 
-.lp-visit:hover {
-  background: var(--teal-deep) !important;
-}
+.lp-visit:hover { background: var(--teal-deep) !important; }
 
 .lp-detail-grid {
   display: grid;
@@ -363,9 +397,7 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
   margin: 22px 0 10px !important;
 }
 
-.lp-detail-grid > div > .lp-section-h:first-child {
-  margin-top: 0 !important;
-}
+.lp-detail-grid > div > .lp-section-h:first-child { margin-top: 0 !important; }
 
 .lp-section-p {
   color: var(--ink-soft) !important;
@@ -383,9 +415,7 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
   color: var(--ink-soft) !important;
 }
 
-.lp-spec li:first-child {
-  border-top: 1px solid var(--line);
-}
+.lp-spec li:first-child { border-top: 1px solid var(--line); }
 
 .lp-dot {
   width: 8px;
@@ -402,17 +432,9 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
   font-size: 14.5px;
 }
 
-.lp-methods tr {
-  border-bottom: 1px solid var(--line);
-}
-
-.lp-methods tr:first-child {
-  border-top: 1px solid var(--line);
-}
-
-.lp-methods td {
-  padding: 13px 0;
-}
+.lp-methods tr { border-bottom: 1px solid var(--line); }
+.lp-methods tr:first-child { border-top: 1px solid var(--line); }
+.lp-methods td { padding: 13px 0; }
 
 .lp-m-name {
   font-family: var(--font-display);
@@ -423,9 +445,7 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
   padding-right: 14px;
 }
 
-.lp-m-desc {
-  color: var(--ink-soft) !important;
-}
+.lp-m-desc { color: var(--ink-soft) !important; }
 
 .lp-callout {
   margin-top: 20px;
@@ -448,10 +468,7 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
   color: #C1782E !important;
 }
 
-/* CTA */
-.lp-cta {
-  padding: 64px 0 88px;
-}
+.lp-cta { padding: 64px 0 88px; }
 
 .lp-cta-inner {
   background: linear-gradient(120deg, var(--teal-deep), var(--teal));
@@ -479,11 +496,7 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
   margin: 0 !important;
 }
 
-.lp-cta-paths {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
+.lp-cta-paths { display: flex; flex-direction: column; gap: 14px; }
 
 .lp-cta-path {
   background: rgba(255, 255, 255, 0.1);
@@ -519,106 +532,60 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
   padding: 12px 12px 12px 20px;
 }
 
-.lp-arrow-dark {
-  background: var(--teal-deep) !important;
-}
+.lp-arrow-dark { background: var(--teal-deep) !important; }
 
-@media (max-width: 860px) {
-  .lp-page {
-    overflow-x: hidden;
-  }
-
+@media (max-width: 900px) {
   .lp-grid,
   .lp-detail-grid,
   .lp-cta-inner {
     grid-template-columns: 1fr;
   }
-
-  .lp-hero {
-    padding: 40px 0 28px;
-  }
-
-  .lp-title {
-    max-width: none !important;
-    font-size: clamp(28px, 8vw, 40px) !important;
-  }
-
-  .lp-lede {
-    max-width: none !important;
-    font-size: 15.5px !important;
-  }
-
-  .lp-card-inner {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
-    padding: 24px 72px 24px 20px;
-  }
-
-  .lp-card-logo {
-    flex: none;
-    width: auto;
-    max-width: 200px;
-  }
-
-  .lp-card-body {
-    padding: 0;
-    width: 100%;
-  }
-
-  .lp-detail {
-    padding: 40px 0;
-  }
-
-  .lp-cta {
-    padding: 40px 0 64px;
-  }
-
-  .lp-cta-inner {
-    padding: 28px 20px !important;
-    gap: 24px;
-  }
-
-  .lp-cta-path {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-@media (max-width: 1200px) {
-  .lp-wrap {
-    padding: 0 32px;
-  }
 }
 
 @media (max-width: 768px) {
-  .lp-wrap {
-    padding: 0 24px;
-  }
-}
-
-@media (max-width: 576px) {
-  .lp-wrap {
-    padding: 0 18px;
-  }
-}
-
-@media (max-width: 400px) {
-  .lp-wrap {
-    padding: 0 16px;
+  .lp-hero { padding: 40px 0 28px; }
+  .lp-title { max-width: none !important; }
+  .lp-detail-row {
+    gap: 24px;
+    padding-right: 0;
   }
 }
 
 @media (max-width: 640px) {
-  .lp-hero {
-    padding: 32px 0 24px;
+  .lp-page {
+    --logo-w: 160px;
+    --logo-h: 56px;
   }
 
-  .lp-detail-logo {
-    margin-right: 0;
-    margin-left: 0;
-    width: auto;
-    max-width: 140px;
+  .lp-hero { padding: 32px 0 24px; }
+  .lp-title { font-size: clamp(26px, 8vw, 36px) !important; }
+  .lp-lede { font-size: 15.5px !important; max-width: none !important; }
+
+  .lp-detail-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    padding: 0;
+  }
+
+  .lp-card-row {
+    padding: 22px 22px 24px;
+  }
+
+  .lp-brand,
+  .lp-detail-row .lp-brand {
+    width: 100%;
+    min-width: 0;
+    flex: none;
+    height: var(--logo-h);
+    margin-top: 0;
+    justify-content: flex-start;
+  }
+
+  .lp-page .lp-logo {
+    width: auto !important;
+    max-width: 220px !important;
+    height: var(--logo-h) !important;
   }
 
   .lp-visit {
@@ -627,19 +594,10 @@ body.lyovial-home-page .header.lyovial-nav:not(.is-transparent) {
     justify-content: center;
   }
 
-  .lp-detail-head {
-    gap: 12px;
-  }
-
-  .lp-pill {
-    width: 100%;
-    text-align: center;
-  }
-
-  .lp-badge {
-    top: 16px;
-    right: 16px;
-    width: 56px;
-    height: 50px;
-  }
+  .lp-cta { padding: 40px 0 64px; }
+  .lp-cta-inner { padding: 28px 20px; gap: 24px; }
+  .lp-cta-path { flex-direction: column; align-items: flex-start; }
+  .lp-badge { top: 14px; right: 14px; width: 56px; height: 50px; }
+  .lp-detail { padding: 36px 0; }
+  .lp-card-title { font-size: 18px !important; }
 }

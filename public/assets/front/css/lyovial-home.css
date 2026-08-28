@@ -59,6 +59,16 @@ img{max-width:100%;display:block}
 a{text-decoration:none;color:inherit}
 .container{max-width:1400px;margin:0 auto;padding:0 24px;width:100%}
 
+/* Same content box on every page (beats Bootstrap .container on inner pages). */
+body.lyovial-home-page .container{
+  max-width:1400px !important;
+  width:100% !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  padding-left:24px !important;
+  padding-right:24px !important;
+}
+
 /* ---------- Header ---------- */
 .header{
   position:absolute;top:0;left:0;right:0;z-index:50;
@@ -68,7 +78,9 @@ a{text-decoration:none;color:inherit}
 }
 .header.is-transparent{background:transparent}
 .header.lyovial-nav:not(.is-transparent){
-  position:relative;
+  position:sticky;
+  top:0;
+  z-index:50;
   background:#0e7c86;
   padding:16px 0;
 }
@@ -78,6 +90,9 @@ a{text-decoration:none;color:inherit}
   box-shadow:0 8px 24px rgba(14,36,52,.18);
   padding:16px 0;
 }
+.header.lyovial-nav:not(.is-transparent).is-sticky{
+  position:sticky;
+}
 .header .nav-logo-img{
   height:36px;width:auto;
   filter:brightness(0) invert(1) opacity(.95);
@@ -85,7 +100,7 @@ a{text-decoration:none;color:inherit}
 .nav-contact-btn{
   display:inline-flex;align-items:center;justify-content:center;
   background:#fff;color:#0e7c86 !important;font-size:13px;font-weight:700;
-  padding:10px 18px;border-radius:6px;white-space:nowrap;
+  padding:10px 28px;min-width:148px;border-radius:6px;white-space:nowrap;
   transition:background .2s,color .2s,outline-color .2s;
   text-decoration:none;
 }
@@ -640,6 +655,8 @@ a{text-decoration:none;color:inherit}
 .blog-author-avatar{
   width:42px;height:42px;border-radius:50%;
   background-size:cover;background-position:center;
+  flex-shrink:0;
+  overflow:hidden;
 }
 .blog-author strong{display:block;color:var(--text-dark);font-size:14px;font-weight:600;line-height:1.2}
 .blog-author span{font-size:12px;color:var(--text-body)}
@@ -714,11 +731,13 @@ body.nav-drawer-open{
 /* Large desktop (1400px+) — wider content, less side space */
 @media (min-width:1400px){
   .container{max-width:1480px;padding:0 28px}
+  body.lyovial-home-page .container{max-width:1480px !important;padding-left:28px !important;padding-right:28px !important}
 }
 
 /* Standard desktop (max 1200px) */
 @media (max-width: 1200px){
   .container{padding:0 32px}
+  body.lyovial-home-page .container{padding-left:32px !important;padding-right:32px !important}
   .hero h1{font-size:48px}
   .section-head h2,
   .about h2, .why h2, .partner-head h2, .coverage-head h2{font-size:34px}
@@ -774,7 +793,7 @@ body.nav-drawer-open{
 @media (max-width: 992px){
   .header{padding:16px 0}
   .header-cta .phone-txt{display:none !important}
-  .header-cta .nav-contact-btn{padding:8px 12px;font-size:12px}
+  .header-cta .nav-contact-btn{padding:8px 20px;min-width:132px;font-size:12px}
   .hamburger{display:flex}
 
   .header-inner{
@@ -870,6 +889,7 @@ body.nav-drawer-open{
 /* Tablet portrait (max 768px) */
 @media (max-width: 768px){
   .container{padding:0 24px}
+  body.lyovial-home-page .container{padding-left:24px !important;padding-right:24px !important}
 
   /* Header */
   .header{padding:14px 0}
@@ -943,6 +963,7 @@ body.nav-drawer-open{
 /* Mobile (max 576px) */
 @media (max-width: 576px){
   .container{padding:0 18px}
+  body.lyovial-home-page .container{padding-left:18px !important;padding-right:18px !important}
   .header{padding:14px 0}
   .logo img{height:30px !important}
   .header-cta{gap:10px}
@@ -1051,6 +1072,7 @@ body.nav-drawer-open{
 /* Small mobile (max 400px) */
 @media (max-width: 400px){
   .container{padding:0 16px}
+  body.lyovial-home-page .container{padding-left:16px !important;padding-right:16px !important}
   .hero h1{font-size:24px}
   .hero p{font-size:13.5px}
   .contact-hero h1,
@@ -1194,8 +1216,8 @@ body.nav-drawer-open{
   padding:12px 16px;border-radius:8px;
 }
 
-/* Footer (no Bootstrap required) */
-.site-footer{background:#0e7c86;color:#fff}
+/* Footer (no Bootstrap required) — identical on home (liteFront) and inner pages */
+.site-footer{background:#0e7c86;color:#fff;margin-top:0}
 .site-footer .footer-inner{
   padding-top:48px;
   padding-bottom:48px;
@@ -1205,6 +1227,37 @@ body.nav-drawer-open{
   grid-template-columns:1.4fr .9fr 1.1fr 1fr;
   gap:32px;
   text-align:left;
+  align-items:start;
+}
+body.lyovial-home-page .site-footer h4{
+  margin:0 0 1rem !important;
+  font-size:13px !important;
+  line-height:1.4 !important;
+  text-transform:uppercase !important;
+  letter-spacing:.04em !important;
+}
+body.lyovial-home-page .site-footer .footer-text{
+  margin-top:0;
+}
+.site-footer .footer-cta .footer-text{
+  margin-bottom:1.35rem;
+}
+body.lyovial-home-page .site-footer .footer-cta .btn.btn-brand,
+body.lyovial-home-page .site-footer .footer-cta .btn-brand{
+  margin-top:.15rem;
+}
+body.lyovial-home-page .site-footer .btn.btn-brand,
+body.lyovial-home-page .site-footer .btn-brand{
+  display:inline-flex !important;
+  align-items:center;
+  justify-content:center;
+  width:auto !important;
+  padding:.7rem 1.15rem !important;
+  font-size:14px !important;
+  letter-spacing:.02em !important;
+  text-transform:none !important;
+  box-shadow:none !important;
+  transform:none !important;
 }
 .footer-logo{
   height:36px;width:auto;display:block;
@@ -1227,6 +1280,8 @@ body.nav-drawer-open{
   font-size:.9rem;
 }
 .footer-credit{opacity:.9}
+.footer-legal a,
+.lyovial-home-page .site-footer .footer-legal a,
 .lyovial-home-page .site-footer .footer-credit a,
 .footer-credit a{
   color:#fff;
@@ -1234,6 +1289,7 @@ body.nav-drawer-open{
   text-decoration:underline;
   text-underline-offset:3px;
 }
+.footer-legal a:hover,
 .footer-credit a:hover{opacity:.85}
 .btn-brand{
   display:inline-block;background:#fff;border:1.5px solid #fff;color:#0e7c86;
@@ -1275,4 +1331,34 @@ body.nav-drawer-open{
 .blog-author-avatar.is-initials{
   display:grid;place-items:center;
   background:#0e7c86;color:#fff;font-weight:700;font-size:14px;
+}
+
+.lv-legal{padding:64px 0 88px;text-align:left}
+.lv-legal-wrap{max-width:760px;margin:0;margin-right:auto}
+.lv-legal-meta{
+  display:flex;flex-wrap:wrap;gap:8px 20px;
+  margin:0 0 28px;padding-bottom:18px;
+  border-bottom:1px solid #e4ecee;
+  color:#6b7a86;font-size:14px;
+}
+.lv-legal-body{color:#4A5A67;line-height:1.8;font-size:16px}
+.lv-legal-body h2{
+  font-family:'Inter',sans-serif;
+  font-size:1.05rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;color:#0e7c86;
+  margin:2.15rem 0 .7rem;
+}
+.lv-legal-body h2:first-child{margin-top:0}
+.lv-legal-body p{margin:0 0 1rem}
+.lv-legal-body ul{margin:0 0 1.1rem;padding-left:1.2rem}
+.lv-legal-body li{margin-bottom:.45rem}
+.lyovial-home-page .lv-legal-body a{
+  color:#0e7c86 !important;
+  text-decoration:underline !important;
+  text-underline-offset:3px;
+}
+.lv-legal-foot{
+  margin:2.25rem 0 0;padding-top:1.15rem;
+  border-top:1px solid #e4ecee;
+  color:#6b7a86;font-size:14px;
 }

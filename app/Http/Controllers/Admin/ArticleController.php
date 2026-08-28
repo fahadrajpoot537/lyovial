@@ -7,9 +7,7 @@ use App\Http\Controllers\Admin\Concerns\HandlesSeoUploads;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ArticleRequest;
 use App\Models\Article;
-use App\Support\SeoHelper;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class ArticleController extends Controller
@@ -30,15 +28,16 @@ class ArticleController extends Controller
 
     public function store(ArticleRequest $request): RedirectResponse
     {
-        $data = collect($request->validated())->except(SeoHelper::fields())->all();
+        $validated = $request->validated();
+        $data = $this->payloadWithoutSeo($validated);
         $data['featured_image'] = $this->uploadImage($request, 'featured_image', 'articles');
         $data['author_avatar'] = $this->uploadImage($request, 'author_avatar', 'articles/authors');
         $data['status'] = $request->boolean('status');
         $data['show_on_home'] = $request->boolean('show_on_home');
-        $data['slug'] = $data['slug'] ?: Str::slug($data['title']);
+        $validated['slug'] = $data['slug'];
 
         $article = Article::create(array_filter($data, fn ($value) => $value !== null));
-        $this->syncSeoFromRequest($request, $request->validated(), $article);
+        $this->syncSeoFromRequest($request, $validated, $article);
 
         return redirect()
             ->route('admin.articles.index')
@@ -54,15 +53,16 @@ class ArticleController extends Controller
 
     public function update(ArticleRequest $request, Article $article): RedirectResponse
     {
-        $data = collect($request->validated())->except(SeoHelper::fields())->all();
+        $validated = $request->validated();
+        $data = $this->payloadWithoutSeo($validated);
         $data['featured_image'] = $this->resolveImageField($request, 'featured_image', 'articles', $article->featured_image);
         $data['author_avatar'] = $this->resolveImageField($request, 'author_avatar', 'articles/authors', $article->author_avatar);
         $data['status'] = $request->boolean('status');
         $data['show_on_home'] = $request->boolean('show_on_home');
-        $data['slug'] = $data['slug'] ?: Str::slug($data['title']);
+        $validated['slug'] = $data['slug'];
 
         $article->update($data);
-        $this->syncSeoFromRequest($request, $request->validated(), $article);
+        $this->syncSeoFromRequest($request, $validated, $article);
 
         return back()->with('success', 'Article updated successfully.');
     }

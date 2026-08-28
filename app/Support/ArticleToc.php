@@ -48,7 +48,7 @@ class ArticleToc
             }
         }
 
-        $nodes = $xpath->query('.//h2|.//h3', $root);
+        $nodes = $xpath->query('.//h1|.//h2|.//h3', $root);
         $headings = [];
         $used = [];
 
@@ -80,7 +80,7 @@ class ArticleToc
                 $headings[] = [
                     'id' => $id,
                     'text' => $text,
-                    'level' => strtolower($node->tagName) === 'h3' ? 3 : 2,
+                    'level' => (int) substr($node->tagName, 1) ?: 2,
                 ];
             }
         }

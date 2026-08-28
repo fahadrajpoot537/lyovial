@@ -55,7 +55,7 @@
                     @endforeach
                 </ul>
             </div>
-            <div>
+            <div class="footer-cta">
                 <h4 style="margin:0 0 1rem;text-transform:uppercase;letter-spacing:.04em">Ready to talk?</h4>
                 <p class="footer-text">Share your product goals and our Kanata team will help map the next step.</p>
                 <a href="{{ route('contact') }}" class="btn btn-brand">Contact LyoVial</a>
@@ -65,6 +65,9 @@
     <div class="footer-bottom">
         <div class="container footer-bottom-inner">
             <span>{{ $siteCopyright }}</span>
+            <nav class="footer-legal" aria-label="Legal">
+                <a href="{{ route('pages.privacy') }}">Privacy Policy</a>
+            </nav>
             <span class="footer-credit">Created by <a href="https://kodrank.com/" target="_blank" rel="noopener noreferrer">KodRank</a></span>
         </div>
     </div>

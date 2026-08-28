@@ -58,6 +58,7 @@ Route::get('/about', [PageController::class, 'about'])->name('pages.about');
 Route::get('/quality-compliance', [PageController::class, 'quality'])->name('pages.quality');
 Route::get('/specimen-library-preservation', [PageController::class, 'specimen'])->name('pages.specimen');
 Route::get('/partnerships', [PageController::class, 'partnerships'])->name('pages.partnerships');
+Route::get('/privacy-policy', [PageController::class, 'privacy'])->name('pages.privacy');
 
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');

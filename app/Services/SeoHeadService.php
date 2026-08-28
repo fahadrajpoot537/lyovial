@@ -181,6 +181,10 @@ class SeoHeadService
             return ContactPage::query()->with('seo')->first() ?: ContactPage::current();
         }
 
+        if ($path === '/about') {
+            return Page::query()->active()->ofType(Page::TYPE_ABOUT)->with('seo')->first();
+        }
+
         if ($path === '/quality-compliance') {
             return Page::query()->active()->ofType(Page::TYPE_QUALITY_COMPLIANCE)->with('seo')->first();
         }
@@ -191,6 +195,10 @@ class SeoHeadService
 
         if ($path === '/partnerships') {
             return Page::query()->active()->ofType(Page::TYPE_PARTNERSHIPS)->with('seo')->first();
+        }
+
+        if ($path === '/privacy-policy') {
+            return Page::query()->active()->ofType(Page::TYPE_PRIVACY)->with('seo')->first();
         }
 
         if (preg_match('#^/(?:capabilities|services)/([^/]+)$#', $path, $m)) {

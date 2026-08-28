@@ -26,7 +26,7 @@
                 <div class="mb-3">
                     <label class="form-label" for="content">Content</label>
                     <p class="form-text mb-2">
-                        Use <strong>Heading</strong> / <strong>Subheading</strong> in the editor. Click under the heading
+                        Use <strong>Heading 1 / 2 / 3</strong> in the editor. Click under the heading
                         where the photo should appear, then use the <strong>image</strong> button to upload it.
                         Click the image to add a caption or choose full-width / side layout.
                     </p>
@@ -35,11 +35,11 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label" for="author_name">Author name</label>
-                        <input type="text" name="author_name" id="author_name" class="form-control" value="{{ old('author_name', $item?->author_name) }}">
+                        <input type="text" name="author_name" id="author_name" class="form-control" value="{{ old('author_name', $item?->author_name ?: 'Vladimir Evtodienko') }}">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label" for="author_role">Author role</label>
-                        <input type="text" name="author_role" id="author_role" class="form-control" value="{{ old('author_role', $item?->author_role) }}">
+                        <input type="text" name="author_role" id="author_role" class="form-control" value="{{ old('author_role', $item?->author_role ?: 'CEO, Founder- IVD Technology') }}">
                     </div>
                 </div>
             </div>

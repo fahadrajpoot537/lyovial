@@ -1,49 +1,84 @@
 @extends('front.layouts.lyovial-home')
 
+@php
+    use App\Support\SiteImages;
+
+    $themeThumbs = [
+        SiteImages::url('process.jpg'),
+        SiteImages::url('svc-1.jpg'),
+        SiteImages::url('why-lg.jpg'),
+    ];
+@endphp
+
 @section('content')
 @include('front.partials.lyovial-navbar', ['transparent' => true])
 
 @include('front.partials.page-banner', [
     'bannerTitle' => 'Blog',
     'bannerSubtitle' => 'Latest lyophilization insights & case notes',
-    'bannerImage' => \App\Support\SiteImages::get('banner_articles'),
+    'bannerImage' => SiteImages::get('banner_articles'),
 ])
 
-<section class="section">
-    <div class="container py-5">
-        <div class="row g-4">
-            @forelse($articles as $article)
-                @php
-                    $thumb = \App\Support\SiteImages::resolve($article->featured_image, \App\Support\SiteImages::url('process.jpg'));
-                @endphp
-                <div class="col-md-6 col-lg-4">
-                    <article class="card-soft h-100">
-                        <a href="{{ route('blog.show', $article) }}" class="text-decoration-none text-dark">
-                            <img src="{{ $thumb }}" alt="{{ $article->title }}" loading="lazy">
-                            <div class="body">
-                                <p class="small text-secondary mb-2">
-                                    @if($article->published_at){{ $article->published_at->format('M j, Y') }}@endif
-                                    @if($article->author_name) · {{ $article->author_name }}@endif
-                                </p>
-                                <h2 class="h5" style="color:#0e7c86">{{ $article->title }}</h2>
-                                @if($article->excerpt)
-                                    <p class="text-secondary mb-3">{{ $article->excerpt }}</p>
-                                @endif
-                                <span class="fw-semibold" style="color:#0e7c86">Read more →</span>
-                            </div>
-                        </a>
-                    </article>
-                </div>
-            @empty
-                <div class="col-12">
-                    <p class="text-secondary mb-0">No articles published yet.</p>
-                </div>
-            @endforelse
-        </div>
+<link rel="stylesheet" href="{{ asset('assets/front/css/lyovial-article.css') }}?v={{ filemtime(public_path('assets/front/css/lyovial-article.css')) }}">
 
-        <div class="mt-4">
-            {{ $articles->links() }}
+<section class="lv-blog-index">
+  <div class="container">
+    @if($articles->count())
+      <div class="blog-grid">
+        @foreach($articles as $i => $article)
+          @php
+            $rawThumb = $article->featured_image;
+            if (filled($rawThumb) && str_contains($rawThumb, 'images.unsplash.com')) {
+                $rawThumb = null;
+            }
+            $thumb = SiteImages::resolve($rawThumb, $themeThumbs[$i % count($themeThumbs)]);
+            $avatarSrc = $article->author_avatar;
+            if (filled($avatarSrc) && str_contains($avatarSrc, 'images.unsplash.com')) {
+                $avatarSrc = null;
+            }
+            $avatarUrl = $avatarSrc ? SiteImages::resolve($avatarSrc, '') : '';
+            $initials = strtoupper(mb_substr(trim($article->author_name ?: 'LV'), 0, 1));
+            $day = $article->published_at?->format('d') ?? '01';
+            $month = $article->published_at?->format('M') ?? 'Jan';
+          @endphp
+          <article class="blog-card">
+            <a href="{{ route('blog.show', $article) }}" class="blog-card-link">
+              <div class="blog-thumb" style="background-image:url('{{ $thumb }}')">
+                <div class="blog-date">
+                  <strong>{{ $day }}</strong><span>{{ $month }}</span>
+                </div>
+              </div>
+              <div class="blog-body">
+                <div class="blog-author">
+                  @if($avatarUrl)
+                    <div class="blog-author-avatar" style="background-image:url('{{ $avatarUrl }}')" role="img" aria-label="{{ $article->author_name }}"></div>
+                  @else
+                    <div class="blog-author-avatar is-initials" aria-hidden="true">{{ $initials }}</div>
+                  @endif
+                  <div>
+                    <strong>{{ $article->author_name }}</strong>
+                    <span>{{ $article->author_role }}</span>
+                  </div>
+                </div>
+                <h3>{{ $article->title }}</h3>
+                @if($article->excerpt)
+                  <p class="blog-excerpt">{{ $article->excerpt }}</p>
+                @endif
+                <span class="read-more">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+              </div>
+            </a>
+          </article>
+        @endforeach
+      </div>
+
+      @if($articles->hasPages())
+        <div class="lv-blog-pager">
+          {{ $articles->links() }}
         </div>
-    </div>
+      @endif
+    @else
+      <div class="lv-blog-empty">No articles published yet.</div>
+    @endif
+  </div>
 </section>
 @endsection

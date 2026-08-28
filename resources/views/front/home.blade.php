@@ -406,15 +406,17 @@
   <div class="container">
     <div class="section-head blog-head">
       <div>
-        <div class="eyebrow">Blogs</div>
+        <div class="eyebrow">{{ $articlesIntro?->small_title ?: 'Blogs' }}</div>
         <h2>{{ $articlesIntro?->heading ?? 'Latest lyophilization insights & case notes' }}</h2>
       </div>
-      <a href="{{ route('blog.index') }}" class="btn btn-primary">View All →</a>
+      <a href="{{ filled($articlesIntro?->button_primary_link) ? url($articlesIntro->button_primary_link) : route('blog.index') }}" class="btn btn-primary">{{ $articlesIntro?->button_primary_text ?: 'View All →' }}</a>
     </div>
     <div class="blog-grid is-carousel">
       @foreach($articles as $i => $article)
         @php
           $thumb = $resolveImg($usableImg($article->featured_image), $themeArticleThumbs[$i % count($themeArticleThumbs)]);
+          $avatarSrc = $usableImg($article->author_avatar);
+          $avatarUrl = $avatarSrc ? $resolveImg($avatarSrc, '') : '';
           $initials = strtoupper(mb_substr(trim($article->author_name ?: 'LV'), 0, 1));
           $day = $article->published_at?->format('d') ?? '01';
           $month = $article->published_at?->format('M') ?? 'Jan';
@@ -427,7 +429,11 @@
           </div>
           <div class="blog-body">
             <div class="blog-author">
-              <div class="blog-author-avatar is-initials" aria-hidden="true">{{ $initials }}</div>
+              @if($avatarUrl)
+                <div class="blog-author-avatar" style="background-image:url('{{ $avatarUrl }}')" role="img" aria-label="{{ $article->author_name }}"></div>
+              @else
+                <div class="blog-author-avatar is-initials" aria-hidden="true">{{ $initials }}</div>
+              @endif
               <div>
                 <strong>{{ $article->author_name }}</strong>
                 <span>{{ $article->author_role }}</span>

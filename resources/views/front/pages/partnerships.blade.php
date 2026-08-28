@@ -21,23 +21,23 @@
 <link rel="stylesheet" href="{{ asset('assets/front/css/lyovial-partnerships.css') }}?v={{ filemtime(public_path('assets/front/css/lyovial-partnerships.css')) }}">
 
 <div class="lp-page">
-  <main>
-    <section class="lp-hero lp-wrap">
+  <div class="container lp-shell">
+    <section class="lp-hero">
       <div class="lp-eyebrow">{{ $x['hero_eyebrow'] ?? 'Partnerships' }}</div>
       <h1 class="lp-title">{!! $headingHtml !!}</h1>
       <p class="lp-lede">{{ $x['hero_lede'] ?? '' }}</p>
     </section>
 
-    <section class="lp-grid lp-wrap">
+    <section class="lp-grid">
       @foreach($partners as $partner)
         @continue(empty($partner['name']))
         <article class="lp-card">
-          <div class="lp-card-inner">
-            @if(!empty($partner['logo']))
-              <div class="lp-card-logo">
+          <div class="lp-card-row">
+            <div class="lp-brand">
+              @if(!empty($partner['logo']))
                 <img class="lp-logo" src="{{ $partner['logo'] }}" alt="{{ $partner['name'] }} logo">
-              </div>
-            @endif
+              @endif
+            </div>
             <div class="lp-card-body">
               <div class="lp-meta">
                 <div>
@@ -65,63 +65,69 @@
 
     @foreach($partners as $partner)
       @continue(empty($partner['name']))
-      <section class="lp-detail lp-wrap" id="{{ $partner['anchor'] ?? ('partner-'.$loop->iteration) }}">
-        <div class="lp-detail-head">
-          @if(!empty($partner['logo']))
-            <img class="lp-detail-logo" src="{{ $partner['logo'] }}" alt="{{ $partner['name'] }}">
-          @endif
-          <span class="lp-idx">{{ $partner['num'] ?? str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-          <h3 class="lp-detail-name">{{ $partner['name'] }}</h3>
-          @if(!empty($partner['location']))
-            <span class="lp-pill">{{ $partner['location'] }}</span>
-          @endif
-          @if(!empty($partner['website']))
-            <a href="{{ $partner['website'] }}" target="_blank" rel="noopener" class="lp-visit">Learn more ↗</a>
-          @endif
-        </div>
-
-        <div class="lp-detail-grid">
-          <div>
-            @foreach(($partner['sections'] ?? []) as $section)
-              @continue(empty($section['heading']))
-              <h4 class="lp-section-h">{{ $section['heading'] }}</h4>
-              <p class="lp-section-p">{{ $section['body'] ?? '' }}</p>
-            @endforeach
-            @if(!empty($partner['callout_body']))
-              <div class="lp-callout">
-                @if(!empty($partner['callout_label']))
-                  <span class="lp-callout-label">{{ $partner['callout_label'] }}</span>
-                @endif
-                {{ $partner['callout_body'] }}
-              </div>
+      <section class="lp-detail" id="{{ $partner['anchor'] ?? ('partner-'.$loop->iteration) }}">
+        <div class="lp-detail-row">
+          <div class="lp-brand">
+            @if(!empty($partner['logo']))
+              <img class="lp-logo" src="{{ $partner['logo'] }}" alt="{{ $partner['name'] }}">
             @endif
           </div>
-          <div>
-            @if(!empty($partner['bullets']))
-              <ul class="lp-spec">
-                @foreach($partner['bullets'] as $bullet)
-                  @continue(!filled($bullet))
-                  <li><span class="lp-dot"></span>{{ $bullet }}</li>
+          <div class="lp-detail-main">
+            <div class="lp-detail-head">
+              <span class="lp-idx">{{ $partner['num'] ?? str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+              <h3 class="lp-detail-name">{{ $partner['name'] }}</h3>
+              @if(!empty($partner['location']))
+                <span class="lp-pill">{{ $partner['location'] }}</span>
+              @endif
+              @if(!empty($partner['website']))
+                <a href="{{ $partner['website'] }}" target="_blank" rel="noopener" class="lp-visit">Learn more ↗</a>
+              @endif
+            </div>
+
+            <div class="lp-detail-grid">
+              <div>
+                @foreach(($partner['sections'] ?? []) as $section)
+                  @continue(empty($section['heading']))
+                  <h4 class="lp-section-h">{{ $section['heading'] }}</h4>
+                  <p class="lp-section-p">{{ $section['body'] ?? '' }}</p>
                 @endforeach
-              </ul>
-            @endif
-            @if(!empty($partner['methods']))
-              <table class="lp-methods">
-                @foreach($partner['methods'] as $method)
-                  @continue(empty($method['name']))
-                  <tr>
-                    <td class="lp-m-name">{{ $method['name'] }}</td>
-                    <td class="lp-m-desc">{{ $method['desc'] ?? '' }}</td>
-                  </tr>
-                @endforeach
-              </table>
-            @endif
+                @if(!empty($partner['callout_body']))
+                  <div class="lp-callout">
+                    @if(!empty($partner['callout_label']))
+                      <span class="lp-callout-label">{{ $partner['callout_label'] }}</span>
+                    @endif
+                    {{ $partner['callout_body'] }}
+                  </div>
+                @endif
+              </div>
+              <div>
+                @if(!empty($partner['bullets']))
+                  <ul class="lp-spec">
+                    @foreach($partner['bullets'] as $bullet)
+                      @continue(!filled($bullet))
+                      <li><span class="lp-dot"></span>{{ $bullet }}</li>
+                    @endforeach
+                  </ul>
+                @endif
+                @if(!empty($partner['methods']))
+                  <table class="lp-methods">
+                    @foreach($partner['methods'] as $method)
+                      @continue(empty($method['name']))
+                      <tr>
+                        <td class="lp-m-name">{{ $method['name'] }}</td>
+                        <td class="lp-m-desc">{{ $method['desc'] ?? '' }}</td>
+                      </tr>
+                    @endforeach
+                  </table>
+                @endif
+              </div>
+            </div>
           </div>
         </div>
       </section>
     @endforeach
 
-    <section class="lp-cta lp-wrap">
+    <section class="lp-cta">
       <div class="lp-cta-inner">
         <div>
           <h2 class="lp-cta-title">{{ $x['cta_heading'] ?? '' }}</h2>
@@ -144,6 +150,6 @@
         </div>
       </div>
     </section>
-  </main>
+  </div>
 </div>
 @endsection

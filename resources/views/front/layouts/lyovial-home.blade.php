@@ -264,6 +264,12 @@
             color: #fff !important;
             font-weight: 400 !important;
         }
+        .lyovial-home-page .site-footer .footer-legal a,
+        .lyovial-home-page .site-footer .footer-credit a {
+            font-weight: 600 !important;
+            text-decoration: underline !important;
+            text-underline-offset: 3px;
+        }
         .lyovial-home-page .site-footer a:hover { color: #fff !important; opacity: .9; }
         .lyovial-home-page .site-footer .footer-text {
             color: #fff !important;

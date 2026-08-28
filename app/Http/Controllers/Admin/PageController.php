@@ -7,8 +7,8 @@ use App\Http\Controllers\Admin\Concerns\HandlesSeoUploads;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\PageRequest;
 use App\Models\Page;
-use App\Support\SeoHelper;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class PageController extends Controller
@@ -31,12 +31,16 @@ class PageController extends Controller
 
     public function store(PageRequest $request): RedirectResponse
     {
-        $data = collect($request->validated())->except(SeoHelper::fields())->all();
+        $validated = $request->validated();
+        $data = $this->payloadWithoutSeo($validated);
         $data['banner_image'] = $this->uploadImage($request, 'banner_image', 'pages');
         $data['extra'] = $this->normalizePageExtra($request->input('extra', []), $data['type'] ?? 'custom');
+        $data['extra'] = $this->mergeAboutImages($request, $data['type'] ?? 'custom', $data['extra'], []);
+        $data['status'] = $request->boolean('status');
+        $validated['slug'] = $data['slug'];
 
         $page = Page::create(array_filter($data, fn ($value) => $value !== null));
-        $this->syncSeoFromRequest($request, $request->validated(), $page);
+        $this->syncSeoFromRequest($request, $validated, $page);
 
         return redirect()
             ->route('admin.pages.edit', $page)
@@ -58,12 +62,16 @@ class PageController extends Controller
 
     public function update(PageRequest $request, Page $page): RedirectResponse
     {
-        $data = collect($request->validated())->except(SeoHelper::fields())->all();
+        $validated = $request->validated();
+        $data = $this->payloadWithoutSeo($validated);
         $data['banner_image'] = $this->resolveImageField($request, 'banner_image', 'pages', $page->banner_image);
         $data['extra'] = $this->normalizePageExtra($request->input('extra', []), $data['type'] ?? $page->type);
+        $data['extra'] = $this->mergeAboutImages($request, $data['type'] ?? $page->type, $data['extra'], is_array($page->extra) ? $page->extra : []);
+        $data['status'] = $request->boolean('status');
+        $validated['slug'] = $data['slug'];
 
         $page->update(array_filter($data, fn ($value) => $value !== null));
-        $this->syncSeoFromRequest($request, $request->validated(), $page);
+        $this->syncSeoFromRequest($request, $validated, $page);
 
         return back()->with('success', 'Page updated successfully.');
     }
@@ -194,6 +202,75 @@ class PageController extends Controller
             ];
         }
 
+        if ($type === Page::TYPE_PRIVACY) {
+            return [
+                'effective_date' => trim((string) ($extra['effective_date'] ?? '')),
+                'last_updated' => trim((string) ($extra['last_updated'] ?? '')),
+                'change_log' => trim((string) ($extra['change_log'] ?? '')),
+            ];
+        }
+
+        if ($type === Page::TYPE_ABOUT) {
+            $tags = $extra['band_tags'] ?? [];
+            if (isset($extra['band_tags_text'])) {
+                $tags = preg_split('/\r\n|\r|\n/', (string) $extra['band_tags_text']) ?: [];
+            }
+
+            return [
+                'hero_eyebrow' => $extra['hero_eyebrow'] ?? '',
+                'hero_heading' => $extra['hero_heading'] ?? '',
+                'hero_sub' => $extra['hero_sub'] ?? '',
+                'hero_image' => $extra['hero_image'] ?? '',
+                'hero_image_alt' => $extra['hero_image_alt'] ?? '',
+                'cards' => collect($extra['cards'] ?? [])
+                    ->filter(fn ($row) => is_array($row) && filled($row['title'] ?? null))
+                    ->map(fn ($row) => ['title' => $row['title'] ?? '', 'text' => $row['text'] ?? ''])
+                    ->values()->all(),
+                'origin_eyebrow' => $extra['origin_eyebrow'] ?? '',
+                'origin_heading' => $extra['origin_heading'] ?? '',
+                'origin_body' => $extra['origin_body'] ?? '',
+                'origin_quote' => $extra['origin_quote'] ?? '',
+                'origin_image' => $extra['origin_image'] ?? '',
+                'origin_image_alt' => $extra['origin_image_alt'] ?? '',
+                'expertise_eyebrow' => $extra['expertise_eyebrow'] ?? '',
+                'expertise_heading' => $extra['expertise_heading'] ?? '',
+                'expertise_body' => $extra['expertise_body'] ?? '',
+                'expertise_image' => $extra['expertise_image'] ?? '',
+                'expertise_image_alt' => $extra['expertise_image_alt'] ?? '',
+                'steps' => collect($extra['steps'] ?? [])
+                    ->filter(fn ($row) => is_array($row) && filled($row['title'] ?? null))
+                    ->map(fn ($row) => [
+                        'num' => $row['num'] ?? '',
+                        'title' => $row['title'] ?? '',
+                        'body' => $row['body'] ?? '',
+                    ])
+                    ->values()->all(),
+                'band_heading' => $extra['band_heading'] ?? '',
+                'band_body' => $extra['band_body'] ?? '',
+                'band_tags' => collect($tags)->filter(fn ($v) => filled(trim((string) $v)))->map(fn ($v) => trim((string) $v))->values()->all(),
+                'cta_eyebrow' => $extra['cta_eyebrow'] ?? '',
+                'cta_heading' => $extra['cta_heading'] ?? '',
+                'cta_body' => $extra['cta_body'] ?? '',
+                'cta_button' => $extra['cta_button'] ?? '',
+                'cta_link' => $extra['cta_link'] ?? '/contact',
+            ];
+        }
+
         return null;
+    }
+
+    protected function mergeAboutImages(Request $request, string $type, mixed $extra, array $existing = []): mixed
+    {
+        if ($type !== Page::TYPE_ABOUT || ! is_array($extra)) {
+            return $extra;
+        }
+
+        $origin = $this->uploadImage($request, 'origin_image_upload', 'pages');
+        $expertise = $this->uploadImage($request, 'expertise_image_upload', 'pages');
+
+        $extra['origin_image'] = $origin ?: ($extra['origin_image'] ?? ($existing['origin_image'] ?? ''));
+        $extra['expertise_image'] = $expertise ?: ($extra['expertise_image'] ?? ($existing['expertise_image'] ?? ''));
+
+        return $extra;
     }
 }

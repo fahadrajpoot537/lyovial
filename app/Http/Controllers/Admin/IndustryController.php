@@ -7,7 +7,6 @@ use App\Http\Controllers\Admin\Concerns\HandlesSeoUploads;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\IndustryRequest;
 use App\Models\Industry;
-use App\Support\SeoHelper;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -29,12 +28,14 @@ class IndustryController extends Controller
 
     public function store(IndustryRequest $request): RedirectResponse
     {
-        $data = collect($request->validated())->except(SeoHelper::fields())->all();
+        $validated = $request->validated();
+        $data = $this->payloadWithoutSeo($validated);
         $data['banner_image'] = $this->uploadImage($request, 'banner_image', 'industries');
         $data['image'] = $this->uploadImage($request, 'image', 'industries');
+        $validated['slug'] = $data['slug'];
 
         $industry = Industry::create(array_filter($data, fn ($value) => $value !== null));
-        $this->syncSeoFromRequest($request, $request->validated(), $industry);
+        $this->syncSeoFromRequest($request, $validated, $industry);
 
         return redirect()
             ->route('admin.industries.edit', $industry)
@@ -55,12 +56,14 @@ class IndustryController extends Controller
 
     public function update(IndustryRequest $request, Industry $industry): RedirectResponse
     {
-        $data = collect($request->validated())->except(SeoHelper::fields())->all();
+        $validated = $request->validated();
+        $data = $this->payloadWithoutSeo($validated);
         $data['banner_image'] = $this->resolveImageField($request, 'banner_image', 'industries', $industry->banner_image);
         $data['image'] = $this->resolveImageField($request, 'image', 'industries', $industry->image);
+        $validated['slug'] = $data['slug'];
 
         $industry->update(array_filter($data, fn ($value) => $value !== null));
-        $this->syncSeoFromRequest($request, $request->validated(), $industry);
+        $this->syncSeoFromRequest($request, $validated, $industry);
 
         return back()->with('success', 'Industry updated successfully.');
     }

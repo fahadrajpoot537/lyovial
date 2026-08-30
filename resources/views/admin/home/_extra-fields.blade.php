@@ -127,6 +127,38 @@
             </div>
         </div>
     </div>
+@elseif ($key === 'footer')
+    <div class="card card-admin mt-3">
+        <div class="card-header">Footer labels</div>
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Explore heading</label>
+                    <input type="text" name="extra[explore_heading]" class="form-control" value="{{ $extra['explore_heading'] ?? '' }}" placeholder="Explore">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Capabilities heading</label>
+                    <input type="text" name="extra[capabilities_heading]" class="form-control" value="{{ $extra['capabilities_heading'] ?? '' }}" placeholder="Capabilities">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Legal link label</label>
+                    <input type="text" name="extra[legal_label]" class="form-control" value="{{ $extra['legal_label'] ?? '' }}" placeholder="Privacy Policy">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Legal link URL</label>
+                    <input type="text" name="extra[legal_url]" class="form-control" value="{{ $extra['legal_url'] ?? '' }}" placeholder="/privacy-policy">
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Copyright</label>
+                    <input type="text" name="extra[copyright]" class="form-control" value="{{ $extra['copyright'] ?? '' }}">
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Credit (HTML allowed)</label>
+                    <textarea name="extra[credit]" rows="2" class="form-control">{{ $extra['credit'] ?? '' }}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
 @else
     <div class="col-12 mt-3">
         <label class="form-label" for="extra">Extra (JSON)</label>

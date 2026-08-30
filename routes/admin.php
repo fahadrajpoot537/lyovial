@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\ThemeController;
 use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\CacheController;
 use App\Http\Controllers\Admin\TestimonialController;
 use App\Http\Controllers\Admin\WhyChooseItemController;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,7 @@ Route::middleware('web')
             Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
             Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+            Route::post('cache/clear', [CacheController::class, 'clear'])->name('cache.clear');
 
             Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
             Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');

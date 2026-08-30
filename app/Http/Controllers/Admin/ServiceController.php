@@ -67,7 +67,7 @@ class ServiceController extends Controller
         $data['extra'] = $this->normalizeServiceExtra($request->input('extra', []));
         $validated['slug'] = $data['slug'];
 
-        $service->update(array_filter($data, fn ($value) => $value !== null));
+        $service->update($data);
         $this->syncSeoFromRequest($request, $validated, $service);
         $this->syncGalleries($service, $request);
 

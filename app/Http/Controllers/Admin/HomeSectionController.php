@@ -58,7 +58,7 @@ class HomeSectionController extends Controller
         ])->all();
         $data['image'] = $this->resolveImageField($request, 'image', 'home-sections', $section->image);
 
-        $section->update(array_filter($data, fn ($value) => $value !== null));
+        $section->update($data);
         $this->syncSeoFromRequest($request, $request->validated(), $section);
 
         return back()->with('success', 'Home section updated successfully.');

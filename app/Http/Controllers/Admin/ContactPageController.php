@@ -28,7 +28,7 @@ class ContactPageController extends Controller
         $data = collect($request->validated())->except(SeoHelper::fields())->all();
         $data['banner_image'] = $this->resolveImageField($request, 'banner_image', 'contact', $contactPage->banner_image);
 
-        $contactPage->update(array_filter($data, fn ($value) => $value !== null));
+        $contactPage->update($data);
         $this->syncSeoFromRequest($request, $request->validated(), $contactPage);
 
         return back()->with('success', 'Contact page updated successfully.');

@@ -41,6 +41,12 @@ class HomeSectionRequest extends FormRequest
             'coverage_points' => ['nullable', 'array'],
             'coverage_points.*.title' => ['nullable', 'string', 'max:255'],
             'coverage_points.*.text' => ['nullable', 'string', 'max:500'],
+            'extra.explore_heading' => ['nullable', 'string', 'max:255'],
+            'extra.capabilities_heading' => ['nullable', 'string', 'max:255'],
+            'extra.legal_label' => ['nullable', 'string', 'max:255'],
+            'extra.legal_url' => ['nullable', 'string', 'max:500'],
+            'extra.copyright' => ['nullable', 'string', 'max:1000'],
+            'extra.credit' => ['nullable', 'string', 'max:1000'],
             'is_active' => ['nullable', 'boolean'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
         ], SeoHelper::validationRules());

@@ -4,18 +4,18 @@
     $extra = old('extra', $page?->extra ?? []);
     $contentValue = old('content', $page?->content);
     if ($type === \App\Models\Page::TYPE_QUALITY_COMPLIANCE) {
-        $extra = array_replace_recursive(\App\Support\ThemePageDefaults::qualityExtra(), is_array($extra) ? $extra : []);
+        $extra = array_replace(\App\Support\ThemePageDefaults::qualityExtra(), is_array($extra) ? $extra : []);
     } elseif ($type === \App\Models\Page::TYPE_SPECIMEN_LIBRARY) {
-        $extra = array_replace_recursive(\App\Support\ThemePageDefaults::specimenExtra(), is_array($extra) ? $extra : []);
+        $extra = array_replace(\App\Support\ThemePageDefaults::specimenExtra(), is_array($extra) ? $extra : []);
     } elseif ($type === \App\Models\Page::TYPE_PARTNERSHIPS) {
-        $extra = array_replace_recursive(\App\Support\ThemePageDefaults::partnershipsExtra(), is_array($extra) ? $extra : []);
-    } elseif ($type === \App\Models\Page::TYPE_PRIVACY) {
-        $extra = array_replace_recursive(\App\Support\ThemePageDefaults::privacyExtra(), is_array($extra) ? $extra : []);
-        if (! filled($contentValue)) {
-            $contentValue = \App\Support\ThemePageDefaults::privacyContent();
-        }
-    } elseif ($type === \App\Models\Page::TYPE_ABOUT) {
-        $extra = array_replace_recursive(\App\Support\ThemePageDefaults::aboutExtra(), is_array($extra) ? $extra : []);
+        $extra = array_replace(\App\Support\ThemePageDefaults::partnershipsExtra(), is_array($extra) ? $extra : []);
+    } else        if ($type === \App\Models\Page::TYPE_PRIVACY) {
+            $extra = array_replace(\App\Support\ThemePageDefaults::privacyExtra(), is_array($extra) ? $extra : []);
+            if (! filled($contentValue) && ! $page) {
+                $contentValue = \App\Support\ThemePageDefaults::privacyContent();
+            }
+        } elseif ($type === \App\Models\Page::TYPE_ABOUT) {
+        $extra = array_replace(\App\Support\ThemePageDefaults::aboutExtra(), is_array($extra) ? $extra : []);
     }
 @endphp
 
@@ -35,6 +35,7 @@
                         <label class="form-label" for="slug">Slug</label>
                         <input type="text" name="slug" id="slug" class="form-control @error('slug') is-invalid @enderror"
                                value="{{ old('slug', $page?->slug ?? ($type === \App\Models\Page::TYPE_PRIVACY ? 'privacy-policy' : ($type === \App\Models\Page::TYPE_ABOUT ? 'about' : ''))) }}">
+                        <div class="form-text">Public URL: <code>/{{ old('slug', $page?->slug ?: 'your-slug') }}</code></div>
                         @error('slug')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                     <div class="col-md-6">
@@ -106,6 +107,10 @@
                 @error('banner_image')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 @if ($page?->banner_image)
                     <img src="{{ storage_url($page->banner_image) }}" alt="" class="preview-thumb mt-2 w-100" style="max-height:140px;object-fit:cover">
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" name="remove_banner_image" id="remove_banner_image" value="1">
+                        <label class="form-check-label" for="remove_banner_image">Remove banner image</label>
+                    </div>
                 @endif
             </div>
         </div>

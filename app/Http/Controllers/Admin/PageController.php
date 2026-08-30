@@ -70,7 +70,7 @@ class PageController extends Controller
         $data['status'] = $request->boolean('status');
         $validated['slug'] = $data['slug'];
 
-        $page->update(array_filter($data, fn ($value) => $value !== null));
+        $page->update($data);
         $this->syncSeoFromRequest($request, $validated, $page);
 
         return back()->with('success', 'Page updated successfully.');
@@ -267,9 +267,21 @@ class PageController extends Controller
 
         $origin = $this->uploadImage($request, 'origin_image_upload', 'pages');
         $expertise = $this->uploadImage($request, 'expertise_image_upload', 'pages');
+        $hero = $this->uploadImage($request, 'hero_image_upload', 'pages');
 
         $extra['origin_image'] = $origin ?: ($extra['origin_image'] ?? ($existing['origin_image'] ?? ''));
         $extra['expertise_image'] = $expertise ?: ($extra['expertise_image'] ?? ($existing['expertise_image'] ?? ''));
+        $extra['hero_image'] = $hero ?: ($extra['hero_image'] ?? ($existing['hero_image'] ?? ''));
+
+        if ($request->boolean('remove_origin_image')) {
+            $extra['origin_image'] = '';
+        }
+        if ($request->boolean('remove_expertise_image')) {
+            $extra['expertise_image'] = '';
+        }
+        if ($request->boolean('remove_hero_image')) {
+            $extra['hero_image'] = '';
+        }
 
         return $extra;
     }

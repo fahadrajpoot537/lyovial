@@ -98,6 +98,12 @@
         @endif
       </div>
     </div>
+
+    @if($contact->map_embed)
+      <div class="contact-map">
+        {!! $contact->map_embed !!}
+      </div>
+    @endif
   </div>
 </section>
 @endsection
@@ -121,6 +127,8 @@
 .contact-checklist{list-style:none;padding:0;margin:0}
 .contact-checklist li{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px}
 .contact-checklist i{color:#0e7c86;flex-shrink:0;margin-top:2px}
+.contact-map{margin-top:48px;border-radius:16px;overflow:hidden}
+.contact-map iframe{width:100%;height:360px;border:0;display:block}
 @media (max-width:992px){
   .contact-grid{grid-template-columns:1fr;gap:36px}
 }

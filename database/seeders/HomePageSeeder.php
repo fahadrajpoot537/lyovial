@@ -28,7 +28,7 @@ class HomePageSeeder extends Seeder
                 'description' => 'Pilot-scale contract lyophilization & formulation services. Member of the Evik Diagnostics group.',
                 'image' => '/lyovial-logo.png',
                 'image_alt' => 'LyoVial logo',
-                'button_primary_text' => 'Contact',
+                'button_primary_text' => 'Get A Quote',
                 'button_primary_link' => '/contact',
                 'is_active' => true,
                 'sort_order' => 0,
@@ -206,7 +206,12 @@ class HomePageSeeder extends Seeder
                 'is_active' => true,
                 'sort_order' => 14,
                 'extra' => [
+                    'explore_heading' => 'Explore',
+                    'capabilities_heading' => 'Capabilities',
+                    'legal_label' => 'Privacy Policy',
+                    'legal_url' => '/privacy-policy',
                     'copyright' => '© '.date('Y').' LyoVial. All Rights Reserved. | Contract lyophilization services based in Ottawa, serving Canada-wide.',
+                    'credit' => 'Created by <a href="https://kodrank.com/" target="_blank" rel="noopener noreferrer">KodRank</a>',
                 ],
             ],
         ];

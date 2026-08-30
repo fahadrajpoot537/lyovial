@@ -8,9 +8,9 @@
 @section('content')
 @include('front.partials.lyovial-navbar', ['transparent' => true])
 @include('front.partials.page-banner', [
-    'bannerTitle' => 'Industries We Serve',
-    'bannerSubtitle' => 'Partners across diagnostics, laboratories, research, and specialty formulation.',
-    'bannerImage' => SiteImages::get('banner_industries'),
+    'bannerTitle' => $homeIndustriesIntro?->heading ?: 'Industries We Serve',
+    'bannerSubtitle' => filled($homeIndustriesIntro?->description) ? strip_tags($homeIndustriesIntro->description) : 'Partners across diagnostics, laboratories, research, and specialty formulation.',
+    'bannerImage' => SiteImages::resolve($homeIndustriesIntro?->image, SiteImages::get('banner_industries')),
 ])
 
 <section class="section" style="padding:70px 0">

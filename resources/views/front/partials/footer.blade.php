@@ -1,17 +1,45 @@
+@php
+    $footerCms = $homeFooter ?? null;
+    $talk = $readyToTalk ?? null;
+    $footerLogo = $footerCms?->image;
+    if (filled($footerLogo) && ! str_starts_with($footerLogo, 'http') && ! str_starts_with($footerLogo, '/')) {
+        $footerLogo = storage_url($footerLogo);
+    }
+    if (! filled($footerLogo) && filled($siteLogo)) {
+        $footerLogo = storage_url($siteLogo);
+    }
+    $footerLogo = $footerLogo ?: asset('assets/front/images/lyovial-home/logo-white.png');
+    $footerTagline = filled($footerCms?->description)
+        ? strip_tags($footerCms->description)
+        : ($footerCms?->heading ?: 'Pilot-scale vial lyophilization for diagnostics, reagents, and research across Canada.');
+    $exploreHeading = $footerCms?->extra['explore_heading'] ?? 'Explore';
+    $capsHeading = $footerCms?->extra['capabilities_heading'] ?? 'Capabilities';
+    $talkHeading = $talk?->heading ?: ($footerCms?->extra['cta_heading'] ?? 'Ready to talk?');
+    $talkBody = filled($talk?->description) ? strip_tags($talk->description) : 'Share your product goals and our Kanata team will help map the next step.';
+    $talkBtn = $talk?->button_primary_text ?: ($footerCms?->button_primary_text ?: 'Contact LyoVial');
+    $talkLink = $talk?->button_primary_link ?: ($footerCms?->button_primary_link ?: route('contact'));
+    if ($talkLink && ! str_starts_with($talkLink, 'http') && ! str_starts_with($talkLink, 'tel:') && ! str_starts_with($talkLink, '#')) {
+        $talkLink = url($talkLink);
+    }
+    $copyright = $footerCms?->extra['copyright'] ?? $siteCopyright;
+    $legalLabel = $footerCms?->extra['legal_label'] ?? 'Privacy Policy';
+    $legalUrl = $footerCms?->extra['legal_url'] ?? url('/privacy-policy');
+    $credit = $footerCms?->extra['credit'] ?? 'Created by <a href="https://kodrank.com/" target="_blank" rel="noopener noreferrer">KodRank</a>';
+@endphp
 <footer class="site-footer">
     <div class="container footer-inner">
         <div class="footer-grid">
             <div>
                 <a href="{{ route('home') }}" class="d-inline-block" style="display:inline-block;margin-bottom:1rem">
                     <img
-                        src="{{ asset('assets/front/images/lyovial-home/logo-white.png') }}"
-                        alt="{{ $siteName }}"
+                        src="{{ $footerLogo }}"
+                        alt="{{ $footerCms?->small_title ?: $siteName }}"
                         class="footer-logo"
                         width="160"
                         height="36"
                     >
                 </a>
-                <p class="footer-text" style="margin-bottom:1rem">Pilot-scale vial lyophilization for diagnostics, reagents, and research across Canada.</p>
+                <p class="footer-text" style="margin-bottom:1rem">{{ $footerTagline }}</p>
                 <p class="footer-text" style="margin-bottom:.35rem">
                     <svg class="footer-ico" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/></svg>
                     {!! nl2br(e($siteAddress)) !!}
@@ -30,45 +58,40 @@
                 @endif
             </div>
             <div>
-                <h4 style="margin:0 0 1rem;text-transform:uppercase;letter-spacing:.04em">Explore</h4>
+                <h4 style="margin:0 0 1rem;text-transform:uppercase;letter-spacing:.04em">{{ $exploreHeading }}</h4>
                 <ul class="footer-links">
-                    @php
-                        $exploreTitles = collect($footerMenus)->pluck('title')->map(fn ($title) => strtolower($title));
-                    @endphp
-                    @foreach($footerMenus as $item)
-                        @continue(str_contains(strtolower($item->title), 'capabilities') || str_contains(strtolower($item->title), 'services'))
+                    @forelse($footerMenus as $item)
                         <li><a href="{{ $item->resolved_url }}">{{ $item->title }}</a></li>
-                    @endforeach
-                    @unless($exploreTitles->contains('about'))
+                    @empty
                         <li><a href="{{ url('/about') }}">About</a></li>
-                    @endunless
-                    @unless($exploreTitles->contains('contact'))
                         <li><a href="{{ route('contact') }}">Contact</a></li>
-                    @endunless
+                    @endforelse
                 </ul>
             </div>
             <div>
-                <h4 style="margin:0 0 1rem;text-transform:uppercase;letter-spacing:.04em">Capabilities</h4>
+                <h4 style="margin:0 0 1rem;text-transform:uppercase;letter-spacing:.04em">{{ $capsHeading }}</h4>
                 <ul class="footer-links">
                     @foreach($navServices as $service)
                         <li><a href="{{ url('/capabilities/'.$service->slug) }}">{{ $service->title }}</a></li>
                     @endforeach
                 </ul>
             </div>
+            @if(!$talk || $talk->is_active)
             <div class="footer-cta">
-                <h4 style="margin:0 0 1rem;text-transform:uppercase;letter-spacing:.04em">Ready to talk?</h4>
-                <p class="footer-text">Share your product goals and our Kanata team will help map the next step.</p>
-                <a href="{{ route('contact') }}" class="btn btn-brand">Contact LyoVial</a>
+                <h4 style="margin:0 0 1rem;text-transform:uppercase;letter-spacing:.04em">{{ $talkHeading }}</h4>
+                <p class="footer-text">{{ $talkBody }}</p>
+                <a href="{{ $talkLink }}" class="btn btn-brand">{{ $talkBtn }}</a>
             </div>
+            @endif
         </div>
     </div>
     <div class="footer-bottom">
         <div class="container footer-bottom-inner">
-            <span>{{ $siteCopyright }}</span>
+            <span>{{ $copyright }}</span>
             <nav class="footer-legal" aria-label="Legal">
-                <a href="{{ route('pages.privacy') }}">Privacy Policy</a>
+                <a href="{{ $legalUrl }}">{{ $legalLabel }}</a>
             </nav>
-            <span class="footer-credit">Created by <a href="https://kodrank.com/" target="_blank" rel="noopener noreferrer">KodRank</a></span>
+            <span class="footer-credit">{!! $credit !!}</span>
         </div>
     </div>
 </footer>

@@ -6,7 +6,7 @@
     <div class="page-header">
         <div>
             <h1>Pages</h1>
-            <p class="subtitle">Manage CMS pages</p>
+            <p class="subtitle">Create, edit, unpublish, or delete every page. Changing the slug changes the public URL.</p>
         </div>
         @can('pages.create')
             <a href="{{ route('admin.pages.create') }}" class="btn btn-teal"><i class="bi bi-plus-lg me-1"></i> Add page</a>
@@ -42,6 +42,7 @@
                                 </td>
                                 <td>{{ $page->sort_order }}</td>
                                 <td class="text-end text-nowrap">
+                                    <a href="{{ $page->publicUrl() }}" class="btn btn-sm btn-outline-secondary" target="_blank" rel="noopener">View</a>
                                     @can('pages.update')
                                         <a href="{{ route('admin.pages.edit', $page) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
                                     @endcan

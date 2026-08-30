@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Support\AdminSlug;
 use App\Support\SeoHelper;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;
@@ -31,7 +32,7 @@ class ArticleRequest extends FormRequest
             'status' => ['nullable', 'boolean'],
             'show_on_home' => ['nullable', 'boolean'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
-        ], SeoHelper::validationRules());
+        ], SeoHelper::validationRules(includeSlug: false));
     }
 
     protected function prepareForValidation(): void
@@ -42,7 +43,7 @@ class ArticleRequest extends FormRequest
             'indexable' => $this->boolean('indexable', true),
             'followable' => $this->boolean('followable', true),
             'sort_order' => $this->input('sort_order', 0),
-            'slug' => filled($this->input('slug')) ? $this->input('slug') : null,
+            'slug' => filled($this->input('slug')) ? AdminSlug::normalize($this->input('slug')) : null,
         ]);
     }
 

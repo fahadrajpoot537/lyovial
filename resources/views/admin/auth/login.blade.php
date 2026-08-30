@@ -46,6 +46,12 @@
             <i class="bi bi-box-arrow-in-right me-1"></i> Sign in
         </button>
     </form>
+
+    @if (app()->environment('local'))
+        <p class="text-muted small mt-3 mb-0">
+            Default login: <code>admin@lyovial.com</code> / <code>Admin@12345</code>
+        </p>
+    @endif
 @endsection
 
 @push('scripts')

@@ -32,8 +32,17 @@ if (! function_exists('storage_url')) {
             return $path;
         }
 
-        // Root-relative URL (avoids APP_URL host/port mismatch)
-        return '/storage/'.ltrim(str_replace('\\', '/', $path), '/');
+        $relative = ltrim(str_replace('\\', '/', $path), '/');
+        if (str_starts_with($relative, 'storage/')) {
+            $relative = substr($relative, strlen('storage/'));
+        }
+
+        // Prefer a public copy so shared hosts work without storage:link
+        if (is_file(public_path('uploads/'.$relative))) {
+            return '/uploads/'.$relative;
+        }
+
+        return '/storage/'.$relative;
     }
 }
 

@@ -61,16 +61,15 @@ class SeoHelper
         ];
     }
 
-    public static function validationRules(bool $slugRequired = false): array
+    public static function validationRules(bool $slugRequired = false, bool $includeSlug = true): array
     {
-        return [
+        $rules = [
             'seo_title' => ['nullable', 'string', 'max:255'],
             'browser_title' => ['nullable', 'string', 'max:255'],
             'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string', 'max:500'],
             'meta_keywords' => ['nullable', 'string', 'max:500'],
             'canonical_url' => ['nullable', 'url', 'max:500'],
-            'slug' => [$slugRequired ? 'required' : 'nullable', 'string', 'max:255', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/'],
             'focus_keyword' => ['nullable', 'string', 'max:150'],
             'secondary_keywords' => ['nullable', 'string', 'max:500'],
             'schema_json' => ['nullable', 'string'],
@@ -94,6 +93,12 @@ class SeoHelper
             'indexable' => ['nullable', 'boolean'],
             'followable' => ['nullable', 'boolean'],
         ];
+
+        if ($includeSlug) {
+            $rules['slug'] = [$slugRequired ? 'required' : 'nullable', 'string', 'max:255', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/'];
+        }
+
+        return $rules;
     }
 
     public static function extract(array $data): array

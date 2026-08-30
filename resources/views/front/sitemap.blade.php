@@ -23,11 +23,11 @@
         <li><a href="{{ url('/') }}">Home</a></li>
         <li><a href="{{ url('/capabilities') }}">Capabilities</a></li>
         <li><a href="{{ url('/industries') }}">Industries</a></li>
-        <li><a href="{{ url('/about') }}">About Us</a></li>
-        <li><a href="{{ url('/quality-compliance') }}">Quality &amp; Compliance</a></li>
-        <li><a href="{{ url('/specimen-library-preservation') }}">Specimen Library Preservation</a></li>
-        <li><a href="{{ url('/partnerships') }}">Partnerships</a></li>
-        <li><a href="{{ url('/privacy-policy') }}">Privacy Policy</a></li>
+        <li><a href="{{ url($pages->firstWhere('type', \App\Models\Page::TYPE_ABOUT)?->publicPath() ?? '/about') }}">About Us</a></li>
+        <li><a href="{{ url($pages->firstWhere('type', \App\Models\Page::TYPE_QUALITY_COMPLIANCE)?->publicPath() ?? '/quality-compliance') }}">Quality &amp; Compliance</a></li>
+        <li><a href="{{ url($pages->firstWhere('type', \App\Models\Page::TYPE_SPECIMEN_LIBRARY)?->publicPath() ?? '/specimen-library-preservation') }}">Specimen Library Preservation</a></li>
+        <li><a href="{{ url($pages->firstWhere('type', \App\Models\Page::TYPE_PARTNERSHIPS)?->publicPath() ?? '/partnerships') }}">Partnerships</a></li>
+        <li><a href="{{ url($pages->firstWhere('type', \App\Models\Page::TYPE_PRIVACY)?->publicPath() ?? '/privacy-policy') }}">Privacy Policy</a></li>
         <li><a href="{{ url('/blog') }}">Blog</a></li>
         <li><a href="{{ url('/contact') }}">Contact</a></li>
     </ul>
@@ -36,7 +36,7 @@
         <h2>Pages</h2>
         <ul>
             @foreach ($pages as $page)
-                <li><a href="{{ url('/'.$page->slug) }}">{{ $page->seo?->breadcrumb_title ?: $page->title }}</a></li>
+                <li><a href="{{ $page->publicUrl() }}">{{ $page->seo?->breadcrumb_title ?: $page->title }}</a></li>
             @endforeach
         </ul>
     @endif

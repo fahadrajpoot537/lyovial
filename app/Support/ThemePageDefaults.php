@@ -121,7 +121,7 @@ class ThemePageDefaults
 
     public static function mergeService(?array $extra, string $slug): array
     {
-        return array_replace_recursive(self::serviceExtra($slug), $extra ?? []);
+        return array_replace(self::serviceExtra($slug), $extra ?? []);
     }
 
     public static function mergePage(?array $extra, string $type): array
@@ -135,7 +135,7 @@ class ThemePageDefaults
             default => [],
         };
 
-        return array_replace_recursive($defaults, $extra ?? []);
+        return array_replace($defaults, $extra ?? []);
     }
 
     public static function partnershipsExtra(): array

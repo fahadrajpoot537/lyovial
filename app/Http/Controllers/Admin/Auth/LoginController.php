@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\LoginRequest;
+use App\Models\User;
 use App\Services\Recaptcha;
+use Database\Seeders\AdminUserSeeder;
+use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
@@ -32,11 +36,15 @@ class LoginController extends Controller
         $remember = $request->boolean('remember');
 
         if (! Auth::attempt($credentials, $remember)) {
-            RateLimiter::hit($this->throttleKey($request));
+            if ($this->bootstrapDefaultAdminIfMissing() && Auth::attempt($credentials, $remember)) {
+                // First-run database had no users; default admin was created.
+            } else {
+                RateLimiter::hit($this->throttleKey($request));
 
-            throw ValidationException::withMessages([
-                'email' => __('These credentials do not match our records.'),
-            ]);
+                throw ValidationException::withMessages([
+                    'email' => __('These credentials do not match our records.'),
+                ]);
+            }
         }
 
         $request->session()->regenerate();
@@ -81,5 +89,23 @@ class LoginController extends Controller
     protected function throttleKey(LoginRequest $request): string
     {
         return Str::transliterate(Str::lower($request->input('email')).'|'.$request->ip());
+    }
+
+    protected function bootstrapDefaultAdminIfMissing(): bool
+    {
+        if (User::query()->withTrashed()->exists()) {
+            return false;
+        }
+
+        try {
+            Artisan::call('db:seed', ['--class' => RolePermissionSeeder::class, '--force' => true]);
+            Artisan::call('db:seed', ['--class' => AdminUserSeeder::class, '--force' => true]);
+        } catch (\Throwable $e) {
+            report($e);
+
+            return false;
+        }
+
+        return User::query()->where('email', 'admin@lyovial.com')->exists();
     }
 }

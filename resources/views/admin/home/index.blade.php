@@ -6,7 +6,7 @@
     <div class="page-header">
         <div>
             <h1>Home CMS</h1>
-            <p class="subtitle">Edit homepage section content</p>
+            <p class="subtitle">Edit homepage section content. Uncheck Active on a section to hide it on the site.</p>
         </div>
     </div>
 

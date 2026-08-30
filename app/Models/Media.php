@@ -57,6 +57,12 @@ class Media extends Model
         static::deleting(function (Media $media) {
             if ($media->isForceDeleting()) {
                 Storage::disk($media->disk)->delete(array_filter([$media->path, $media->webp_path]));
+                foreach (array_filter([$media->path, $media->webp_path]) as $filePath) {
+                    $copy = public_path('uploads/'.$filePath);
+                    if (is_file($copy)) {
+                        @unlink($copy);
+                    }
+                }
             }
         });
     }
@@ -68,7 +74,7 @@ class Media extends Model
 
     public function getUrlAttribute(): string
     {
-        return Storage::disk($this->disk)->url($this->path);
+        return storage_url($this->path) ?: Storage::disk($this->disk)->url($this->path);
     }
 
     public function getWebpUrlAttribute(): ?string

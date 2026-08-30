@@ -35,8 +35,35 @@ trait HandlesImageUpload
 
     protected function resolveImageField(Request $request, string $field, string $folder, ?string $existingPath = null): ?string
     {
+        if ($request->boolean('remove_'.$field) && ! $request->hasFile($field)) {
+            $this->deleteStoredImage($existingPath);
+
+            return null;
+        }
+
         $uploaded = $this->uploadImage($request, $field, $folder, $existingPath, deleteOld: true);
 
         return $uploaded ?? $existingPath;
+    }
+
+    protected function deleteStoredImage(?string $path): void
+    {
+        if (! filled($path) || str_starts_with($path, 'http://') || str_starts_with($path, 'https://') || str_starts_with($path, '/images/')) {
+            return;
+        }
+
+        $relative = ltrim(str_replace('\\', '/', $path), '/');
+        if (str_starts_with($relative, 'storage/')) {
+            $relative = substr($relative, strlen('storage/'));
+        }
+
+        if (Storage::disk('public')->exists($relative)) {
+            Storage::disk('public')->delete($relative);
+        }
+
+        $publicCopy = public_path('uploads/'.$relative);
+        if (is_file($publicCopy)) {
+            @unlink($publicCopy);
+        }
     }
 }

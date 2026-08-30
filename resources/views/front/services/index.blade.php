@@ -6,9 +6,9 @@
 @include('front.partials.lyovial-navbar', ['transparent' => true])
 @php use App\Support\SiteImages; @endphp
 @include('front.partials.page-banner', [
-    'bannerTitle' => 'Capabilities',
-    'bannerSubtitle' => 'Pilot-scale vial lyophilization capabilities across formulation, cycle development, and technology transfer.',
-    'bannerImage' => SiteImages::get('banner_capabilities'),
+    'bannerTitle' => $homeServicesIntro?->heading ?: 'Capabilities',
+    'bannerSubtitle' => filled($homeServicesIntro?->description) ? strip_tags($homeServicesIntro->description) : 'Pilot-scale vial lyophilization capabilities across formulation, cycle development, and technology transfer.',
+    'bannerImage' => \App\Support\SiteImages::resolve($homeServicesIntro?->image, \App\Support\SiteImages::get('banner_capabilities')),
 ])
 
 <section class="section capabilities-index" style="padding:70px 0">

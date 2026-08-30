@@ -193,6 +193,8 @@
         .lyovial-home-page .section-head h2,
         .lyovial-home-page .why-content h2,
         .lyovial-home-page .coverage-head h2,
+        .lyovial-home-page .canada-coverage h2,
+        .lyovial-home-page .canada-point strong,
         .lyovial-home-page .service-body h3,
         .lyovial-home-page .why-feature h3,
         .lyovial-home-page .partner-card h3,
@@ -226,7 +228,9 @@
         .lyovial-home-page .why-feature p,
         .lyovial-home-page .service-body p,
         .lyovial-home-page .partner-card p,
-        .lyovial-home-page .coverage-head p {
+        .lyovial-home-page .coverage-head p,
+        .lyovial-home-page .canada-copy,
+        .lyovial-home-page .canada-point p {
             color: #4A5A67 !important;
         }
         .lyovial-home-page .about { background: #fff !important; color: #000 !important; }

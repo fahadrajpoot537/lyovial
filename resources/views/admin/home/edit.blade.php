@@ -102,6 +102,10 @@
                             <input type="file" name="image" class="form-control" accept="image/*">
                             @if ($section?->image)
                                 <img src="{{ storage_url($section->image) }}" alt="" class="preview-thumb mt-2 w-100" style="max-height:140px;object-fit:cover">
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="checkbox" name="remove_image" id="remove_image" value="1">
+                                    <label class="form-check-label" for="remove_image">Remove image</label>
+                                </div>
                             @endif
                         </div>
                         <div>

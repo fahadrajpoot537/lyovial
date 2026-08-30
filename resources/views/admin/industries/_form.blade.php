@@ -36,6 +36,8 @@
             </div>
         </div>
 
+        @include('admin.industries._extra')
+
         @include('admin.partials.seo-fields', ['seo' => $industry?->seo, 'hideSeoSlug' => true, 'seoSourceTitle' => old('title', $industry?->title)])
     </div>
 

@@ -14,9 +14,10 @@
                     @error('title')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="slug">Slug</label>
+                        <label class="form-label" for="slug">Slug</label>
                     <input type="text" name="slug" id="slug" class="form-control @error('slug') is-invalid @enderror"
                            value="{{ old('slug', $item?->slug) }}">
+                    <div class="form-text">Public URL: <code>/blog/{{ old('slug', $item?->slug ?: 'your-slug') }}</code>. Spaces are converted automatically.</div>
                     @error('slug')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
                 <div class="mb-3">
@@ -79,6 +80,10 @@
                 <input type="file" name="featured_image" class="form-control" accept="image/*">
                 @if ($item?->featured_image)
                     <img src="{{ storage_url($item->featured_image) }}" alt="" class="preview-thumb mt-2 w-100" style="max-height:140px;object-fit:cover">
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" name="remove_featured_image" id="remove_featured_image" value="1">
+                        <label class="form-check-label" for="remove_featured_image">Remove featured image</label>
+                    </div>
                 @endif
             </div>
         </div>
@@ -88,6 +93,10 @@
                 <input type="file" name="author_avatar" class="form-control" accept="image/*">
                 @if ($item?->author_avatar)
                     <img src="{{ storage_url($item->author_avatar) }}" alt="" class="preview-thumb mt-2 rounded-circle" style="width:64px;height:64px;object-fit:cover">
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" name="remove_author_avatar" id="remove_author_avatar" value="1">
+                        <label class="form-check-label" for="remove_author_avatar">Remove avatar</label>
+                    </div>
                 @endif
             </div>
         </div>

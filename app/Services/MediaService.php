@@ -54,6 +54,11 @@ class MediaService
             }
         }
 
+        $this->mirrorPublic($path);
+        if ($webpPath) {
+            $this->mirrorPublic($webpPath);
+        }
+
         return Media::create([
             'user_id' => Auth::id(),
             'disk' => 'public',
@@ -102,6 +107,22 @@ class MediaService
     public function storePath(UploadedFile $file, string $folder = 'uploads'): string
     {
         return $this->upload($file, $folder)->path;
+    }
+
+    protected function mirrorPublic(string $path): void
+    {
+        $from = Storage::disk('public')->path($path);
+        if (! is_file($from)) {
+            return;
+        }
+
+        $to = public_path('uploads/'.$path);
+        $dir = dirname($to);
+        if (! is_dir($dir) && ! mkdir($dir, 0755, true) && ! is_dir($dir)) {
+            return;
+        }
+
+        @copy($from, $to);
     }
 
     protected function isImage(UploadedFile $file): bool

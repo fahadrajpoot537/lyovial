@@ -66,4 +66,39 @@ class Page extends Model
             self::TYPE_PRIVACY => 'Privacy Policy',
         ];
     }
+
+    public static function defaultSlugForType(string $type): ?string
+    {
+        return match ($type) {
+            self::TYPE_ABOUT => 'about',
+            self::TYPE_PRIVACY => 'privacy-policy',
+            self::TYPE_QUALITY_COMPLIANCE => 'quality-compliance',
+            self::TYPE_SPECIMEN_LIBRARY => 'specimen-library-preservation',
+            self::TYPE_PARTNERSHIPS => 'partnerships',
+            default => null,
+        };
+    }
+
+    public static function reservedSlugs(): array
+    {
+        return [
+            'admin', 'blog', 'articles', 'capabilities', 'services', 'industries',
+            'contact', 'newsletter', 'storage', 'uploads', 'sitemap', 'theme',
+            'up', 'build', 'vendor', 'assets', 'images', 'login', 'register',
+        ];
+    }
+
+    public function publicPath(): string
+    {
+        $slug = filled($this->slug)
+            ? $this->slug
+            : (self::defaultSlugForType((string) $this->type) ?: 'page');
+
+        return '/'.ltrim((string) $slug, '/');
+    }
+
+    public function publicUrl(): string
+    {
+        return url($this->publicPath());
+    }
 }

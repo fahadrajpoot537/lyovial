@@ -14,10 +14,19 @@
             <textarea name="extra[hero_sub]" rows="2" class="form-control">{{ $extra['hero_sub'] ?? '' }}</textarea>
         </div>
         <div class="col-12">
-            <label class="form-label">Hero image alt</label>
-            <input type="text" name="extra[hero_image_alt]" class="form-control" value="{{ $extra['hero_image_alt'] ?? '' }}">
-            <div class="form-text">Hero photo is the Banner image on the right. Leave it empty to use the Kanata facility photo.</div>
+            <label class="form-label">Hero image</label>
+            <input type="file" name="hero_image_upload" class="form-control" accept="image/*">
             <input type="hidden" name="extra[hero_image]" value="{{ $extra['hero_image'] ?? '' }}">
+            @if(!empty($extra['hero_image']))
+                <img src="{{ str_starts_with($extra['hero_image'], '/images/') ? $extra['hero_image'] : storage_url($extra['hero_image']) }}" alt="" class="preview-thumb mt-2" style="max-height:120px;object-fit:cover">
+                <div class="form-check mt-2">
+                    <input class="form-check-input" type="checkbox" name="remove_hero_image" id="remove_hero_image" value="1">
+                    <label class="form-check-label" for="remove_hero_image">Remove hero image (use default photo)</label>
+                </div>
+            @endif
+            <label class="form-label mt-3">Hero image alt</label>
+            <input type="text" name="extra[hero_image_alt]" class="form-control" value="{{ $extra['hero_image_alt'] ?? '' }}">
+            <div class="form-text">Or set the Banner image in the sidebar. Leave both empty to use the Kanata facility photo.</div>
         </div>
         @foreach(($extra['cards'] ?? [['title'=>'','text'=>''],['title'=>'','text'=>'']]) as $i => $card)
             <div class="col-md-6">
@@ -54,6 +63,10 @@
             <input type="hidden" name="extra[origin_image]" value="{{ $extra['origin_image'] ?? '' }}">
             @if(!empty($extra['origin_image']))
                 <img src="{{ str_starts_with($extra['origin_image'], '/images/') ? $extra['origin_image'] : storage_url($extra['origin_image']) }}" alt="" class="preview-thumb mt-2" style="max-height:120px;object-fit:cover">
+                <div class="form-check mt-2">
+                    <input class="form-check-input" type="checkbox" name="remove_origin_image" id="remove_origin_image" value="1">
+                    <label class="form-check-label" for="remove_origin_image">Remove origin image</label>
+                </div>
             @endif
         </div>
         <div class="col-md-4">
@@ -84,6 +97,10 @@
             <input type="hidden" name="extra[expertise_image]" value="{{ $extra['expertise_image'] ?? '' }}">
             @if(!empty($extra['expertise_image']))
                 <img src="{{ str_starts_with($extra['expertise_image'], '/images/') ? $extra['expertise_image'] : storage_url($extra['expertise_image']) }}" alt="" class="preview-thumb mt-2" style="max-height:120px;object-fit:cover">
+                <div class="form-check mt-2">
+                    <input class="form-check-input" type="checkbox" name="remove_expertise_image" id="remove_expertise_image" value="1">
+                    <label class="form-check-label" for="remove_expertise_image">Remove expertise image</label>
+                </div>
             @endif
         </div>
         <div class="col-md-4">

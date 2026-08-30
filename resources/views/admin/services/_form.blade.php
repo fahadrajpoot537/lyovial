@@ -2,7 +2,7 @@
     $service = $service ?? null;
     $extra = old('extra', $service?->extra ?? []);
     $defaults = \App\Support\ThemePageDefaults::serviceExtra($service?->slug ?: 'custom');
-    $extra = array_replace_recursive($defaults, is_array($extra) ? $extra : []);
+    $extra = array_replace($defaults, is_array($extra) ? $extra : []);
     $includes = $extra['includes'] ?: [['title' => '', 'body' => '']];
     $whyBullets = $extra['why_bullets'] ?: ['', '', ''];
     $steps = $extra['steps'] ?: [['num' => '', 'title' => '', 'body' => '']];

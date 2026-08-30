@@ -14,9 +14,9 @@
 @include('front.partials.lyovial-navbar', ['transparent' => true])
 
 @include('front.partials.page-banner', [
-    'bannerTitle' => 'Blog',
-    'bannerSubtitle' => 'Latest lyophilization insights & case notes',
-    'bannerImage' => SiteImages::get('banner_articles'),
+    'bannerTitle' => $homeArticlesIntro?->heading ?: 'Blog',
+    'bannerSubtitle' => filled($homeArticlesIntro?->description) ? strip_tags($homeArticlesIntro->description) : ($homeArticlesIntro?->small_title ?: 'Latest lyophilization insights & case notes'),
+    'bannerImage' => SiteImages::resolve($homeArticlesIntro?->image, SiteImages::get('banner_articles')),
 ])
 
 <link rel="stylesheet" href="{{ asset('assets/front/css/lyovial-article.css') }}?v={{ filemtime(public_path('assets/front/css/lyovial-article.css')) }}">

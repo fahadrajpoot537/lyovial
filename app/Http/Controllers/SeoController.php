@@ -38,7 +38,7 @@ class SeoController extends Controller
                     return;
                 }
                 $urls->push([
-                    'loc' => url('/'.$page->slug),
+                    'loc' => $page->publicUrl(),
                     'lastmod' => optional($page->updated_at)->toAtomString(),
                     'priority' => '0.8',
                 ]);
@@ -67,11 +67,6 @@ class SeoController extends Controller
             });
 
             $urls->push(['loc' => url('/contact'), 'priority' => '0.6']);
-            $urls->push(['loc' => url('/about'), 'priority' => '0.7']);
-            $urls->push(['loc' => url('/quality-compliance'), 'priority' => '0.6']);
-            $urls->push(['loc' => url('/specimen-library-preservation'), 'priority' => '0.6']);
-            $urls->push(['loc' => url('/partnerships'), 'priority' => '0.6']);
-            $urls->push(['loc' => url('/privacy-policy'), 'priority' => '0.5']);
             $urls->push(['loc' => url('/capabilities'), 'priority' => '0.7']);
             $urls->push(['loc' => url('/industries'), 'priority' => '0.7']);
             $urls->push(['loc' => url('/blog'), 'priority' => '0.7']);

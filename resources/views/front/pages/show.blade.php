@@ -6,7 +6,7 @@
 @include('front.partials.lyovial-navbar', ['transparent' => true])
 @include('front.partials.page-banner', [
     'bannerTitle' => $page->heading ?: $page->title,
-    'bannerImage' => \App\Support\SiteImages::get('banner_default'),
+    'bannerImage' => \App\Support\SiteImages::resolve($page->banner_image, \App\Support\SiteImages::get('banner_default')),
 ])
 
 <section class="section" style="padding:70px 0">

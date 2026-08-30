@@ -10,12 +10,17 @@ use App\Http\Controllers\Front\PageController;
 use App\Http\Controllers\Front\ServiceController;
 use App\Http\Controllers\Front\ThemeDataController;
 use App\Http\Controllers\SeoController;
+use App\Http\Controllers\StorageFileController;
 use App\Models\Article;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/clear-cache/{token}', ClearCacheController::class)
     ->where('token', '[A-Za-z0-9\-_]+')
     ->name('clear-cache');
+
+Route::get('/storage/{path}', StorageFileController::class)
+    ->where('path', '.*')
+    ->name('storage.serve');
 
 Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
 Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
@@ -63,3 +68,10 @@ Route::get('/privacy-policy', [PageController::class, 'privacy'])->name('pages.p
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');
+
+Route::fallback(function (\Illuminate\Http\Request $request) {
+    $slug = trim($request->path(), '/');
+    abort_unless(preg_match('/^[A-Za-z0-9\-]+$/', $slug) === 1, 404);
+
+    return app(PageController::class)->show($slug);
+})->name('pages.show');

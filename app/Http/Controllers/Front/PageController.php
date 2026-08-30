@@ -5,65 +5,70 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\Page;
 use App\Support\ThemePageDefaults;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class PageController extends Controller
 {
-    public function about(): View
+    public function about(): View|RedirectResponse
     {
-        $page = $this->typedPage(Page::TYPE_ABOUT, 'About Us');
-        if (! $page->heading) {
-            $page->heading = 'A lyophilization specialist, not a generalist CDMO';
-        }
-
-        return view('front.pages.about', compact('page'));
+        return $this->respondTyped(
+            Page::TYPE_ABOUT,
+            'about',
+            'About Us',
+            'front.pages.about',
+            'A lyophilization specialist, not a generalist CDMO'
+        );
     }
 
-    public function quality(): View
+    public function quality(): View|RedirectResponse
     {
-        $page = $this->typedPage(Page::TYPE_QUALITY_COMPLIANCE, 'Quality & Compliance');
-        if (! $page->heading) {
-            $page->heading = 'Where We Stand on Quality — Before It Becomes a Surprise';
-        }
-
-        return view('front.pages.quality', compact('page'));
+        return $this->respondTyped(
+            Page::TYPE_QUALITY_COMPLIANCE,
+            'quality-compliance',
+            'Quality & Compliance',
+            'front.pages.quality',
+            'Where We Stand on Quality — Before It Becomes a Surprise'
+        );
     }
 
-    public function specimen(): View
+    public function specimen(): View|RedirectResponse
     {
-        $page = $this->typedPage(Page::TYPE_SPECIMEN_LIBRARY, 'Specimen Library Preservation');
-        if (! $page->heading) {
-            $page->heading = 'Move Your Specimen Library Off the Freezer, Without Losing the Sample';
-        }
-
-        return view('front.pages.specimen', compact('page'));
+        return $this->respondTyped(
+            Page::TYPE_SPECIMEN_LIBRARY,
+            'specimen-library-preservation',
+            'Specimen Library Preservation',
+            'front.pages.specimen',
+            'Move Your Specimen Library Off the Freezer, Without Losing the Sample'
+        );
     }
 
-    public function partnerships(): View
+    public function partnerships(): View|RedirectResponse
     {
-        $page = $this->typedPage(Page::TYPE_PARTNERSHIPS, 'Partnerships');
-        if (! $page->heading) {
-            $page->heading = 'Two partners we route real work through';
-        }
-
-        return view('front.pages.partnerships', compact('page'));
+        return $this->respondTyped(
+            Page::TYPE_PARTNERSHIPS,
+            'partnerships',
+            'Partnerships',
+            'front.pages.partnerships',
+            'Two partners we route real work through'
+        );
     }
 
-    public function privacy(): View
+    public function privacy(): View|RedirectResponse
     {
-        $page = $this->typedPage(Page::TYPE_PRIVACY, 'Privacy Policy');
-        if (! $page->heading) {
-            $page->heading = 'Privacy Policy';
-        }
-        if (! filled($page->content)) {
-            $page->content = ThemePageDefaults::privacyContent();
-        }
-
-        return view('front.pages.privacy', compact('page'));
+        return $this->respondTyped(
+            Page::TYPE_PRIVACY,
+            'privacy-policy',
+            'Privacy Policy',
+            'front.pages.privacy',
+            'Privacy Policy'
+        );
     }
 
     public function show(string $slug): View
     {
+        abort_if(in_array($slug, Page::reservedSlugs(), true), 404);
+
         $page = Page::query()
             ->active()
             ->where('slug', $slug)
@@ -80,34 +85,59 @@ class PageController extends Controller
         };
     }
 
+    protected function respondTyped(
+        string $type,
+        string $fallbackSlug,
+        string $fallbackTitle,
+        string $view,
+        ?string $fallbackHeading = null
+    ): View|RedirectResponse {
+        $page = $this->typedPage($type, $fallbackTitle);
+
+        if ($page->exists && filled($page->slug) && $page->slug !== $fallbackSlug) {
+            return redirect()->to($page->publicPath(), 301);
+        }
+
+        if (! $page->exists && $fallbackHeading && ! filled($page->heading)) {
+            $page->heading = $fallbackHeading;
+        }
+
+        if ($type === Page::TYPE_PRIVACY && ! $page->exists && ! filled($page->content)) {
+            $page->content = ThemePageDefaults::privacyContent();
+        }
+
+        return view($view, compact('page'));
+    }
+
     protected function typedPage(string $type, string $fallbackTitle): Page
     {
         $page = Page::query()
-            ->active()
             ->ofType($type)
             ->with('seo')
             ->first();
 
-        if (! $page) {
-            $extra = match ($type) {
-                Page::TYPE_QUALITY_COMPLIANCE => ThemePageDefaults::qualityExtra(),
-                Page::TYPE_SPECIMEN_LIBRARY => ThemePageDefaults::specimenExtra(),
-                Page::TYPE_PARTNERSHIPS => ThemePageDefaults::partnershipsExtra(),
-                Page::TYPE_ABOUT => ThemePageDefaults::aboutExtra(),
-                Page::TYPE_PRIVACY => ThemePageDefaults::privacyExtra(),
-                default => [],
-            };
+        if ($page) {
+            abort_unless($page->status, 404);
 
-            $page = new Page([
-                'title' => $fallbackTitle,
-                'heading' => $fallbackTitle,
-                'content' => '',
-                'type' => $type,
-                'status' => true,
-                'extra' => $extra,
-            ]);
+            return $page;
         }
 
-        return $page;
+        $extra = match ($type) {
+            Page::TYPE_QUALITY_COMPLIANCE => ThemePageDefaults::qualityExtra(),
+            Page::TYPE_SPECIMEN_LIBRARY => ThemePageDefaults::specimenExtra(),
+            Page::TYPE_PARTNERSHIPS => ThemePageDefaults::partnershipsExtra(),
+            Page::TYPE_ABOUT => ThemePageDefaults::aboutExtra(),
+            Page::TYPE_PRIVACY => ThemePageDefaults::privacyExtra(),
+            default => [],
+        };
+
+        return new Page([
+            'title' => $fallbackTitle,
+            'heading' => $fallbackTitle,
+            'content' => '',
+            'type' => $type,
+            'status' => true,
+            'extra' => $extra,
+        ]);
     }
 }

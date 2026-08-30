@@ -10,6 +10,13 @@
     </div>
 
     <div class="d-flex align-items-center gap-2">
+        <form action="{{ route('admin.cache.clear') }}" method="POST" class="m-0" onsubmit="return confirm('Clear site cache (config, routes, views, homepage)?');">
+            @csrf
+            <button type="submit" class="btn btn-sm btn-outline-secondary" title="Clear cache">
+                <i class="bi bi-arrow-repeat me-1"></i><span class="d-none d-md-inline">Clear cache</span>
+            </button>
+        </form>
+
         @can('theme.manage')
             @php
                 $isDark = auth()->user()?->isDarkMode();

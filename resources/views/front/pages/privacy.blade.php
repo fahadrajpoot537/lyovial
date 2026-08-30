@@ -7,7 +7,9 @@
     $x = ThemePageDefaults::mergePage($page->extra ?? null, \App\Models\Page::TYPE_PRIVACY);
     $heading = $page->heading ?: $page->title ?: 'Privacy Policy';
     $bannerImage = SiteImages::resolve($page->banner_image, SiteImages::get('banner_default'));
-    $content = filled($page->content) ? $page->content : ThemePageDefaults::privacyContent();
+    $content = filled($page->content)
+        ? $page->content
+        : ($page->exists ? '' : ThemePageDefaults::privacyContent());
 @endphp
 
 @section('content')

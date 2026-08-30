@@ -12,6 +12,8 @@
     $process = $sections['process'] ?? null;
     $faqIntro = $sections['faq'] ?? null;
     $articlesIntro = $sections['articles'] ?? null;
+    $canada = $sections['canada_coverage'] ?? null;
+    $readyToTalk = $sections['ready_to_talk'] ?? null;
 
     $resolveImg = function (?string $path, string $fallback) {
         return \App\Support\SiteImages::resolve($path, $fallback);
@@ -46,6 +48,7 @@
     $whyImgSm = \App\Support\SiteImages::get('home_why_sm');
     $partnerBg = \App\Support\SiteImages::resolve($usableImg($partner?->image), \App\Support\SiteImages::get('home_partner'));
     $processImg = \App\Support\SiteImages::resolve($usableImg($process?->image), \App\Support\SiteImages::get('home_process'));
+    $canadaImg = \App\Support\SiteImages::resolve($usableImg($canada?->image), \App\Support\SiteImages::get('home_process'));
 
     $themeServiceImgs = [
         \App\Support\SiteImages::url('svc-1.jpg'),
@@ -61,13 +64,10 @@
         \App\Support\SiteImages::url('ind-6.jpg'),
     ];
 
-    $statItems = $stats?->extra['items'] ?? [
-        ['num' => '250+', 'label' => 'Lyo Cycles<br/>Completed', 'icon' => 'flask'],
-        ['num' => '20+', 'label' => 'Client<br/>Programs', 'icon' => 'doc'],
-        ['num' => '4+', 'label' => 'Vial Formats<br/>Supported', 'icon' => 'vial'],
-    ];
+    $statItems = $stats?->extra['items'] ?? [];
     $partnerCards = $partner?->extra['cards'] ?? [];
     $processSteps = $process?->extra['steps'] ?? [];
+    $canadaPoints = $canada?->extra['points'] ?? [];
 
     $statIcons = [
         'flask' => '<path d="M10 2v7.31M14 9.3V2M8.5 2h7M14 9.3a6.5 6.5 0 1 1-4 0"/>',
@@ -89,7 +89,7 @@
         'flask-beaker' => '<path d="M9 11H5a2 2 0 0 0-2 2v7h18v-7a2 2 0 0 0-2-2h-4M9 11V4a3 3 0 0 1 6 0v7M9 11h6"/>',
     ];
 
-    $heroHeading = $hero?->heading ?? 'Contract Lyophilization Services — Pilot-Scale Vial Freeze-Drying';
+    $heroHeading = $hero?->heading;
 
     $phoneDisplay = $sitePhone ?: '+1 613 800 8060';
 @endphp
@@ -108,6 +108,7 @@
       url('{{ $partnerBg }}') center/cover no-repeat !important;
 }
 .coverage-image { background-image: url('{{ $processImg }}') !important; background-size: cover; background-position: center; }
+.canada-visual { background-image: url('{{ $canadaImg }}') !important; background-size: cover; background-position: center; }
 </style>
 @endpush
 
@@ -122,7 +123,7 @@
     src="{{ $heroLcpMobile }}"
     srcset="{{ $heroLcpMobile }} 800w, {{ $heroBg }} 1600w"
     sizes="100vw"
-    alt="{{ $heroHeading }}"
+    alt="{{ $hero?->image_alt ?: 'LyoVial lyophilization' }}"
     width="{{ $heroW ?: 1600 }}"
     height="{{ $heroH ?: 900 }}"
     fetchpriority="high"
@@ -164,7 +165,7 @@
 @endif
 
 {{-- STATS --}}
-@if(!$stats || $stats->is_active)
+@if((!$stats || $stats->is_active) && count($statItems))
 <section class="stats">
   <div class="container">
     <div class="stats-grid">
@@ -184,12 +185,13 @@
 @endif
 
 {{-- SERVICES --}}
+@if(!$servicesIntro || $servicesIntro->is_active)
 <section class="section services">
   <div class="container">
     <div class="section-head">
       @if($servicesIntro?->small_title)<div class="eyebrow">{{ $servicesIntro->small_title }}</div>@endif
-      <h2>{{ $servicesIntro?->heading ?? 'Three services covering the full lyophilization workflow' }}</h2>
-      <p>{{ strip_tags($servicesIntro?->description ?? '') }}</p>
+      @if($servicesIntro?->heading)<h2>{{ $servicesIntro->heading }}</h2>@endif
+      @if($servicesIntro?->description)<p>{{ strip_tags($servicesIntro->description) }}</p>@endif
     </div>
     <div class="service-grid is-carousel">
       @foreach($services as $i => $service)
@@ -213,14 +215,16 @@
     <div class="home-swipe-hint">Swipe to see more</div>
   </div>
 </section>
+@endif
 
 {{-- WHO WE SERVE --}}
+@if(!$industriesIntro || $industriesIntro->is_active)
 <section class="section serve" id="industries">
   <div class="container">
     <div class="section-head">
       @if($industriesIntro?->small_title)<div class="eyebrow">{{ $industriesIntro->small_title }}</div>@endif
-      <h2>{{ $industriesIntro?->heading ?? 'Teams that turn to LyoVial for contract freeze-drying' }}</h2>
-      <p>{{ strip_tags($industriesIntro?->description ?? '') }}</p>
+      @if($industriesIntro?->heading)<h2>{{ $industriesIntro->heading }}</h2>@endif
+      @if($industriesIntro?->description)<p>{{ strip_tags($industriesIntro->description) }}</p>@endif
     </div>
     <div class="serve-grid is-carousel">
       @foreach($industries as $i => $industry)
@@ -244,6 +248,7 @@
     <div class="home-swipe-hint">Swipe to see more</div>
   </div>
 </section>
+@endif
 
 {{-- WHY CHOOSE --}}
 @if(!$whyIntro || $whyIntro->is_active)
@@ -252,7 +257,7 @@
     <div class="why-grid">
       <div class="why-content">
         @if($whyIntro?->small_title)<div class="eyebrow">{{ $whyIntro->small_title }}</div>@endif
-        <h2>{{ $whyIntro?->heading ?? 'Why teams choose LyoVial for contract lyophilization services' }}</h2>
+        @if($whyIntro?->heading)<h2>{{ $whyIntro->heading }}</h2>@endif
         <p>{{ strip_tags($whyIntro?->description ?? '') }}</p>
         <div class="why-features">
           @foreach($whyChoose as $i => $item)
@@ -285,7 +290,7 @@
     <div class="partner-head">
       <div>
         @if($partner?->small_title)<div class="eyebrow">{{ $partner->small_title }}</div>@endif
-        <h2>{{ $partner?->heading ?? 'Your Canadian partner for pilot-scale contract lyophilization' }}</h2>
+        @if($partner?->heading)<h2>{{ $partner->heading }}</h2>@endif
       </div>
       @if($partner?->button_primary_text)
         <a href="{{ url($partner->button_primary_link ?: '/contact') }}" class="btn btn-primary">{{ $partner->button_primary_text }}</a>
@@ -314,7 +319,7 @@
   <div class="container testimonials-inner">
     <div class="section-head">
       @if($testimonialsIntro?->small_title)<div class="eyebrow">{{ $testimonialsIntro->small_title }}</div>@endif
-      <h2>{{ $testimonialsIntro?->heading ?? 'What our contract lyophilization clients say' }}</h2>
+      @if($testimonialsIntro?->heading)<h2>{{ $testimonialsIntro->heading }}</h2>@endif
     </div>
     <div class="testimonial-grid is-carousel">
       @foreach($testimonials as $testimonial)
@@ -351,7 +356,7 @@
       @if($process?->small_title)
         <div class="eyebrow" style="justify-content:center;display:inline-flex">{{ $process->small_title }}</div>
       @endif
-      <h2>{{ $process?->heading ?? 'How our contract lyophilization services work' }}</h2>
+      @if($process?->heading)<h2>{{ $process->heading }}</h2>@endif
       <p>{{ strip_tags($process?->description ?? '') }}</p>
     </div>
     @php
@@ -381,13 +386,48 @@
 </section>
 @endif
 
-{{-- EXISTING FAQ (before Articles) --}}
+{{-- CANADA COVERAGE --}}
+@if($canada?->is_active)
+<section class="canada-coverage" id="canada">
+  <div class="container">
+    <div class="coverage-head">
+      @if($canada->small_title)
+        <div class="eyebrow" style="justify-content:center;display:inline-flex">{{ $canada->small_title }}</div>
+      @endif
+      @if($canada->heading)<h2>{{ $canada->heading }}</h2>@endif
+      @if($canada->description)<div class="canada-copy">{!! $canada->description !!}</div>@endif
+    </div>
+    <div class="canada-grid">
+      <div class="canada-points">
+        @foreach($canadaPoints as $point)
+          <div class="canada-point">
+            <strong>{{ $point['title'] ?? '' }}</strong>
+            <p>{{ $point['text'] ?? '' }}</p>
+          </div>
+        @endforeach
+      </div>
+      <div class="canada-visual" style="background-image:url('{{ $canadaImg }}');background-size:cover;background-position:center;background-repeat:no-repeat;" role="img" aria-label="{{ $canada->image_alt ?: $canada->heading }}"></div>
+    </div>
+    @if($canada->map_embed)
+      <div class="canada-map">{!! $canada->map_embed !!}</div>
+    @endif
+    @if($canada->button_primary_text)
+      <div class="canada-actions">
+        <a href="{{ url($canada->button_primary_link ?: '/contact') }}" class="btn btn-primary">{{ $canada->button_primary_text }}</a>
+      </div>
+    @endif
+  </div>
+</section>
+@endif
+
+{{-- FAQ --}}
+@if((!$faqIntro || $faqIntro->is_active) && $faqs->count())
 <section class="lyovial-faq" id="faq">
   <div class="container">
     <div class="section-head">
       @if($faqIntro?->small_title)<div class="eyebrow" style="justify-content:center;display:inline-flex;margin:0 auto 12px">{{ $faqIntro->small_title }}</div>@endif
-      <h2 class="section-title">{{ $faqIntro?->heading ?? 'FAQ' }}</h2>
-      <p style="max-width:640px;margin:0 auto;color:#000">{{ strip_tags($faqIntro?->description ?? '') }}</p>
+      @if($faqIntro?->heading)<h2 class="section-title">{{ $faqIntro->heading }}</h2>@endif
+      @if($faqIntro?->description)<p style="max-width:640px;margin:0 auto;color:#000">{{ strip_tags($faqIntro->description) }}</p>@endif
     </div>
     <div class="lyovial-faq-list">
       @foreach($faqs as $i => $faq)
@@ -399,6 +439,7 @@
     </div>
   </div>
 </section>
+@endif
 
 {{-- BLOGS --}}
 @if((!$articlesIntro || $articlesIntro->is_active) && $articles->count())
@@ -406,8 +447,8 @@
   <div class="container">
     <div class="section-head blog-head">
       <div>
-        <div class="eyebrow">{{ $articlesIntro?->small_title ?: 'Blogs' }}</div>
-        <h2>{{ $articlesIntro?->heading ?? 'Latest lyophilization insights & case notes' }}</h2>
+        @if($articlesIntro?->small_title)<div class="eyebrow">{{ $articlesIntro->small_title }}</div>@endif
+        @if($articlesIntro?->heading)<h2>{{ $articlesIntro->heading }}</h2>@endif
       </div>
       <a href="{{ filled($articlesIntro?->button_primary_link) ? url($articlesIntro->button_primary_link) : route('blog.index') }}" class="btn btn-primary">{{ $articlesIntro?->button_primary_text ?: 'View All →' }}</a>
     </div>
@@ -446,6 +487,27 @@
       @endforeach
     </div>
     <div class="home-swipe-hint">Swipe to see more</div>
+  </div>
+</section>
+@endif
+
+{{-- READY TO TALK --}}
+@if($readyToTalk?->is_active)
+<section class="home-talk">
+  <div class="container home-talk-inner">
+    <div>
+      @if($readyToTalk->small_title)<div class="eyebrow is-light">{{ $readyToTalk->small_title }}</div>@endif
+      @if($readyToTalk->heading)<h2>{{ $readyToTalk->heading }}</h2>@endif
+      @if($readyToTalk->description)<p>{{ strip_tags($readyToTalk->description) }}</p>@endif
+    </div>
+    <div class="home-talk-actions">
+      @if($readyToTalk->button_primary_text)
+        <a href="{{ url($readyToTalk->button_primary_link ?: '/contact') }}" class="btn btn-primary">{{ $readyToTalk->button_primary_text }}</a>
+      @endif
+      @if($readyToTalk->button_secondary_text)
+        <a href="{{ $readyToTalk->button_secondary_link ?: '#' }}" class="btn btn-talk-secondary">{{ $readyToTalk->button_secondary_text }}</a>
+      @endif
+    </div>
   </div>
 </section>
 @endif

@@ -6,7 +6,7 @@ class IndustryPageDefaults
 {
     public static function merge(?array $extra, string $slug): array
     {
-        return array_replace_recursive(self::forSlug($slug), $extra ?? []);
+        return array_replace(self::empty(), self::forSlug($slug), $extra ?? []);
     }
 
     public static function navTitle(?array $extra, string $slug, string $fallback): string
@@ -76,6 +76,15 @@ class IndustryPageDefaults
             'cta_heading' => 'Ready to talk?',
             'cta_body' => 'Share your product goals and our Kanata team will help map the next step.',
             'cta_button' => 'Request a Feasibility Quote →',
+            'cta_link' => '/contact',
+            'cta_eyebrow' => 'Ready to talk?',
+            'swipe_needs' => 'Swipe to see more',
+            'swipe_steps' => 'Swipe through the stages',
+            'why_eyebrow' => 'Why LyoVial',
+            'workflow_heading' => 'The full workflow',
+            'other_industries_heading' => 'Other industries we serve',
+            'faq_eyebrow' => 'Common questions',
+            'faq_intro' => 'If your question isn\'t here, send it — we\'ll answer before a first call.',
         ], self::process('How a program runs'));
     }
 

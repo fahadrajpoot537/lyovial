@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Support\AdminSlug;
 use App\Support\SeoHelper;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;
@@ -69,7 +70,7 @@ class ServiceRequest extends FormRequest
             'galleries.*.alt_text' => ['nullable', 'string', 'max:255'],
             'galleries.*.title' => ['nullable', 'string', 'max:255'],
             'galleries.*.sort_order' => ['nullable', 'integer', 'min:0'],
-        ], SeoHelper::validationRules());
+        ], SeoHelper::validationRules(includeSlug: false));
     }
 
     protected function prepareForValidation(): void
@@ -82,7 +83,7 @@ class ServiceRequest extends FormRequest
             'followable' => $this->boolean('followable', true),
             'sort_order' => $this->input('sort_order', 0),
             'home_sort_order' => $this->input('home_sort_order', 0),
-            'slug' => filled($this->input('slug')) ? $this->input('slug') : null,
+            'slug' => filled($this->input('slug')) ? AdminSlug::normalize($this->input('slug')) : null,
         ]);
     }
 

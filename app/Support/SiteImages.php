@@ -76,21 +76,56 @@ class SiteImages
         if (str_starts_with($path, '/')) {
             $candidates[] = public_path(ltrim($path, '/'));
         }
+        $candidates[] = public_path('uploads/'.$relative);
         $candidates[] = public_path('storage/'.$relative);
         $candidates[] = storage_path('app/public/'.$relative);
         $candidates[] = public_path($relative);
 
         foreach ($candidates as $full) {
-            if (is_file($full) && filesize($full) > 5000) {
-                if (str_starts_with($path, '/')) {
-                    return self::preferWebp($path);
-                }
+            if (! is_file($full) || filesize($full) < 32) {
+                continue;
+            }
 
-                return self::preferWebp('/storage/'.$relative);
+            if (@getimagesize($full) === false && ! str_ends_with(strtolower($full), '.svg')) {
+                continue;
+            }
+
+            $url = self::webUrlForFile($full, $relative);
+            if ($url) {
+                return $url;
             }
         }
 
         return $fallback;
+    }
+
+    /**
+     * Turn a local filesystem hit into the URL the browser can actually load.
+     */
+    protected static function webUrlForFile(string $full, string $relative): ?string
+    {
+        $real = str_replace('\\', '/', realpath($full) ?: $full);
+        $publicRoot = str_replace('\\', '/', realpath(public_path()) ?: public_path());
+        $storageRoot = str_replace('\\', '/', realpath(storage_path('app/public')) ?: storage_path('app/public'));
+
+        if (str_starts_with($real, rtrim($publicRoot, '/').'/')) {
+            return self::preferWebp('/'.ltrim(substr($real, strlen($publicRoot)), '/'));
+        }
+
+        if (str_starts_with($real, rtrim($storageRoot, '/').'/')) {
+            $stored = ltrim(substr($real, strlen($storageRoot)), '/');
+            if (is_file(public_path('uploads/'.$stored))) {
+                return self::preferWebp('/uploads/'.$stored);
+            }
+
+            return self::preferWebp(storage_url($stored) ?: '/storage/'.$stored);
+        }
+
+        if (is_file(public_path('uploads/'.$relative))) {
+            return self::preferWebp('/uploads/'.$relative);
+        }
+
+        return null;
     }
 
     public static function map(): array

@@ -40,6 +40,7 @@
                                     @endif
                                 </td>
                                 <td class="text-end text-nowrap">
+                                    <a href="{{ route('blog.show', $item) }}" class="btn btn-sm btn-outline-secondary" target="_blank" rel="noopener">View</a>
                                     <a href="{{ route('admin.articles.edit', $item) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
                                     <form method="POST" action="{{ route('admin.articles.destroy', $item) }}" class="d-inline" onsubmit="return confirm('Delete this article?');">
                                         @csrf

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Support\AdminSlug;
 use App\Support\SeoHelper;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;
@@ -36,7 +37,52 @@ class IndustryRequest extends FormRequest
             'status' => ['nullable', 'boolean'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'home_sort_order' => ['nullable', 'integer', 'min:0'],
-        ], SeoHelper::validationRules());
+            'extra' => ['nullable', 'array'],
+            'extra.nav_title' => ['nullable', 'string', 'max:255'],
+            'extra.hero_eyebrow' => ['nullable', 'string', 'max:255'],
+            'extra.hero_h1' => ['nullable', 'string', 'max:500'],
+            'extra.hero_lede' => ['nullable', 'string', 'max:2000'],
+            'extra.spec_heading' => ['nullable', 'string', 'max:255'],
+            'extra.spec_items' => ['nullable', 'array'],
+            'extra.spec_items.*.title' => ['nullable', 'string', 'max:255'],
+            'extra.spec_items.*.body' => ['nullable', 'string', 'max:2000'],
+            'extra.lead_eyebrow' => ['nullable', 'string', 'max:255'],
+            'extra.lead_heading' => ['nullable', 'string', 'max:500'],
+            'extra.lead_paras' => ['nullable', 'array'],
+            'extra.lead_paras.*' => ['nullable', 'string', 'max:4000'],
+            'extra.needs_eyebrow' => ['nullable', 'string', 'max:255'],
+            'extra.needs' => ['nullable', 'array'],
+            'extra.needs.*.n' => ['nullable', 'string', 'max:20'],
+            'extra.needs.*.title' => ['nullable', 'string', 'max:255'],
+            'extra.needs.*.body' => ['nullable', 'string', 'max:2000'],
+            'extra.process_eyebrow' => ['nullable', 'string', 'max:255'],
+            'extra.process_heading' => ['nullable', 'string', 'max:500'],
+            'extra.process_intro' => ['nullable', 'string', 'max:2000'],
+            'extra.steps' => ['nullable', 'array'],
+            'extra.steps.*.title' => ['nullable', 'string', 'max:255'],
+            'extra.steps.*.body' => ['nullable', 'string', 'max:2000'],
+            'extra.why_eyebrow' => ['nullable', 'string', 'max:255'],
+            'extra.why_heading' => ['nullable', 'string', 'max:500'],
+            'extra.why_body' => ['nullable', 'string', 'max:4000'],
+            'extra.why_items' => ['nullable', 'array'],
+            'extra.why_items.*' => ['nullable', 'string', 'max:2000'],
+            'extra.related_intro' => ['nullable', 'string', 'max:1000'],
+            'extra.workflow_heading' => ['nullable', 'string', 'max:255'],
+            'extra.other_industries_heading' => ['nullable', 'string', 'max:255'],
+            'extra.faq_eyebrow' => ['nullable', 'string', 'max:255'],
+            'extra.faq_heading' => ['nullable', 'string', 'max:500'],
+            'extra.faq_intro' => ['nullable', 'string', 'max:2000'],
+            'extra.faqs' => ['nullable', 'array'],
+            'extra.faqs.*.q' => ['nullable', 'string', 'max:500'],
+            'extra.faqs.*.a' => ['nullable', 'string', 'max:4000'],
+            'extra.cta_eyebrow' => ['nullable', 'string', 'max:255'],
+            'extra.cta_heading' => ['nullable', 'string', 'max:500'],
+            'extra.cta_body' => ['nullable', 'string', 'max:2000'],
+            'extra.cta_button' => ['nullable', 'string', 'max:100'],
+            'extra.cta_link' => ['nullable', 'string', 'max:500'],
+            'extra.swipe_needs' => ['nullable', 'string', 'max:100'],
+            'extra.swipe_steps' => ['nullable', 'string', 'max:100'],
+        ], SeoHelper::validationRules(includeSlug: false));
     }
 
     protected function prepareForValidation(): void
@@ -48,7 +94,7 @@ class IndustryRequest extends FormRequest
             'followable' => $this->boolean('followable', true),
             'sort_order' => $this->input('sort_order', 0),
             'home_sort_order' => $this->input('home_sort_order', 0),
-            'slug' => filled($this->input('slug')) ? $this->input('slug') : null,
+            'slug' => filled($this->input('slug')) ? AdminSlug::normalize($this->input('slug')) : null,
         ]);
     }
 

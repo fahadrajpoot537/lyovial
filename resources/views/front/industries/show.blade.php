@@ -34,7 +34,7 @@
           <h1>{!! $x['hero_h1'] ?: e($industry->heading ?: $industry->title) !!}</h1>
           <p class="ind-lede">{{ $x['hero_lede'] ?: $industry->short_description }}</p>
           <div class="ind-hero-cta">
-            <a class="ind-btn ind-btn-primary" href="{{ route('contact') }}">{{ $x['cta_button'] ?? 'Request a Feasibility Quote →' }}</a>
+            <a class="ind-btn ind-btn-primary" href="{{ url($x['cta_link'] ?: '/contact') }}">{{ $x['cta_button'] ?: 'Request a Feasibility Quote →' }}</a>
           </div>
         </div>
         @if(!empty($x['spec_items']))
@@ -84,7 +84,9 @@
             </article>
           @endforeach
         </div>
-        <div class="ind-swipe">Swipe to see more</div>
+        @if(!empty($x['swipe_needs']))
+          <div class="ind-swipe">{{ $x['swipe_needs'] }}</div>
+        @endif
       @endif
     </div>
   </section>
@@ -108,7 +110,9 @@
           </div>
         @endforeach
       </div>
-      <div class="ind-swipe">Swipe through the stages</div>
+      @if(!empty($x['swipe_steps']))
+        <div class="ind-swipe">{{ $x['swipe_steps'] }}</div>
+      @endif
     </div>
   </section>
   @endif
@@ -117,7 +121,7 @@
     <div class="container">
       <div class="ind-why">
         <div class="ind-why-card">
-          <div class="ind-eyebrow is-light">Why LyoVial</div>
+          <div class="ind-eyebrow is-light">{{ $x['why_eyebrow'] ?: 'Why LyoVial' }}</div>
           <h2>{{ $x['why_heading'] }}</h2>
           <p>{{ $x['why_body'] }}</p>
           @if(!empty($x['why_items']))
@@ -129,7 +133,7 @@
           @endif
         </div>
         <div class="ind-related">
-          <h3>The full workflow</h3>
+          <h3>{{ $x['workflow_heading'] ?: 'The full workflow' }}</h3>
           <p class="sub">{{ $x['related_intro'] ?? '' }}</p>
           @foreach($capabilities as $cap)
             <a class="ind-svc" href="{{ url('/capabilities/'.$cap->slug) }}">
@@ -138,7 +142,7 @@
             </a>
           @endforeach
           @if($others->isNotEmpty())
-            <p class="sub" style="margin:16px 0 8px">Other industries we serve</p>
+            <p class="sub" style="margin:16px 0 8px">{{ $x['other_industries_heading'] ?: 'Other industries we serve' }}</p>
             @foreach($others->take(3) as $other)
               <a class="ind-svc" href="{{ route('industries.show', $other->slug) }}">
                 <span>{{ IndustryPageDefaults::navTitle($other->extra, $other->slug, $other->title) }}</span>
@@ -156,9 +160,13 @@
     <div class="container">
       <div class="ind-faq-grid">
         <div>
-          <div class="ind-eyebrow">Common questions</div>
+          @if(!empty($x['faq_eyebrow']))
+            <div class="ind-eyebrow">{{ $x['faq_eyebrow'] }}</div>
+          @endif
           <h2 class="ind-section-title" style="margin-top:10px">{{ $x['faq_heading'] }}</h2>
-          <p class="ind-section-intro">If your question isn't here, send it — we'll answer before a first call.</p>
+          @if(!empty($x['faq_intro']))
+            <p class="ind-section-intro">{{ $x['faq_intro'] }}</p>
+          @endif
         </div>
         <div class="ind-faq">
           @foreach($x['faqs'] as $faq)
@@ -175,10 +183,12 @@
 
   <section class="ind-cta" id="quote">
     <div class="container">
-      <div class="ind-eyebrow is-light">Ready to talk?</div>
+      @if(!empty($x['cta_eyebrow']))
+        <div class="ind-eyebrow is-light">{{ $x['cta_eyebrow'] }}</div>
+      @endif
       <h2>{{ $x['cta_heading'] }}</h2>
       <p>{{ $x['cta_body'] }}</p>
-      <a class="ind-btn ind-btn-primary" href="{{ route('contact') }}">{{ $x['cta_button'] ?? 'Request a Feasibility Quote →' }}</a>
+      <a class="ind-btn ind-btn-primary" href="{{ url($x['cta_link'] ?: '/contact') }}">{{ $x['cta_button'] ?: 'Request a Feasibility Quote →' }}</a>
     </div>
   </section>
 </div>

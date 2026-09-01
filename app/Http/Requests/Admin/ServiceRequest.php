@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Support\AdminHtml;
 use App\Support\AdminSlug;
 use App\Support\SeoHelper;
 use Illuminate\Foundation\Http\FormRequest;
@@ -26,7 +27,7 @@ class ServiceRequest extends FormRequest
                 'string',
                 'max:255',
                 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
-                Rule::unique('services', 'slug')->ignore($serviceId),
+                Rule::unique('services', 'slug')->ignore($serviceId)->whereNull('deleted_at'),
             ],
             'banner_image' => $this->imageOrPathRule(),
             'featured_image' => $this->imageOrPathRule(),
@@ -55,7 +56,7 @@ class ServiceRequest extends FormRequest
             'extra.sidebar_cta_button' => ['nullable', 'string', 'max:100'],
             'extra.bottom_cta_heading' => ['nullable', 'string', 'max:255'],
             'extra.bottom_cta_body' => ['nullable', 'string', 'max:1000'],
-            'extra.bottom_cta_button' => ['nullable', 'string', 'max:100'],
+            'extra.bottom_cta_button' => ['nullable', 'string', 'max:150'],
             'button_text' => ['nullable', 'string', 'max:100'],
             'button_link' => ['nullable', 'string', 'max:500'],
             'breadcrumb_title' => ['nullable', 'string', 'max:255'],
@@ -84,6 +85,9 @@ class ServiceRequest extends FormRequest
             'sort_order' => $this->input('sort_order', 0),
             'home_sort_order' => $this->input('home_sort_order', 0),
             'slug' => filled($this->input('slug')) ? AdminSlug::normalize($this->input('slug')) : null,
+            'short_description' => AdminHtml::emptyToBlank($this->input('short_description')),
+            'long_description' => AdminHtml::emptyToBlank($this->input('long_description')),
+            'page_heading' => AdminHtml::emptyToBlank($this->input('page_heading')),
         ]);
     }
 

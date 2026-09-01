@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Support\AdminHtml;
 use App\Support\SeoHelper;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;
@@ -32,6 +33,7 @@ class WhyChooseItemRequest extends FormRequest
             'indexable' => $this->boolean('indexable', true),
             'followable' => $this->boolean('followable', true),
             'sort_order' => $this->input('sort_order', 0),
+            'description' => AdminHtml::emptyToBlank($this->input('description')),
         ]);
     }
 

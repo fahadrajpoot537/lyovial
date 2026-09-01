@@ -27,7 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append(\App\Http\Middleware\EnforceCanonicalHomepage::class);
         $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
 
-        $middleware->appendToGroup('web', [
+        $middleware->prependToGroup('web', [
             \App\Http\Middleware\HandleSeoRedirects::class,
         ]);
 
@@ -35,5 +35,14 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectUsersTo(fn () => route('admin.dashboard'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function (\Illuminate\Http\Exceptions\PostTooLargeException $e, $request) {
+            if ($request->is('admin/*')) {
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->with('error', 'The article is too large to upload. Paste the text only, and add images with the editor image button instead of pasting pictures from Word.');
+            }
+
+            return null;
+        });
     })->create();

@@ -69,7 +69,7 @@ class SeoHelper
             'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string', 'max:500'],
             'meta_keywords' => ['nullable', 'string', 'max:500'],
-            'canonical_url' => ['nullable', 'url', 'max:500'],
+            'canonical_url' => ['nullable', 'string', 'max:500'],
             'focus_keyword' => ['nullable', 'string', 'max:150'],
             'secondary_keywords' => ['nullable', 'string', 'max:500'],
             'schema_json' => ['nullable', 'string'],
@@ -122,7 +122,49 @@ class SeoHelper
             }
         }
 
+        foreach (['publish_date', 'seo_updated_date'] as $dateField) {
+            if (($seo[$dateField] ?? null) === '') {
+                $seo[$dateField] = null;
+            }
+        }
+
         return $seo;
+    }
+
+    /**
+     * Resolve unique public title/description for the current request.
+     * CMS values win when they are unique; empty or site-default titles fall back to path-specific copy.
+     *
+     * @param  array<string, mixed>  $defaultSeo
+     * @return array{title:string,description:string}
+     */
+    public static function publicMeta(?object $seo, array $defaultSeo = [], string $siteName = 'LyoVial'): array
+    {
+        $pathDefaults = SeoPageDefaults::forPath();
+        $siteTitle = trim((string) ($defaultSeo['default_meta_title'] ?? $defaultSeo['meta_title'] ?? $siteName));
+        $siteDescription = trim((string) ($defaultSeo['default_meta_description'] ?? $defaultSeo['meta_description'] ?? ''));
+
+        $title = '';
+        foreach (['browser_title', 'meta_title', 'seo_title'] as $field) {
+            $value = trim((string) ($seo?->{$field} ?? ''));
+            if ($value !== '' && ! SeoPageDefaults::isGenericTitle($value)) {
+                $title = $value;
+                break;
+            }
+        }
+        if ($title === '') {
+            $title = $pathDefaults['title'] ?? ($siteTitle !== '' ? $siteTitle : $siteName);
+        }
+
+        $description = trim((string) ($seo?->meta_description ?? ''));
+        if (SeoPageDefaults::isGenericDescription($description)) {
+            $description = $pathDefaults['description'] ?? $siteDescription;
+        }
+
+        return [
+            'title' => $title,
+            'description' => $description,
+        ];
     }
 
     public static function defaults(): array

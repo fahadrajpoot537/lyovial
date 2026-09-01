@@ -1,6 +1,9 @@
 @php
-    $extra = old('extra', $industry?->extra ?? []);
-    $extra = \App\Support\IndustryPageDefaults::merge(is_array($extra) ? $extra : [], (string) old('slug', $industry?->slug ?: 'custom'));
+    $stored = old('extra', $industry?->extra);
+    $stored = is_array($stored) ? $stored : null;
+    $extra = $industry
+        ? array_replace(\App\Support\IndustryPageDefaults::blank(), $stored ?? [])
+        : \App\Support\IndustryPageDefaults::merge($stored, (string) old('slug', $industry?->slug ?: 'custom'));
     $specItems = $extra['spec_items'] ?: [['title' => '', 'body' => '']];
     $leadParas = $extra['lead_paras'] ?: [''];
     $needs = $extra['needs'] ?: [['n' => '', 'title' => '', 'body' => '']];

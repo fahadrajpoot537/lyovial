@@ -63,10 +63,12 @@ class SeoMeta extends Model
         static::saved(function () {
             Cache::forget('sitemap.xml');
             Cache::forget('seo.head_scripts');
+            Cache::forget('home.sections');
         });
         static::deleted(function () {
             Cache::forget('sitemap.xml');
             Cache::forget('seo.head_scripts');
+            Cache::forget('home.sections');
         });
     }
 }

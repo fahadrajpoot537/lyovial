@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Support\AdminHtml;
 use App\Support\SeoHelper;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;
@@ -28,7 +29,19 @@ class ContactPageRequest extends FormRequest
             'what_to_include_content' => ['nullable', 'string'],
             'how_can_we_help_heading' => ['nullable', 'string', 'max:255'],
             'how_can_we_help_content' => ['nullable', 'string'],
-        ], SeoHelper::validationRules());
+        ], SeoHelper::validationRules(includeSlug: false));
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'indexable' => $this->boolean('indexable', true),
+            'followable' => $this->boolean('followable', true),
+            'heading' => AdminHtml::emptyToBlank($this->input('heading')),
+            'description' => AdminHtml::emptyToBlank($this->input('description')),
+            'what_to_include_content' => AdminHtml::emptyToBlank($this->input('what_to_include_content')),
+            'how_can_we_help_content' => AdminHtml::emptyToBlank($this->input('how_can_we_help_content')),
+        ]);
     }
 
     protected function imageOrPathRule(int $maxKb = 5120): array

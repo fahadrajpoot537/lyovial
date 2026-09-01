@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\HomeSection;
+use App\Models\Page;
 use App\Models\Service;
 use Illuminate\View\View;
 
@@ -12,7 +14,10 @@ class ServiceController extends Controller
     {
         $services = Service::query()->active()->with('seo')->orderBy('sort_order')->get();
 
-        return view('front.services.index', compact('services'));
+        return view('front.services.index', [
+            'services' => $services,
+            'seo' => HomeSection::byKey('services')?->seo,
+        ]);
     }
 
     public function show(string $slug): View
@@ -38,12 +43,12 @@ class ServiceController extends Controller
 
         $sidebarServices[] = [
             'title' => 'Quality & Compliance',
-            'url' => url('/quality-compliance'),
+            'url' => Page::publicUrlForType(Page::TYPE_QUALITY_COMPLIANCE, 'quality-compliance'),
             'active' => false,
         ];
         $sidebarServices[] = [
             'title' => 'Specimen Library Preservation',
-            'url' => url('/specimen-library-preservation'),
+            'url' => Page::publicUrlForType(Page::TYPE_SPECIMEN_LIBRARY, 'specimen-library-preservation'),
             'active' => false,
         ];
 

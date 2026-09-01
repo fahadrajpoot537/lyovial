@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use App\Models\Page;
+use App\Support\AdminHtml;
 use App\Support\AdminSlug;
 use App\Support\SeoHelper;
 use Illuminate\Foundation\Http\FormRequest;
@@ -28,14 +29,14 @@ class PageRequest extends FormRequest
                 'string',
                 'max:255',
                 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
-                Rule::unique('pages', 'slug')->ignore($pageId),
+                Rule::unique('pages', 'slug')->ignore($pageId)->whereNull('deleted_at'),
                 Rule::notIn(Page::reservedSlugs()),
             ],
             'banner_image' => $this->imageOrPathRule(),
             'hero_image_upload' => $this->imageOrPathRule(),
             'origin_image_upload' => $this->imageOrPathRule(),
             'expertise_image_upload' => $this->imageOrPathRule(),
-            'heading' => ['nullable', 'string', 'max:255'],
+            'heading' => ['nullable', 'string', 'max:500'],
             'content' => ['nullable', 'string'],
             'extra' => ['nullable', 'array'],
             'extra.effective_date' => ['nullable', 'string', 'max:50'],
@@ -54,6 +55,8 @@ class PageRequest extends FormRequest
             'followable' => $this->boolean('followable', true),
             'sort_order' => $this->input('sort_order', 0),
             'slug' => filled($this->input('slug')) ? AdminSlug::normalize($this->input('slug')) : null,
+            'content' => AdminHtml::emptyToBlank($this->input('content')),
+            'heading' => AdminHtml::emptyToBlank($this->input('heading')),
         ]);
     }
 

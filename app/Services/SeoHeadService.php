@@ -10,6 +10,7 @@ use App\Models\Page;
 use App\Models\Service;
 use App\Models\Setting;
 use App\Support\SeoHelper;
+use App\Support\SeoPageDefaults;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -34,24 +35,21 @@ class SeoHeadService
         $seo = $model && method_exists($model, 'seo') ? $model->seo : null;
 
         $siteName = Setting::get('site_name', config('app.name'), 'general');
-        $metaTitle = $seo?->browser_title
-            ?: $seo?->meta_title
-            ?: $seo?->seo_title
-            ?: ($defaults['meta_title'] ?? $siteName);
+        $resolved = SeoHelper::publicMeta($seo, $defaults, $siteName);
+        $metaTitle = $resolved['title'];
+        $metaDescription = $resolved['description'];
 
-        if ($fallbackTitle && ! $seo?->browser_title && ! $seo?->meta_title && ! $seo?->seo_title) {
-            $metaTitle = $fallbackTitle.' | '.$siteName;
+        if ($fallbackTitle && SeoPageDefaults::isGenericTitle($metaTitle)) {
+            $metaTitle = SeoPageDefaults::fitTitle($fallbackTitle, $siteName);
         }
-
-        $metaDescription = $seo?->meta_description ?: ($defaults['meta_description'] ?? '');
         $metaKeywords = $seo?->meta_keywords ?: ($defaults['meta_keywords'] ?? '');
         $canonical = $seo?->canonical_url ?: url()->current();
-        $canonical = \App\Support\SeoHelper::normalizePublicUrl((string) $canonical);
-        $ogTitle = $seo?->og_title ?: ($defaults['og_title'] ?? $metaTitle);
-        $ogDescription = $seo?->og_description ?: ($defaults['og_description'] ?? $metaDescription);
+        $canonical = SeoHelper::normalizePublicUrl((string) $canonical);
+        $ogTitle = SeoPageDefaults::isGenericTitle($seo?->og_title) ? $metaTitle : $seo->og_title;
+        $ogDescription = SeoPageDefaults::isGenericDescription($seo?->og_description) ? $metaDescription : $seo->og_description;
         $ogImage = $seo?->og_image ?: ($defaults['og_image'] ?? null);
-        $twitterTitle = $seo?->twitter_title ?: ($defaults['twitter_title'] ?? $ogTitle);
-        $twitterDescription = $seo?->twitter_description ?: ($defaults['twitter_description'] ?? $ogDescription);
+        $twitterTitle = SeoPageDefaults::isGenericTitle($seo?->twitter_title) ? $ogTitle : $seo->twitter_title;
+        $twitterDescription = SeoPageDefaults::isGenericDescription($seo?->twitter_description) ? $ogDescription : $seo->twitter_description;
         $twitterImage = $seo?->twitter_image ?: ($defaults['twitter_image'] ?? $ogImage);
         $twitterCard = $seo?->twitter_card ?: ($defaults['twitter_card'] ?? 'summary_large_image');
 

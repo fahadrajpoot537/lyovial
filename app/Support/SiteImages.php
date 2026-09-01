@@ -145,6 +145,7 @@ class SiteImages
             'banner_contact' => self::url('hero.png'),
             'banner_industries' => self::url('ind-1.jpg'),
             'banner_articles' => self::url('process.jpg'),
+            'author_default' => self::url('author-vladimir.jpg'),
             'banner_quality' => self::url('why-lg.jpg'),
             'banner_specimen' => self::url('process.jpg'),
             'banner_capabilities' => self::url('svc-1.jpg'),
@@ -168,6 +169,18 @@ class SiteImages
     public static function get(string $key): string
     {
         return self::map()[$key] ?? self::url('banner-ab.jpg');
+    }
+
+    public static function authorAvatar(?string $uploaded): string
+    {
+        $fallback = self::get('author_default');
+        if (! filled($uploaded) || str_contains($uploaded, 'images.unsplash.com')) {
+            return $fallback;
+        }
+
+        $resolved = self::resolve($uploaded, $fallback);
+
+        return $resolved !== '' ? $resolved : $fallback;
     }
 
     public static function serviceBanner(string $slug): string

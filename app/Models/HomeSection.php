@@ -44,7 +44,7 @@ class HomeSection extends Model
     public static function cached()
     {
         return Cache::rememberForever('home.sections', function () {
-            return static::query()->orderBy('sort_order')->get();
+            return static::query()->with('seo')->orderBy('sort_order')->get();
         });
     }
 

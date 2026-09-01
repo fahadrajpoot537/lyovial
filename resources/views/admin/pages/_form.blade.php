@@ -3,19 +3,33 @@
     $type = old('type', $page?->type ?? request('type', 'custom'));
     $extra = old('extra', $page?->extra ?? []);
     $contentValue = old('content', $page?->content);
+    if (! is_array($extra)) {
+        $extra = [];
+    }
+    $seedDefaults = ! $page;
     if ($type === \App\Models\Page::TYPE_QUALITY_COMPLIANCE) {
-        $extra = array_replace(\App\Support\ThemePageDefaults::qualityExtra(), is_array($extra) ? $extra : []);
+        $extra = $seedDefaults
+            ? array_replace(\App\Support\ThemePageDefaults::qualityExtra(), $extra)
+            : array_replace(\App\Support\ThemePageDefaults::blankShape(\App\Support\ThemePageDefaults::qualityExtra()), $extra);
     } elseif ($type === \App\Models\Page::TYPE_SPECIMEN_LIBRARY) {
-        $extra = array_replace(\App\Support\ThemePageDefaults::specimenExtra(), is_array($extra) ? $extra : []);
+        $extra = $seedDefaults
+            ? array_replace(\App\Support\ThemePageDefaults::specimenExtra(), $extra)
+            : array_replace(\App\Support\ThemePageDefaults::blankShape(\App\Support\ThemePageDefaults::specimenExtra()), $extra);
     } elseif ($type === \App\Models\Page::TYPE_PARTNERSHIPS) {
-        $extra = array_replace(\App\Support\ThemePageDefaults::partnershipsExtra(), is_array($extra) ? $extra : []);
-    } else        if ($type === \App\Models\Page::TYPE_PRIVACY) {
-            $extra = array_replace(\App\Support\ThemePageDefaults::privacyExtra(), is_array($extra) ? $extra : []);
-            if (! filled($contentValue) && ! $page) {
-                $contentValue = \App\Support\ThemePageDefaults::privacyContent();
-            }
-        } elseif ($type === \App\Models\Page::TYPE_ABOUT) {
-        $extra = array_replace(\App\Support\ThemePageDefaults::aboutExtra(), is_array($extra) ? $extra : []);
+        $extra = $seedDefaults
+            ? array_replace(\App\Support\ThemePageDefaults::partnershipsExtra(), $extra)
+            : array_replace(\App\Support\ThemePageDefaults::blankShape(\App\Support\ThemePageDefaults::partnershipsExtra()), $extra);
+    } elseif ($type === \App\Models\Page::TYPE_PRIVACY) {
+        $extra = $seedDefaults
+            ? array_replace(\App\Support\ThemePageDefaults::privacyExtra(), $extra)
+            : array_replace(\App\Support\ThemePageDefaults::blankShape(\App\Support\ThemePageDefaults::privacyExtra()), $extra);
+        if (! filled($contentValue) && ! $page) {
+            $contentValue = \App\Support\ThemePageDefaults::privacyContent();
+        }
+    } elseif ($type === \App\Models\Page::TYPE_ABOUT) {
+        $extra = $seedDefaults
+            ? array_replace(\App\Support\ThemePageDefaults::aboutExtra(), $extra)
+            : array_replace(\App\Support\ThemePageDefaults::blankShape(\App\Support\ThemePageDefaults::aboutExtra()), $extra);
     }
 @endphp
 

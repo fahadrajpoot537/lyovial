@@ -10,10 +10,11 @@
     $headings = $prepared['headings'];
     $shareUrl = url()->current();
     $shareTitle = $article->title;
-    $heroImg = SiteImages::resolve($article->featured_image, SiteImages::get('banner_articles'));
-    $avatar = $article->author_avatar
-        ? SiteImages::resolve($article->author_avatar, '')
+    $heroImg = SiteImages::get('banner_articles');
+    $featureImg = filled($article->featured_image)
+        ? SiteImages::resolve($article->featured_image, '')
         : '';
+    $avatar = SiteImages::authorAvatar($article->author_avatar);
     $encodedUrl = rawurlencode($shareUrl);
     $encodedTitle = rawurlencode($shareTitle);
 @endphp
@@ -33,28 +34,22 @@
   <div class="container lv-article{{ count($headings) ? '' : ' is-solo' }}">
     @if(count($headings))
       <nav class="lv-article-toc" id="lvArticleToc" aria-label="On this page">
-        <div class="lv-toc-label">On this page</div>
-        <ul>
-          @foreach($headings as $heading)
-            <li class="is-h{{ $heading['level'] }}{{ $loop->first ? ' is-active' : '' }}">
-              <a href="#{{ $heading['id'] }}">{{ $heading['text'] }}</a>
-            </li>
-          @endforeach
-        </ul>
+        <details class="lv-toc-details">
+          <summary class="lv-toc-label">On this page</summary>
+          <ul>
+            @foreach($headings as $heading)
+              <li class="is-h{{ $heading['level'] }}{{ $loop->first ? ' is-active' : '' }}">
+                <a href="#{{ $heading['id'] }}">{{ $heading['text'] }}</a>
+              </li>
+            @endforeach
+          </ul>
+        </details>
       </nav>
     @endif
 
     <div class="lv-article-main">
-      @if($article->author_name || $article->published_at)
-        <p class="lv-article-meta">
-          @if($article->author_name){{ $article->author_name }}@endif
-          @if($article->author_role) · {{ $article->author_role }}@endif
-          @if($article->published_at) · {{ $article->published_at->format('M j, Y') }}@endif
-        </p>
-      @endif
-
-      @if($article->excerpt)
-        <p class="lv-article-lead">{{ $article->excerpt }}</p>
+      @if($featureImg)
+        <img class="lv-article-hero-img" src="{{ $featureImg }}" alt="{{ $article->title }}" width="1200" height="675" loading="eager" decoding="async">
       @endif
 
       <div class="lv-article-body content-block">
@@ -63,18 +58,13 @@
 
       <div class="lv-article-author">
         <div class="lv-author-row">
-          @if($avatar)
-            <div class="lv-author-avatar" style="background-image:url('{{ $avatar }}')" role="img" aria-label="{{ $article->author_name }}"></div>
-          @endif
+          <div class="lv-author-avatar" style="background-image:url('{{ $avatar }}')" role="img" aria-label="{{ $article->author_name ?: 'Author' }}"></div>
           <div>
             @if($article->author_name)
               <h3 class="lv-author-name">{{ $article->author_name }}</h3>
             @endif
             @if($article->author_role)
               <p class="lv-author-role">{{ $article->author_role }}</p>
-            @endif
-            @if($article->excerpt)
-              <p class="lv-author-intro">{{ $article->excerpt }}</p>
             @endif
           </div>
         </div>
@@ -111,6 +101,14 @@
 <script>
 (function () {
   const toc = document.getElementById('lvArticleToc');
+  const details = toc?.querySelector('.lv-toc-details');
+  if (details) {
+    const desktop = window.matchMedia('(min-width: 993px)');
+    const syncToc = () => { details.open = desktop.matches; };
+    if (desktop.addEventListener) desktop.addEventListener('change', syncToc);
+    else desktop.addListener(syncToc);
+    syncToc();
+  }
   if (toc) {
     const links = Array.from(toc.querySelectorAll('a[href^="#"]'));
     const sections = links
@@ -133,6 +131,9 @@
         window.scrollTo({ top, behavior: 'smooth' });
         history.replaceState(null, '', link.hash);
         setActive(el.id);
+        if (details && window.matchMedia('(max-width: 992px)').matches) {
+          details.open = false;
+        }
       });
     });
 

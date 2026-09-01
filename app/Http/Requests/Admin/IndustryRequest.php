@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Support\AdminHtml;
 use App\Support\AdminSlug;
 use App\Support\SeoHelper;
 use Illuminate\Foundation\Http\FormRequest;
@@ -26,7 +27,7 @@ class IndustryRequest extends FormRequest
                 'string',
                 'max:255',
                 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/',
-                Rule::unique('industries', 'slug')->ignore($industryId),
+                Rule::unique('industries', 'slug')->ignore($industryId)->whereNull('deleted_at'),
             ],
             'banner_image' => $this->imageOrPathRule(),
             'image' => $this->imageOrPathRule(),
@@ -78,10 +79,10 @@ class IndustryRequest extends FormRequest
             'extra.cta_eyebrow' => ['nullable', 'string', 'max:255'],
             'extra.cta_heading' => ['nullable', 'string', 'max:500'],
             'extra.cta_body' => ['nullable', 'string', 'max:2000'],
-            'extra.cta_button' => ['nullable', 'string', 'max:100'],
+            'extra.cta_button' => ['nullable', 'string', 'max:150'],
             'extra.cta_link' => ['nullable', 'string', 'max:500'],
-            'extra.swipe_needs' => ['nullable', 'string', 'max:100'],
-            'extra.swipe_steps' => ['nullable', 'string', 'max:100'],
+            'extra.swipe_needs' => ['nullable', 'string', 'max:255'],
+            'extra.swipe_steps' => ['nullable', 'string', 'max:255'],
         ], SeoHelper::validationRules(includeSlug: false));
     }
 
@@ -95,6 +96,9 @@ class IndustryRequest extends FormRequest
             'sort_order' => $this->input('sort_order', 0),
             'home_sort_order' => $this->input('home_sort_order', 0),
             'slug' => filled($this->input('slug')) ? AdminSlug::normalize($this->input('slug')) : null,
+            'heading' => AdminHtml::emptyToBlank($this->input('heading')),
+            'short_description' => AdminHtml::emptyToBlank($this->input('short_description')),
+            'description' => AdminHtml::emptyToBlank($this->input('description')),
         ]);
     }
 

@@ -1,8 +1,11 @@
 @php
     $service = $service ?? null;
-    $extra = old('extra', $service?->extra ?? []);
+    $extra = old('extra', $service?->extra);
+    $extra = is_array($extra) ? $extra : [];
     $defaults = \App\Support\ThemePageDefaults::serviceExtra($service?->slug ?: 'custom');
-    $extra = array_replace($defaults, is_array($extra) ? $extra : []);
+    $extra = $service
+        ? array_replace(\App\Support\ThemePageDefaults::emptyServiceExtra(), $extra)
+        : array_replace($defaults, $extra);
     $includes = $extra['includes'] ?: [['title' => '', 'body' => '']];
     $whyBullets = $extra['why_bullets'] ?: ['', '', ''];
     $steps = $extra['steps'] ?: [['num' => '', 'title' => '', 'body' => '']];
@@ -32,11 +35,7 @@
                         <input type="text" name="page_heading" id="page_heading" class="form-control"
                                value="{{ old('page_heading', $service?->page_heading) }}">
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label" for="breadcrumb_title">Breadcrumb title</label>
-                        <input type="text" name="breadcrumb_title" id="breadcrumb_title" class="form-control" value="{{ old('breadcrumb_title', $service?->breadcrumb_title) }}">
-                    </div>
-                    <div class="col-md-6">
+                    <div class="col-12">
                         <label class="form-label" for="extra_eyebrow">Eyebrow</label>
                         <input type="text" name="extra[eyebrow]" id="extra_eyebrow" class="form-control" value="{{ $extra['eyebrow'] ?? '' }}">
                     </div>

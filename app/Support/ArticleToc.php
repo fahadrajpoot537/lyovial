@@ -6,6 +6,7 @@ use DOMDocument;
 use DOMElement;
 use DOMXPath;
 use Illuminate\Support\Str;
+use Throwable;
 
 class ArticleToc
 {
@@ -19,12 +20,24 @@ class ArticleToc
             return ['html' => '', 'headings' => []];
         }
 
+        try {
+            return self::build($html);
+        } catch (Throwable $e) {
+            report($e);
+
+            return ['html' => $html, 'headings' => []];
+        }
+    }
+
+    /**
+     * @return array{html: string, headings: list<array{id: string, text: string, level: int}>}
+     */
+    protected static function build(string $html): array
+    {
         $dom = new DOMDocument('1.0', 'UTF-8');
         libxml_use_internal_errors(true);
-        $loaded = $dom->loadHTML(
-            '<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>'.$html.'</body></html>',
-            LIBXML_HTML_NODEFDTD
-        );
+        $wrapped = '<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>'.$html.'</body></html>';
+        $loaded = $dom->loadHTML($wrapped, LIBXML_HTML_NODEFDTD | LIBXML_NOERROR | LIBXML_NOWARNING);
         libxml_clear_errors();
 
         $root = $loaded ? $dom->getElementsByTagName('body')->item(0) : null;
@@ -58,7 +71,12 @@ class ArticleToc
                     continue;
                 }
 
-                $text = trim(preg_replace('/\s+/u', ' ', $node->textContent ?? '') ?? '');
+                $raw = (string) ($node->textContent ?? '');
+                try {
+                    $text = trim(preg_replace('/\s+/u', ' ', $raw) ?? '');
+                } catch (Throwable) {
+                    $text = trim(preg_replace('/\s+/', ' ', $raw) ?? '');
+                }
                 if ($text === '') {
                     continue;
                 }

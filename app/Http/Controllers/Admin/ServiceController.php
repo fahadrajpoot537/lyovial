@@ -61,15 +61,17 @@ class ServiceController extends Controller
     public function update(ServiceRequest $request, Service $service): RedirectResponse
     {
         $validated = $request->validated();
-        $data = $this->payloadWithoutSeo($validated, ['galleries']);
+        $data = $this->payloadWithoutSeo($validated, ['galleries'], $service->slug);
         $data['banner_image'] = $this->resolveImageField($request, 'banner_image', 'services', $service->banner_image);
         $data['featured_image'] = $this->resolveImageField($request, 'featured_image', 'services', $service->featured_image);
         $data['extra'] = $this->normalizeServiceExtra($request->input('extra', []));
         $validated['slug'] = $data['slug'];
 
+        $oldSlug = $service->slug;
         $service->update($data);
         $this->syncSeoFromRequest($request, $validated, $service);
         $this->syncGalleries($service, $request);
+        $this->rememberSlugRedirect($oldSlug, $data['slug'] ?? $service->slug, 'capabilities');
 
         return back()->with('success', 'Service updated successfully.');
     }

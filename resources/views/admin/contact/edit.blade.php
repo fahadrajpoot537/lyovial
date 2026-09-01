@@ -59,7 +59,7 @@
                     </div>
                 </div>
 
-                @include('admin.partials.seo-fields', ['seo' => $contact?->seo])
+                @include('admin.partials.seo-fields', ['seo' => $contact?->seo, 'hideSeoSlug' => true, 'seoSourceTitle' => old('heading', $contact?->heading)])
             </div>
 
             <div class="col-lg-4">

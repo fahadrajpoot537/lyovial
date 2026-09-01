@@ -5,15 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+
     @php
         $seo = $seo ?? null;
-        $metaTitle = $seo?->meta_title ?? $seo?->seo_title ?? ($defaultSeo['default_meta_title'] ?? $siteName);
-        $metaDescription = $seo?->meta_description ?? ($defaultSeo['default_meta_description'] ?? '');
+        $resolvedMeta = \App\Support\SeoHelper::publicMeta($seo, $defaultSeo ?? [], $siteName ?? 'LyoVial');
+        $metaTitle = $resolvedMeta['title'];
+        $metaDescription = $resolvedMeta['description'];
         $metaKeywords = $seo?->meta_keywords ?? ($defaultSeo['default_meta_keywords'] ?? '');
         $canonical = $seo?->canonical_url ?? url()->current();
         $canonical = \App\Support\SeoHelper::normalizePublicUrl((string) $canonical);
-        $ogTitle = $seo?->og_title ?? $metaTitle;
-        $ogDescription = $seo?->og_description ?? $metaDescription;
+        $ogTitle = \App\Support\SeoPageDefaults::isGenericTitle($seo?->og_title) ? $metaTitle : $seo->og_title;
+        $ogDescription = \App\Support\SeoPageDefaults::isGenericDescription($seo?->og_description) ? $metaDescription : $seo->og_description;
+        $twitterTitle = \App\Support\SeoPageDefaults::isGenericTitle($seo?->twitter_title) ? $ogTitle : $seo->twitter_title;
+        $twitterDescription = \App\Support\SeoPageDefaults::isGenericDescription($seo?->twitter_description) ? $ogDescription : $seo->twitter_description;
         $ogImage = storage_url($seo?->og_image ?? ($defaultSeo['default_og_image'] ?? null));
         $robots = $seo?->robots_meta ?: ((($seo?->indexable ?? true) ? 'index' : 'noindex').', '.(($seo?->followable ?? true) ? 'follow' : 'nofollow'));
         $twitterImage = storage_url($seo?->twitter_image) ?: $ogImage;
@@ -32,8 +36,8 @@
     @if($ogImage)<meta property="og:image" content="{{ $ogImage }}">@endif
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ $seo?->twitter_title ?? $ogTitle }}">
-    <meta name="twitter:description" content="{{ $seo?->twitter_description ?? $ogDescription }}">
+    <meta name="twitter:title" content="{{ $twitterTitle }}">
+    <meta name="twitter:description" content="{{ $twitterDescription }}">
     @if($twitterImage)
         <meta name="twitter:image" content="{{ $twitterImage }}">
     @endif
@@ -49,6 +53,7 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
     <link href="{{ asset('assets/front/css/site.css') }}" rel="stylesheet">
     @stack('styles')
+
 </head>
 <body>
     @include('front.partials.header')

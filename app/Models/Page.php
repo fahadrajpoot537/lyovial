@@ -101,4 +101,11 @@ class Page extends Model
     {
         return url($this->publicPath());
     }
+
+    public static function publicUrlForType(string $type, string $fallbackPath): string
+    {
+        $page = static::query()->ofType($type)->first();
+
+        return $page ? $page->publicUrl() : url('/'.ltrim($fallbackPath, '/'));
+    }
 }

@@ -2,7 +2,6 @@
 
 @php
     use App\Support\SiteImages;
-    $seo = null;
 @endphp
 
 @section('content')

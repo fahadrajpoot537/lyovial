@@ -63,15 +63,17 @@ class PageController extends Controller
     public function update(PageRequest $request, Page $page): RedirectResponse
     {
         $validated = $request->validated();
-        $data = $this->payloadWithoutSeo($validated);
+        $data = $this->payloadWithoutSeo($validated, [], $page->slug);
         $data['banner_image'] = $this->resolveImageField($request, 'banner_image', 'pages', $page->banner_image);
         $data['extra'] = $this->normalizePageExtra($request->input('extra', []), $data['type'] ?? $page->type);
         $data['extra'] = $this->mergeAboutImages($request, $data['type'] ?? $page->type, $data['extra'], is_array($page->extra) ? $page->extra : []);
         $data['status'] = $request->boolean('status');
         $validated['slug'] = $data['slug'];
 
+        $oldSlug = $page->slug;
         $page->update($data);
         $this->syncSeoFromRequest($request, $validated, $page);
+        $this->rememberSlugRedirect($oldSlug, $data['slug'] ?? $page->slug);
 
         return back()->with('success', 'Page updated successfully.');
     }

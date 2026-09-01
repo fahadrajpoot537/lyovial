@@ -14,10 +14,10 @@
         : ($footerCms?->heading ?: 'Pilot-scale vial lyophilization for diagnostics, reagents, and research across Canada.');
     $exploreHeading = $footerCms?->extra['explore_heading'] ?? 'Explore';
     $capsHeading = $footerCms?->extra['capabilities_heading'] ?? 'Capabilities';
-    $talkHeading = $talk?->heading ?: ($footerCms?->extra['cta_heading'] ?? 'Ready to talk?');
-    $talkBody = filled($talk?->description) ? strip_tags($talk->description) : 'Share your product goals and our Kanata team will help map the next step.';
-    $talkBtn = $talk?->button_primary_text ?: ($footerCms?->button_primary_text ?: 'Contact LyoVial');
-    $talkLink = $talk?->button_primary_link ?: ($footerCms?->button_primary_link ?: route('contact'));
+    $talkHeading = $footerCms?->extra['cta_heading'] ?? 'Ready to talk?';
+    $talkBody = $footerCms?->extra['cta_body'] ?? 'Share your product goals and our Kanata team will help map the next step.';
+    $talkBtn = $footerCms?->extra['cta_button'] ?? 'Contact LyoVial';
+    $talkLink = $footerCms?->extra['cta_link'] ?? ($footerCms?->button_primary_link ?: route('contact'));
     if ($talkLink && ! str_starts_with($talkLink, 'http') && ! str_starts_with($talkLink, 'tel:') && ! str_starts_with($talkLink, '#')) {
         $talkLink = url($talkLink);
     }

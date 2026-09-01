@@ -43,7 +43,45 @@ class Article extends Model
             if (blank($article->slug) && filled($article->title)) {
                 $article->slug = Str::slug($article->title);
             }
+            if (filled($article->slug) && strlen((string) $article->slug) > 255) {
+                $article->slug = rtrim(substr((string) $article->slug, 0, 255), '-');
+            }
         });
+    }
+
+    public static function uniqueSlug(string $slug, ?int $ignoreId = null): string
+    {
+        $base = $slug !== '' ? $slug : 'article';
+        if (strlen($base) > 255) {
+            $base = rtrim(substr($base, 0, 255), '-');
+        }
+
+        $candidate = $base;
+
+        static::onlyTrashed()
+            ->where('slug', $candidate)
+            ->when($ignoreId, fn ($query) => $query->where('id', '!=', $ignoreId))
+            ->get()
+            ->each(function (self $row): void {
+                $freed = $row->slug.'-archived-'.$row->id;
+                if (strlen($freed) > 255) {
+                    $freed = 'archived-'.$row->id;
+                }
+                $row->slug = $freed;
+                $row->saveQuietly();
+            });
+
+        $n = 2;
+        while (static::withTrashed()
+            ->where('slug', $candidate)
+            ->when($ignoreId, fn ($query) => $query->where('id', '!=', $ignoreId))
+            ->exists()) {
+            $suffix = '-'.$n;
+            $candidate = substr($base, 0, 255 - strlen($suffix)).$suffix;
+            $n++;
+        }
+
+        return $candidate;
     }
 
     public function scopeActive(Builder $query): Builder
@@ -59,7 +97,8 @@ class Article extends Model
     public function scopePublished(Builder $query): Builder
     {
         return $query->where(function (Builder $q): void {
-            $q->whereNull('published_at')->orWhere('published_at', '<=', now());
+            $q->whereNull('published_at')
+                ->orWhereDate('published_at', '<=', now()->toDateString());
         });
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\HomeSection;
 use App\Models\Industry;
 use App\Models\Service;
 use App\Support\IndustryPageDefaults;
@@ -14,7 +15,10 @@ class IndustryController extends Controller
     {
         $industries = Industry::query()->active()->with('seo')->orderBy('sort_order')->get();
 
-        return view('front.industries.index', compact('industries'));
+        return view('front.industries.index', [
+            'industries' => $industries,
+            'seo' => HomeSection::byKey('industries')?->seo,
+        ]);
     }
 
     public function show(string $slug): View

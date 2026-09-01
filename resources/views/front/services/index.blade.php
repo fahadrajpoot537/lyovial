@@ -1,7 +1,5 @@
 @extends('front.layouts.lyovial-home')
 
-@php $seo = null; @endphp
-
 @section('content')
 @include('front.partials.lyovial-navbar', ['transparent' => true])
 @php use App\Support\SiteImages; @endphp

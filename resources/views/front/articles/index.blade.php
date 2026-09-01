@@ -32,12 +32,7 @@
                 $rawThumb = null;
             }
             $thumb = SiteImages::resolve($rawThumb, $themeThumbs[$i % count($themeThumbs)]);
-            $avatarSrc = $article->author_avatar;
-            if (filled($avatarSrc) && str_contains($avatarSrc, 'images.unsplash.com')) {
-                $avatarSrc = null;
-            }
-            $avatarUrl = $avatarSrc ? SiteImages::resolve($avatarSrc, '') : '';
-            $initials = strtoupper(mb_substr(trim($article->author_name ?: 'LV'), 0, 1));
+            $avatarUrl = SiteImages::authorAvatar($article->author_avatar);
             $day = $article->published_at?->format('d') ?? '01';
             $month = $article->published_at?->format('M') ?? 'Jan';
           @endphp
@@ -50,11 +45,7 @@
               </div>
               <div class="blog-body">
                 <div class="blog-author">
-                  @if($avatarUrl)
-                    <div class="blog-author-avatar" style="background-image:url('{{ $avatarUrl }}')" role="img" aria-label="{{ $article->author_name }}"></div>
-                  @else
-                    <div class="blog-author-avatar is-initials" aria-hidden="true">{{ $initials }}</div>
-                  @endif
+                  <div class="blog-author-avatar" style="background-image:url('{{ $avatarUrl }}')" role="img" aria-label="{{ $article->author_name }}"></div>
                   <div>
                     <strong>{{ $article->author_name }}</strong>
                     <span>{{ $article->author_role }}</span>

@@ -12,6 +12,7 @@ use App\Http\Controllers\Front\ThemeDataController;
 use App\Http\Controllers\SeoController;
 use App\Http\Controllers\StorageFileController;
 use App\Models\Article;
+use App\Support\SiteFavicon;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/clear-cache/{token}', ClearCacheController::class)
@@ -23,6 +24,15 @@ Route::get('/storage/{path}', StorageFileController::class)
     ->name('storage.serve');
 
 Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
+Route::get('/favicon.ico', function () {
+    $path = SiteFavicon::icoPublicPath();
+    abort_unless($path, 404);
+
+    return response()->file($path, [
+        'Content-Type' => 'image/png',
+        'Cache-Control' => 'public, max-age=31536000, immutable',
+    ]);
+})->name('favicon.ico');
 Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
 Route::get('/sitemap', [SeoController::class, 'htmlSitemap'])->name('sitemap.html');
 
@@ -31,8 +41,10 @@ Route::get('/theme/cms-data', ThemeDataController::class)->name('theme.cms-data'
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/blog', [ArticleController::class, 'index'])->name('blog.index');
+Route::permanentRedirect('/blog/freeze-drying-of-liposomal-particles-2', '/blog/freeze-drying-of-liposomal-particles');
 Route::get('/blog/{article:slug}', [ArticleController::class, 'show'])->name('blog.show');
 Route::permanentRedirect('/articles', '/blog');
+Route::permanentRedirect('/articles/freeze-drying-of-liposomal-particles-2', '/blog/freeze-drying-of-liposomal-particles');
 Route::get('/articles/{article:slug}', function (Article $article) {
     return redirect()->route('blog.show', $article, 301);
 });

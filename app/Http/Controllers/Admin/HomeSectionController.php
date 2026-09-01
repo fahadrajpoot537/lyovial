@@ -9,6 +9,7 @@ use App\Http\Requests\Admin\HomeSectionRequest;
 use App\Models\HomeSection;
 use App\Support\SeoHelper;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class HomeSectionController extends Controller
@@ -58,8 +59,13 @@ class HomeSectionController extends Controller
         ])->all();
         $data['image'] = $this->resolveImageField($request, 'image', 'home-sections', $section->image);
 
+        if (! array_key_exists('extra', $data) || $data['extra'] === null) {
+            unset($data['extra']);
+        }
+
         $section->update($data);
         $this->syncSeoFromRequest($request, $request->validated(), $section);
+        Cache::forget('home.sections');
 
         return back()->with('success', 'Home section updated successfully.');
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Support\AdminHtml;
 use App\Support\SeoHelper;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\UploadedFile;
@@ -17,7 +18,7 @@ class HomeSectionRequest extends FormRequest
     {
         return array_merge([
             'small_title' => ['nullable', 'string', 'max:255'],
-            'heading' => ['nullable', 'string', 'max:255'],
+            'heading' => ['nullable', 'string', 'max:500'],
             'description' => ['nullable', 'string'],
             'image' => $this->imageOrPathRule(),
             'image_alt' => ['nullable', 'string', 'max:255'],
@@ -122,6 +123,9 @@ class HomeSectionRequest extends FormRequest
             'followable' => $this->boolean('followable', true),
             'sort_order' => $this->input('sort_order', 0),
             'slug' => filled($this->input('slug')) ? $this->input('slug') : null,
+            'small_title' => AdminHtml::emptyToBlank($this->input('small_title')),
+            'heading' => AdminHtml::emptyToBlank($this->input('heading')),
+            'description' => AdminHtml::emptyToBlank($this->input('description')),
         ]);
     }
 

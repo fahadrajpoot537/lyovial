@@ -6,14 +6,18 @@ class IndustryPageDefaults
 {
     public static function merge(?array $extra, string $slug): array
     {
-        return array_replace(self::empty(), self::forSlug($slug), $extra ?? []);
+        if ($extra === null) {
+            return array_replace(self::blank(), self::forSlug($slug));
+        }
+
+        return array_replace(self::blank(), $extra);
     }
 
     public static function navTitle(?array $extra, string $slug, string $fallback): string
     {
         $merged = self::merge($extra, $slug);
 
-        return $merged['nav_title'] ?? $fallback;
+        return filled($merged['nav_title'] ?? null) ? $merged['nav_title'] : $fallback;
     }
 
     public static function forSlug(string $slug): array
@@ -25,7 +29,7 @@ class IndustryPageDefaults
             'analytical-testing-laboratories' => self::analytical(),
             'university-institutional-rd-groups' => self::research(),
             'cosmetic-ingredient-formulators' => self::cosmetics(),
-            default => self::empty(),
+            default => self::blank(),
         };
     }
 
@@ -53,39 +57,43 @@ class IndustryPageDefaults
         ];
     }
 
-    protected static function empty(): array
+    public static function blank(): array
     {
-        return array_merge([
+        return [
             'nav_title' => '',
-            'hero_eyebrow' => 'Industry',
+            'hero_eyebrow' => '',
             'hero_h1' => '',
             'hero_lede' => '',
-            'spec_heading' => 'Formats we freeze-dry',
+            'spec_heading' => '',
             'spec_items' => [],
             'lead_eyebrow' => '',
             'lead_heading' => '',
             'lead_paras' => [],
-            'needs_eyebrow' => 'What we support',
+            'needs_eyebrow' => '',
             'needs' => [],
-            'related_intro' => 'A program usually touches all three of our capabilities.',
-            'why_heading' => 'Why LyoVial',
+            'related_intro' => '',
+            'why_heading' => '',
             'why_body' => '',
-            'why_items' => self::whyItems('your application'),
-            'faq_heading' => 'Common questions',
+            'why_items' => [],
+            'faq_heading' => '',
             'faqs' => [],
-            'cta_heading' => 'Ready to talk?',
-            'cta_body' => 'Share your product goals and our Kanata team will help map the next step.',
-            'cta_button' => 'Request a Feasibility Quote →',
-            'cta_link' => '/contact',
-            'cta_eyebrow' => 'Ready to talk?',
-            'swipe_needs' => 'Swipe to see more',
-            'swipe_steps' => 'Swipe through the stages',
-            'why_eyebrow' => 'Why LyoVial',
-            'workflow_heading' => 'The full workflow',
-            'other_industries_heading' => 'Other industries we serve',
-            'faq_eyebrow' => 'Common questions',
-            'faq_intro' => 'If your question isn\'t here, send it — we\'ll answer before a first call.',
-        ], self::process('How a program runs'));
+            'cta_heading' => '',
+            'cta_body' => '',
+            'cta_button' => '',
+            'cta_link' => '',
+            'cta_eyebrow' => '',
+            'swipe_needs' => '',
+            'swipe_steps' => '',
+            'why_eyebrow' => '',
+            'workflow_heading' => '',
+            'other_industries_heading' => '',
+            'faq_eyebrow' => '',
+            'faq_intro' => '',
+            'process_eyebrow' => '',
+            'process_heading' => '',
+            'process_intro' => '',
+            'steps' => [],
+        ];
     }
 
     protected static function diagnostics(): array

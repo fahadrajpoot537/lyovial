@@ -7,6 +7,7 @@ use App\Models\Industry;
 use App\Models\Page;
 use App\Models\Service;
 use App\Models\Setting;
+use App\Support\RobotsTxt;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
@@ -15,9 +16,10 @@ class SeoController extends Controller
 {
     public function robots(): Response
     {
-        $content = Setting::get('robots_txt', "User-agent: *\nAllow: /\n", 'analytics');
+        $custom = Setting::get('robots_txt', RobotsTxt::DEFAULT_BODY, 'analytics');
+        $content = RobotsTxt::build($custom);
 
-        return response($content, 200)->header('Content-Type', 'text/plain');
+        return response($content, 200)->header('Content-Type', 'text/plain; charset=UTF-8');
     }
 
     public function sitemap(): Response

@@ -121,7 +121,7 @@ class ThemePageDefaults
 
     public static function mergeService(?array $extra, string $slug): array
     {
-        return array_replace(self::serviceExtra($slug), $extra ?? []);
+        return self::mergeSaved($extra, self::serviceExtra($slug), self::emptyServiceExtra());
     }
 
     public static function mergePage(?array $extra, string $type): array
@@ -135,7 +135,44 @@ class ThemePageDefaults
             default => [],
         };
 
-        return array_replace($defaults, $extra ?? []);
+        return self::mergeSaved($extra, $defaults);
+    }
+
+    /**
+     * Once extra is saved in the CMS, it is the source of truth.
+     * Theme copy is only used when extra has never been stored (null).
+     *
+     * @param  array<string, mixed>  $defaults
+     * @param  array<string, mixed>  $shape
+     * @return array<string, mixed>
+     */
+    public static function mergeSaved(?array $extra, array $defaults, ?array $shape = null): array
+    {
+        $shape ??= self::blankShape($defaults);
+
+        if ($extra === null) {
+            return array_replace($shape, $defaults);
+        }
+
+        return array_replace($shape, $extra);
+    }
+
+    /**
+     * @param  array<string, mixed>  $defaults
+     * @return array<string, mixed>
+     */
+    public static function blankShape(array $defaults): array
+    {
+        $shape = [];
+        foreach ($defaults as $key => $value) {
+            if (is_array($value)) {
+                $shape[$key] = array_is_list($value) ? [] : self::blankShape($value);
+            } else {
+                $shape[$key] = '';
+            }
+        }
+
+        return $shape;
     }
 
     public static function partnershipsExtra(): array
@@ -362,7 +399,7 @@ HTML;
         ];
     }
 
-    protected static function emptyServiceExtra(): array
+    public static function emptyServiceExtra(): array
     {
         return [
             'eyebrow' => '',

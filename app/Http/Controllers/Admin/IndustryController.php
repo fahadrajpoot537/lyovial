@@ -58,14 +58,16 @@ class IndustryController extends Controller
     public function update(IndustryRequest $request, Industry $industry): RedirectResponse
     {
         $validated = $request->validated();
-        $data = $this->payloadWithoutSeo($validated);
+        $data = $this->payloadWithoutSeo($validated, [], $industry->slug);
         $data['banner_image'] = $this->resolveImageField($request, 'banner_image', 'industries', $industry->banner_image);
         $data['image'] = $this->resolveImageField($request, 'image', 'industries', $industry->image);
         $data['extra'] = $this->normalizeIndustryExtra($request->input('extra', []));
         $validated['slug'] = $data['slug'];
 
+        $oldSlug = $industry->slug;
         $industry->update($data);
         $this->syncSeoFromRequest($request, $validated, $industry);
+        $this->rememberSlugRedirect($oldSlug, $data['slug'] ?? $industry->slug, 'industries');
 
         return back()->with('success', 'Industry updated successfully.');
     }

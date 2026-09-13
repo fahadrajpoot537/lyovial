@@ -21,9 +21,24 @@
     RewriteCond %{THE_REQUEST} \s/+index\.php[\s?] [NC]
     RewriteRule ^index\.php/?$ https://lyovial.com? [R=301,L]
 
-    # 3) /public or /public/ → https://lyovial.com
+    # 3) Visible /public URL prefix → strip it (works even when docroot is /public)
+    #    THE_REQUEST keeps the browser path; RewriteRule alone cannot see "public" then.
     RewriteCond %{HTTP_HOST} ^(www\.)?lyovial\.com$ [NC]
-    RewriteRule ^public/?$ https://lyovial.com? [R=301,L]
+    RewriteCond %{THE_REQUEST} \s/+public/?[\s?] [NC]
+    RewriteRule ^ https://lyovial.com? [R=301,L]
+
+    RewriteCond %{HTTP_HOST} ^(www\.)?lyovial\.com$ [NC]
+    RewriteCond %{THE_REQUEST} \s/+public/([^\s?]*) [NC]
+    RewriteRule ^ https://lyovial.com/%1? [R=301,L]
+
+    # Also match REQUEST_URI for proxies that normalize THE_REQUEST
+    RewriteCond %{HTTP_HOST} ^(www\.)?lyovial\.com$ [NC]
+    RewriteCond %{REQUEST_URI} ^/public/?$ [NC]
+    RewriteRule ^ https://lyovial.com? [R=301,L]
+
+    RewriteCond %{HTTP_HOST} ^(www\.)?lyovial\.com$ [NC]
+    RewriteCond %{REQUEST_URI} ^/public/(.+)$ [NC]
+    RewriteRule ^ https://lyovial.com/%1? [R=301,L]
 
     # 4) Force HTTPS and/or strip www in ONE hop (path + query preserved)
     #    Covers: http://lyovial.com/..., http://www..., https://www...

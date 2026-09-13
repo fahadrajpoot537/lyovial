@@ -34,6 +34,11 @@ class EnforceCanonicalHomepage
             return $next($request);
         }
 
+        // Always strip a visible /public URL prefix (shared-host docroot cases).
+        if ($publicTarget = $this->publicPrefixTarget($request)) {
+            return redirect()->away($publicTarget, 301);
+        }
+
         $path = '/'.trim($request->getPathInfo(), '/');
         if ($path === '//') {
             $path = '/';
@@ -93,5 +98,35 @@ class EnforceCanonicalHomepage
         }
 
         return $path === '/public';
+    }
+
+    /**
+     * Shared hosts often expose /public as a browsable URL even when Laravel pathInfo is "/".
+     */
+    private function publicPrefixTarget(Request $request): ?string
+    {
+        $raw = (string) $request->server->get('REQUEST_URI', '');
+        $path = parse_url($raw, PHP_URL_PATH) ?: '';
+        $path = '/'.ltrim($path, '/');
+        if ($path !== '/') {
+            $path = rtrim($path, '/') ?: '/';
+        }
+
+        if (! preg_match('#^/public(?:/(.*))?$#i', $path, $m)) {
+            return null;
+        }
+
+        $rest = isset($m[1]) && $m[1] !== '' ? '/'.ltrim($m[1], '/') : '/';
+        if ($rest === '/index.php' || str_starts_with($rest, '/index.php/')) {
+            $rest = '/';
+        }
+
+        $target = self::CANONICAL_URL.($rest === '/' ? '' : $rest);
+        $query = $request->getQueryString();
+        if ($query !== null && $query !== '' && $rest !== '/') {
+            $target .= '?'.$query;
+        }
+
+        return $target;
     }
 }

@@ -5,9 +5,12 @@
     # Project-root docroot helper (production host only). Single-hop 301s.
     # ------------------------------------------------------------------
 
-    # /public and /public/ → canonical homepage
+    # /public, /public/, and /public/* → strip prefix (single-hop 301)
     RewriteCond %{HTTP_HOST} ^(www\.)?lyovial\.com$ [NC]
     RewriteRule ^public/?$ https://lyovial.com? [R=301,L]
+
+    RewriteCond %{HTTP_HOST} ^(www\.)?lyovial\.com$ [NC]
+    RewriteRule ^public/(.+)$ https://lyovial.com/$1 [R=301,L]
 
     # /index.php at project root → canonical homepage
     RewriteCond %{HTTP_HOST} ^(www\.)?lyovial\.com$ [NC]

@@ -90,6 +90,17 @@
         }
         body.lyovial-home-page a { color: inherit; text-decoration: none; }
         body.lyovial-home-page a:hover { color: inherit; }
+        /* CMS article / rich-text links must stay visible */
+        body.lyovial-home-page .lv-article-body a,
+        body.lyovial-home-page .content-block a {
+            color: #0e7c86 !important;
+            text-decoration: underline !important;
+            text-underline-offset: 2px;
+        }
+        body.lyovial-home-page .lv-article-body a:hover,
+        body.lyovial-home-page .content-block a:hover {
+            color: #0a6269 !important;
+        }
 
         /* Navbar — match HTML theme (avoid Bootstrap .nav) */
         @media (min-width: 993px) {

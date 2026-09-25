@@ -64,7 +64,7 @@
 
       @if($articles->hasPages())
         <div class="lv-blog-pager">
-          {{ $articles->links() }}
+          {{ $articles->onEachSide(1)->links() }}
         </div>
       @endif
     @else

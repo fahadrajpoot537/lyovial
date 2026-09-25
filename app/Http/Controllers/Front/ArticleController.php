@@ -15,7 +15,8 @@ class ArticleController extends Controller
             ->active()
             ->orderByDesc('published_at')
             ->orderByDesc('id')
-            ->paginate(24);
+            ->paginate(6)
+            ->withQueryString();
 
         return view('front.articles.index', [
             'articles' => $articles,

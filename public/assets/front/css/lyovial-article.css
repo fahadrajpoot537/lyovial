@@ -608,7 +608,7 @@
   color: #0e7c86 !important;
   font-size: 14px;
   font-weight: 600;
-  text-decoration: none;
+  text-decoration: none !important;
   border-radius: 0;
   box-shadow: none;
 }
@@ -619,15 +619,17 @@
   color: #fff !important;
 }
 
-.lv-blog-pager .page-item.active .page-link {
+.lv-blog-pager .page-item.active .page-link,
+.lv-blog-pager .page-item.active > span {
   background: #0e7c86;
   border-color: #0e7c86;
   color: #fff !important;
 }
 
-.lv-blog-pager .page-item.disabled .page-link {
+.lv-blog-pager .page-item.disabled .page-link,
+.lv-blog-pager .page-item.disabled > span {
   color: #8B9A9D !important;
-  background: #fff;
+  background: #f7f9fa;
   pointer-events: none;
 }
 
